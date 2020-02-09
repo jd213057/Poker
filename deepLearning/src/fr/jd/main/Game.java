@@ -28,6 +28,7 @@ public class Game {
 		this.manche = 0;
 		this.maxBet = 0;
 		this.onPlay = true;
+		this.debugMode = false;
 		this.dealer = new Dealer(new ArrayList<Cards>(EnumSet.allOf(Cards.class)),
 				new ArrayList<Cards>(EnumSet.allOf(Cards.class)));
 	}
