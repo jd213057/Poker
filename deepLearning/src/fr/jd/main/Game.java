@@ -19,6 +19,7 @@ public class Game {
 	private double blinde;
 	private double pot;
 	private boolean onPlay;
+	private boolean debugMode;
 
 	public Game(List<Player> players) {
 		super();
@@ -155,6 +156,14 @@ public class Game {
 
 	public void setPlayers(List<Player> players) {
 		this.players = players;
+	}
+
+	public boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
 	}
 
 	public void winMoney(Player player) {
@@ -397,10 +406,29 @@ public class Game {
 	}
 
 	public Player getCombo(Player player) {
-
-		// A developper....
-
-		player.setScore(score);
+		List<Cards> playerCombo = new ArrayList<Cards>();
+		List<Integer> playerResults = new ArrayList<>();
+		playerCombo.addAll(player.getHand());
+		playerCombo.addAll(this.dealer.getCarpet());
+		int playerFinalScore;
+		int playerStraightFlushScore = Cards.checkStraightFlush(playerCombo);
+		int playerFourOfAKindScore = Cards.checkFourOfAKind(playerCombo);
+		int playerFullHouseScoreCards = Cards.checkFullHouse(playerCombo);
+		int playerFlushScore = Cards.checkFlush(playerCombo);
+		int playerStraightScore = Cards.checkStraight(playerCombo);
+		int playerThreeOfAKind = Cards.checkThreeOfAKind(playerCombo);
+		int playersPairsScore = Cards.checkPairs(playerCombo);
+		int playerHighRaiseScore = Cards.checkHighRaise(playerCombo);
+		playerResults.add(playerStraightFlushScore);
+		playerResults.add(playerFourOfAKindScore);
+		playerResults.add(playerFullHouseScoreCards);
+		playerResults.add(playerFlushScore);
+		playerResults.add(playerStraightScore);
+		playerResults.add(playerThreeOfAKind);
+		playerResults.add(playersPairsScore);
+		playerResults.add(playerHighRaiseScore);
+		playerFinalScore = Collections.max(playerResults);
+		player.setScore(playerFinalScore);
 		return player;
 	}
 
