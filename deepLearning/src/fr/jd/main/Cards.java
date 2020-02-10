@@ -1,6 +1,7 @@
 package fr.jd.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,6 +23,33 @@ public enum Cards {
 	private final int value;
 	private final String color;
 
+	private static List<Integer> SUITE_5 = Arrays.asList(1, 2, 3, 4, 13);
+	private static List<Integer> SUITE_6 = Arrays.asList(1, 2, 3, 4, 5);
+	private static List<Integer> SUITE_7 = Arrays.asList(2, 3, 4, 5, 6);
+	private static List<Integer> SUITE_8 = Arrays.asList(3, 4, 5, 6, 7);
+	private static List<Integer> SUITE_9 = Arrays.asList(4, 5, 6, 7, 8);
+	private static List<Integer> SUITE_10 = Arrays.asList(5, 6, 7, 8, 9);
+	private static List<Integer> SUITE_J = Arrays.asList(6, 7, 8, 9, 10);
+	private static List<Integer> SUITE_Q = Arrays.asList(7, 8, 9, 10, 11);
+	private static List<Integer> SUITE_K = Arrays.asList(8, 9, 10, 11, 12);
+	private static List<Integer> SUITE_A = Arrays.asList(9, 10, 11, 12, 13);
+
+	private enum COEF_COMBO {
+		HIGH_RAISE(1), ONE_PAIR(7), TWO_PAIRS(0), THREE_OF_A_KIND(0), STRAIGHT(1), FULL(0), FLUSH(0), FULL_HOUSE(0),
+		FOUR_OF_A_KIND(0), STRAIGHT_FLUSH(0);
+
+		private int coef;
+
+		COEF_COMBO(int coef) {
+			this.coef = coef;
+		}
+
+		int coef() {
+			return this.coef;
+		}
+
+	}
+
 	Cards(int value, String color) {
 		this.value = value;
 		this.color = color;
@@ -37,8 +65,8 @@ public enum Cards {
 
 	public static int checkHighRaise(List<Cards> playerCombo) {
 		Cards card = Collections.max(playerCombo);
-		int score = card.value();
-		return score;
+		int playerScore = card.value() * COEF_COMBO.ONE_PAIR.coef();
+		return playerScore;
 	}
 
 	public static int checkPairs(List<Cards> playerCombo) {
@@ -123,8 +151,36 @@ public enum Cards {
 	}
 
 	public static int checkStraight(List<Cards> playerCombo) {
-		int score = 0;
-		return score;
+		int playerScore = 0;
+		List<Integer> values = new ArrayList<>();
+		List<List<Integer>> combo = new ArrayList<>();
+		List<Integer> playerBestCombo = new ArrayList<>();
+		for (Cards card : playerCombo)
+			values.add(card.value());
+		Collections.sort(values);
+		if (values.containsAll(SUITE_5))
+			combo.add(SUITE_5);
+		if (values.containsAll(SUITE_6))
+			combo.add(SUITE_6);
+		if (values.containsAll(SUITE_7))
+			combo.add(SUITE_7);
+		if (values.containsAll(SUITE_8))
+			combo.add(SUITE_8);
+		if (values.containsAll(SUITE_9))
+			combo.add(SUITE_9);
+		if (values.containsAll(SUITE_10))
+			combo.add(SUITE_10);
+		if (values.containsAll(SUITE_J))
+			combo.add(SUITE_J);
+		if (values.containsAll(SUITE_Q))
+			combo.add(SUITE_Q);
+		if (values.containsAll(SUITE_K))
+			combo.add(SUITE_K);
+		if (values.containsAll(SUITE_A))
+			combo.add(SUITE_A);
+		playerBestCombo.addAll(combo.get(combo.size() - 1));
+		playerScore += Collections.max(playerBestCombo) * COEF_COMBO.STRAIGHT.coef();
+		return playerScore;
 	}
 
 	public static int checkFullHouse(List<Cards> playerCombo) {

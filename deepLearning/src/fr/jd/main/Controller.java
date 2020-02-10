@@ -38,10 +38,10 @@ public class Controller {
 			System.out.println();
 		}
 	}
-	
+
 	public void configure() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void round() {
@@ -107,7 +107,5 @@ public class Controller {
 	public String toString() {
 		return "Controller [game=" + game + "]";
 	}
-
-	
 
 }

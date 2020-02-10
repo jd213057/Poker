@@ -9,6 +9,7 @@ public class Main {
 		Controller controller = new Controller();
 
 		controller.initialize();
+		if (controller.getGame().isDebugMode()) controller.configure();
 		while (controller.getGame().isOnPlay()) {
 			controller.round();
 			controller.endRound();
