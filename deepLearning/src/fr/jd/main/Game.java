@@ -123,8 +123,8 @@ public class Game {
 		for (Player player : this.players)
 			if (player.isInGame())
 				playersInGame.add(player);
-		playersInGame.get(this.positionGrosseBlinde).PayGrosseBlinde(blinde);
-		playersInGame.get(this.positionPetiteBlinde).PayPetiteBlinde(blinde);
+		playersInGame.get(this.manche % (getPlayersInGame().size() + 1)).PayGrosseBlinde(blinde);
+		playersInGame.get((this.manche + 1) % (getPlayersInGame().size() + 1)).PayPetiteBlinde(blinde);
 	}
 
 	public double getPot() {
@@ -288,6 +288,8 @@ public class Game {
 			}
 			player.setScore(0);
 			player.setMoneyBet(0);
+			player.setPetiteBlinde(false);
+			player.setGrosseBlinde(false);
 		}
 		nbTour += this.tourDeTable;
 		this.tourDeTable = 0;
@@ -414,11 +416,12 @@ public class Game {
 		int playerFinalScore;
 		int playerStraightFlushScore = Cards.checkStraightFlush(playerCombo);
 		int playerFourOfAKindScore = Cards.checkFourOfAKind(playerCombo);
-		int playerFullHouseScoreCards = Cards.checkFullHouse(playerCombo);
+		int playerFullHouseScoreCards = Cards.checkFull(playerCombo);
 		int playerFlushScore = Cards.checkFlush(playerCombo);
 		int playerStraightScore = Cards.checkStraight(playerCombo);
 		int playerThreeOfAKind = Cards.checkThreeOfAKind(playerCombo);
-		int playersPairsScore = Cards.checkPairs(playerCombo);
+		int playersOnePairScore = Cards.checkOnePair(playerCombo);
+		int playersTwoPairsScore = Cards.checkTwoPairs(playerCombo);
 		int playerHighRaiseScore = Cards.checkHighRaise(playerCombo);
 		playerResults.add(playerStraightFlushScore);
 		playerResults.add(playerFourOfAKindScore);
@@ -426,7 +429,8 @@ public class Game {
 		playerResults.add(playerFlushScore);
 		playerResults.add(playerStraightScore);
 		playerResults.add(playerThreeOfAKind);
-		playerResults.add(playersPairsScore);
+		playerResults.add(playersOnePairScore);
+		playerResults.add(playersTwoPairsScore);
 		playerResults.add(playerHighRaiseScore);
 		playerFinalScore = Collections.max(playerResults);
 		player.setScore(playerFinalScore);

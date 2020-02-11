@@ -84,6 +84,10 @@ public class Player {
 		return petiteBlinde;
 	}
 
+	public void setPetiteBlinde(boolean petiteBlinde) {
+		this.petiteBlinde = petiteBlinde;
+	}
+
 	public void setPetiteBlinde(boolean petiteBlinde, double blinde) {
 		this.petiteBlinde = petiteBlinde;
 		this.totalMoney -= (blinde) / 2;
@@ -92,6 +96,10 @@ public class Player {
 
 	public boolean isGrosseBlinde() {
 		return grosseBlinde;
+	}
+
+	public void setGrosseBlinde(boolean grosseBlinde) {
+		this.grosseBlinde = grosseBlinde;
 	}
 
 	public void setGrosseBlinde(boolean grosseBlinde, double blinde) {
