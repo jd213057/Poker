@@ -45,10 +45,10 @@ public class Controller {
 	}
 
 	public void round() {
-		System.out.println("Manche N°: " + game.getManche());
-		game.distributeCards();
-		game.setBlinde(game.getBlinde());
 		while (game.getPlayersInPlay().size() < 1) {
+			System.out.println("Manche N°: " + game.getManche());
+			game.distributeCards();
+			game.setBlinde(game.getBlinde());
 			for (Player player : game.getPlayersInPlay()) {
 				System.out.println("Tour de table N°: " + game.getTourDeTable());
 				System.out.println();

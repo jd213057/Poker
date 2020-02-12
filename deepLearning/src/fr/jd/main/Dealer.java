@@ -26,6 +26,7 @@ public class Dealer {
 	public void setCardsPackage(List<Cards> cardsPackage) {
 		this.cardsPackage = cardsPackage;
 	}
+
 	public List<Cards> getCarpet() {
 		return carpet;
 	}
@@ -43,7 +44,7 @@ public class Dealer {
 		Collections.shuffle(cardsPackage);
 	}
 
-	private void checkShuffle() {
+	public void checkShuffle() {
 		cardsPackage.forEach(System.out::println);
 	}
 
@@ -74,4 +75,36 @@ public class Dealer {
 		cardsPackage.clear();
 		cardsPackage.addAll(new ArrayList<Cards>(EnumSet.allOf(Cards.class)));
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cardsPackage == null) ? 0 : cardsPackage.hashCode());
+		result = prime * result + ((carpet == null) ? 0 : carpet.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Dealer other = (Dealer) obj;
+		if (cardsPackage == null) {
+			if (other.cardsPackage != null)
+				return false;
+		} else if (!cardsPackage.equals(other.cardsPackage))
+			return false;
+		if (carpet == null) {
+			if (other.carpet != null)
+				return false;
+		} else if (!carpet.equals(other.carpet))
+			return false;
+		return true;
+	}
+
 }

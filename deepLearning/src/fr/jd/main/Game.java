@@ -201,6 +201,7 @@ public class Game {
 	}
 
 	public void distributeCards() {
+		dealer.shuffle();
 		if (this.tourDeTable == 0) {
 			for (int j = 0; j < 2; j++) {
 				for (int i = 0; i < players.size(); i++) {
@@ -417,7 +418,7 @@ public class Game {
 		int playerStraightFlushScore = Cards.checkStraightFlush(playerCombo);
 		int playerFourOfAKindScore = Cards.checkFourOfAKind(playerCombo);
 		int playerFullHouseScoreCards = Cards.checkFull(playerCombo);
-		int playerFlushScore = Cards.checkFlush(playerCombo);
+//		int playerFlushScore = Cards.checkFlush(playerCombo);
 		int playerStraightScore = Cards.checkStraight(playerCombo);
 		int playerThreeOfAKind = Cards.checkThreeOfAKind(playerCombo);
 		int playersOnePairScore = Cards.checkOnePair(playerCombo);
@@ -426,7 +427,7 @@ public class Game {
 		playerResults.add(playerStraightFlushScore);
 		playerResults.add(playerFourOfAKindScore);
 		playerResults.add(playerFullHouseScoreCards);
-		playerResults.add(playerFlushScore);
+//		playerResults.add(playerFlushScore);
 		playerResults.add(playerStraightScore);
 		playerResults.add(playerThreeOfAKind);
 		playerResults.add(playersOnePairScore);

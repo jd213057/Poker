@@ -168,20 +168,23 @@ public enum Cards {
 		return playerScore;
 	}
 
-	public static int checkFlush(List<Cards> playerCombo) {
-		List<String> checkColor = new ArrayList<>();
-		int playerScore = 0;
-		for (Cards card : playerCombo)
-			checkColor.add(card.color());
-		for (Cards card : playerCombo)
-			if (Collections.frequency(checkColor, card.color()) == 5) {
-				// Trouver methode de calcul
-				playerScore += getCount() * COEF_COMBO.STRAIGHT.coef();
-				return playerScore;
-			}
-		;
-		return playerScore;
-	}
+//	public static int checkFlush(List<Cards> playerCombo) {
+//		List<String> checkColor = new ArrayList<>();
+//		List<Cards> playerColor = new ArrayList<>();
+//		int playerScore = 0;
+//		for (Cards card : playerCombo)
+//			checkColor.add(card.color());
+//		for (Cards card : playerCombo)
+//			if (Collections.frequency(checkColor, card.color()) == 5) {
+//				// Trouver methode de calcul
+//				
+//				
+//				playerScore += getCount() * COEF_COMBO.STRAIGHT.coef();
+//				return playerScore;
+//			}
+//		;
+//		return playerScore;
+//	}
 
 	public static int checkFull(List<Cards> playerCombo) {
 		List<Cards> brelansTemp = new ArrayList<Cards>();
