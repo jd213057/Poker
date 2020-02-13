@@ -2,168 +2,230 @@ package fr.jd.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
+
+import fr.jd.main.Cards;
+import fr.jd.main.Player;
 
 public class PlayerCoveryTests {
 
+	Player player = new Player("playerTest");
+
 	@Test
 	public void testPlayer() {
-		fail("Not yet implemented");
+		assertEquals(1000, player.getTotalMoney(), 0.0);
+		assertEquals("playerTest", player.getPlayerName());
+		assertEquals(0, player.getScore());
+		assertEquals(true, player.isInGame());
+		assertEquals(true, player.isInPlay());
 	}
 
 	@Test
 	public void testGetPlayerName() {
-		fail("Not yet implemented");
+		assertEquals("playerTest", player.getPlayerName());
 	}
 
 	@Test
 	public void testSetPlayerName() {
-		fail("Not yet implemented");
+		player.setPlayerName("set");
+		assertNotEquals("playerTest", player.getPlayerName());
+		assertEquals("set", player.getPlayerName());
 	}
 
 	@Test
 	public void testGetTotalMoney() {
-		fail("Not yet implemented");
+		assertEquals(1000.0, player.getTotalMoney(), 0.0);
 	}
 
 	@Test
 	public void testSetTotalMoney() {
-		fail("Not yet implemented");
+		player.setTotalMoney(10.0);
+		assertNotEquals(100.0, player.getTotalMoney(), 0.0);
+		assertEquals(10.0, player.getTotalMoney(), 0.0);
 	}
 
 	@Test
 	public void testGetMoneyBet() {
-		fail("Not yet implemented");
+		assertEquals(1000.0, player.getTotalMoney(), 0.0);
 	}
 
 	@Test
 	public void testSetMoneyBet() {
-		fail("Not yet implemented");
+		player.setMoneyBet(100.0);
+		assertNotEquals(0.0, player.getMoneyBet(), 0.0);
+		assertEquals(100.0, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testGetHand() {
-		fail("Not yet implemented");
+		List<Cards> handCheck = new ArrayList<>();
+		assertEquals(handCheck, player.getHand());
 	}
 
 	@Test
 	public void testSetHand() {
-		fail("Not yet implemented");
+		List<Cards> playerHand = player.getHand();
+		playerHand.add(Cards.As_Coeur);
+		playerHand.add(Cards.As_Coeur);
+		player.setHand(playerHand);
+		assertEquals(playerHand, player.getHand());
 	}
 
 	@Test
 	public void testGetScore() {
-		fail("Not yet implemented");
+		assertEquals(0, player.getScore());
 	}
 
 	@Test
 	public void testSetScore() {
-		fail("Not yet implemented");
+		player.setScore(100);
+		assertNotEquals(0, player.getScore());
+		assertEquals(100, player.getScore());
 	}
 
 	@Test
 	public void testIsInGame() {
-		fail("Not yet implemented");
+		assertEquals(true, player.isInGame());
 	}
 
 	@Test
 	public void testSetInGame() {
-		fail("Not yet implemented");
+		player.setInGame(true);
+		assertEquals(true, player.isInGame());
+		player.setInGame(false);
+		assertEquals(false, player.isInGame());
 	}
 
 	@Test
 	public void testIsInPlay() {
-		fail("Not yet implemented");
+		assertEquals(true, player.isInPlay());
 	}
 
 	@Test
 	public void testSetInPlay() {
-		fail("Not yet implemented");
+		player.setInPlay(true);
+		assertEquals(true, player.isInPlay());
+		player.setInGame(false);
+		assertEquals(false, player.isInPlay());
 	}
 
 	@Test
 	public void testIsPetiteBlinde() {
-		fail("Not yet implemented");
+		assertEquals(false, player.isPetiteBlinde());
 	}
 
 	@Test
 	public void testSetPetiteBlindeBoolean() {
-		fail("Not yet implemented");
+		player.setPetiteBlinde(true);
+		assertTrue(player.isPetiteBlinde());
+		player.setPetiteBlinde(false);
+		assertEquals(false, player.isPetiteBlinde());
 	}
 
 	@Test
 	public void testSetPetiteBlindeBooleanDouble() {
-		fail("Not yet implemented");
+		player.setPetiteBlinde(true, 10.0);
+		assertTrue(player.isPetiteBlinde());
+		assertEquals(995.0, player.getTotalMoney(), 0.0);
+		assertEquals(5.0, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testIsGrosseBlinde() {
-		fail("Not yet implemented");
+		assertEquals(false, player.isGrosseBlinde());
 	}
 
 	@Test
 	public void testSetGrosseBlindeBoolean() {
-		fail("Not yet implemented");
+		player.setGrosseBlinde(true);
+		assertTrue(player.isGrosseBlinde());
+		player.setGrosseBlinde(false);
+		assertEquals(false, player.isGrosseBlinde());
 	}
 
 	@Test
 	public void testSetGrosseBlindeBooleanDouble() {
-		fail("Not yet implemented");
+		player.setGrosseBlinde(true, 10.0);
+		assertTrue(player.isGrosseBlinde());
+		assertEquals(990, player.getTotalMoney(), 0.0);
+		assertEquals(10, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testPayPetiteBlinde() {
-		fail("Not yet implemented");
+		player.setPetiteBlinde(true, 10.0);
+		assertTrue(player.isPetiteBlinde());
+		assertEquals(995, player.getTotalMoney(), 0.0);
+		assertEquals(5, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testPayGrosseBlinde() {
-		fail("Not yet implemented");
+		player.setGrosseBlinde(true, 10.0);
+		assertTrue(player.isGrosseBlinde());
+		assertEquals(990.0, player.getTotalMoney(), 0.0);
+		assertEquals(10.0, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testCheck() {
-		fail("Not yet implemented");
+		double totalMoneyCheck = player.getTotalMoney();
+		double moneyBetCheck = player.getMoneyBet();
+		player.check();
+		assertEquals(totalMoneyCheck, player.getTotalMoney(), 0.0);
+		assertEquals(moneyBetCheck, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testFold() {
-		fail("Not yet implemented");
+		boolean isInPlay = player.isInPlay();
+		player.fold();
+		assertNotEquals(true, player.isInPlay());
+		assertEquals(false, player.isInPlay());
 	}
 
 	@Test
 	public void testCall() {
-		fail("Not yet implemented");
+		player.call(100.0);
+		assertEquals(900.0, player.getTotalMoney(), 0.0);
+		assertEquals(100.0, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testRaise() {
-		fail("Not yet implemented");
+		player.raise(100.0);
+		assertEquals(900.0, player.getTotalMoney(), 0.0);
+		assertEquals(100.0, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testAllIn() {
-		fail("Not yet implemented");
+		player.allIn();
+		assertEquals(0.0, player.getTotalMoney(), 0.0);
+		assertEquals(1000.0, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testWinMoney() {
-		fail("Not yet implemented");
+		player.winMoney(1000.0);
+		assertEquals(2000.0, player.getTotalMoney(), 0.0);
 	}
 
 	@Test
 	public void testToStringOnPlay() {
-		fail("Not yet implemented");
+		String toStringOnPlay = player.toStringOnPlay();
+		assertEquals("Player [playerName=" + "playerTest" + ", totalMoney=" + "1000.0" + ", moneyBet=" + "0.0"
+				+ ", inPlay=" + "true" + "]", toStringOnPlay);
 	}
 
 	@Test
 	public void testToStringHand() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testScenario1() {
-		fail("Not yet implemented");
+		String toStringHand = player.toStringHand();
+		assertEquals("Player [playerName=" + "playerTest" + ", hand=" + "[]" + ", moneyBet=" + "0.0" + "€]",
+				toStringHand);
 	}
 
 }

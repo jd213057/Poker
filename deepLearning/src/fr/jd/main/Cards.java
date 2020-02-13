@@ -78,42 +78,50 @@ public enum Cards {
 	}
 
 	public static int checkHighRaise(List<Cards> playerCombo) {
-		Cards card = Collections.max(playerCombo);
-		int playerScore = card.value() * COEF_COMBO.ONE_PAIR.coef();
+		int playerScore = 0;
+		List<Integer> cardsValues = new ArrayList<>();
+		for (Cards card : playerCombo)
+			cardsValues.add(card.value());
+		for (Cards card : playerCombo) {
+			if (card.value() == Collections.max(cardsValues))
+				playerScore = card.value() * COEF_COMBO.HIGH_RAISE.coef();
+		}
 		return playerScore;
 	}
 
 	public static int checkOnePair(List<Cards> playerCombo) {
-		List<Cards> pairsTemp = new ArrayList<Cards>();
-		List<Cards> pairs = new ArrayList<Cards>();
+		List<Integer> pairs = new ArrayList<>();
+		List<Integer> cardsTempValues = new ArrayList<>();
 		int playerScore = 0;
-		for (Cards card : playerCombo) {
-			if (Collections.frequency(playerCombo, card) == 2) {
-				pairsTemp.add(card);
+		for (Cards card : playerCombo) cardsTempValues.add(card.value());
+		for (int value : cardsTempValues) {
+			if (Collections.frequency(cardsTempValues, value) == 2) {
+				pairs.add(value);
 			}
 		}
-		Collections.sort(pairsTemp, Collections.reverseOrder());
-		pairs.add(pairsTemp.get(0));
-		pairs.add(pairsTemp.get(2));
-		if (pairs.size() == 1)
-			playerScore += getCount(pairs) * COEF_COMBO.ONE_PAIR.coef();
+		Collections.sort(pairs, Collections.reverseOrder());
+		if (!pairs.isEmpty()) {
+			playerScore += pairs.get(0) * 2 * COEF_COMBO.ONE_PAIR.coef();
+			return playerScore;
+		}
 		return playerScore;
 	}
 
 	public static int checkTwoPairs(List<Cards> playerCombo) {
-		List<Cards> pairsTemp = new ArrayList<Cards>();
-		List<Cards> pairs = new ArrayList<Cards>();
+		List<Integer> pairs = new ArrayList<>();
+		List<Integer> cardsTempValues = new ArrayList<>();
 		int playerScore = 0;
-		for (Cards card : playerCombo) {
-			if (Collections.frequency(playerCombo, card) == 2) {
-				pairsTemp.add(card);
+		for (Cards card : playerCombo) cardsTempValues.add(card.value());
+		for (int value : cardsTempValues) {
+			if (Collections.frequency(cardsTempValues, value) == 2) {
+				pairs.add(value);
 			}
 		}
-		Collections.sort(pairsTemp, Collections.reverseOrder());
-		pairs.add(pairsTemp.get(0));
-		pairs.add(pairsTemp.get(2));
-		if (pairs.size() == 2)
-			playerScore += getCount(pairs) * COEF_COMBO.TWO_PAIRS.coef();
+		Collections.sort(pairs, Collections.reverseOrder());
+		if (!pairs.isEmpty() & pairs.size()>=4) {
+			playerScore += (pairs.get(0) + pairs.get(2)) * 2 * COEF_COMBO.TWO_PAIRS.coef();
+			return playerScore;
+		}
 		return playerScore;
 	}
 
@@ -126,11 +134,12 @@ public enum Cards {
 				brelansTemp.add(card);
 			}
 		}
-		if (!brelansTemp.isEmpty()) {
+		if (!brelansTemp.isEmpty() && brelansTemp.size()>=3) {
 			Collections.sort(brelansTemp, Collections.reverseOrder());
 			brelans.add(brelansTemp.get(0));
+			if (brelansTemp.size()>=4)
 			brelans.add(brelansTemp.get(3));
-			playerScore += getCount(brelans) * COEF_COMBO.THREE_OF_A_KIND.coef();
+			playerScore += getCount(brelans) * 3 * COEF_COMBO.THREE_OF_A_KIND.coef();
 		}
 		return playerScore;
 	}
@@ -230,8 +239,7 @@ public enum Cards {
 		if (!carreTemp.isEmpty()) {
 			Collections.sort(carreTemp, Collections.reverseOrder());
 			carre.add(carreTemp.get(0));
-
-			playerScore += getCount(carre) * COEF_COMBO.FOUR_OF_A_KIND.coef();
+			playerScore += getCount(carre) * 4 * COEF_COMBO.FOUR_OF_A_KIND.coef();
 
 		}
 		return playerScore;

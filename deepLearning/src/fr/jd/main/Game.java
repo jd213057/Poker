@@ -445,4 +445,71 @@ public class Game {
 				+ onPlay + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(blinde);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((dealer == null) ? 0 : dealer.hashCode());
+		result = prime * result + (debugMode ? 1231 : 1237);
+		result = prime * result + manche;
+		temp = Double.doubleToLongBits(maxBet);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + nbTour;
+		result = prime * result + (onPlay ? 1231 : 1237);
+		result = prime * result + ((players == null) ? 0 : players.hashCode());
+		result = prime * result + positionGrosseBlinde;
+		result = prime * result + positionPetiteBlinde;
+		temp = Double.doubleToLongBits(pot);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + tourDeTable;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Game other = (Game) obj;
+		if (Double.doubleToLongBits(blinde) != Double.doubleToLongBits(other.blinde))
+			return false;
+		if (dealer == null) {
+			if (other.dealer != null)
+				return false;
+		} else if (!dealer.equals(other.dealer))
+			return false;
+		if (debugMode != other.debugMode)
+			return false;
+		if (manche != other.manche)
+			return false;
+		if (Double.doubleToLongBits(maxBet) != Double.doubleToLongBits(other.maxBet))
+			return false;
+		if (nbTour != other.nbTour)
+			return false;
+		if (onPlay != other.onPlay)
+			return false;
+		if (players == null) {
+			if (other.players != null)
+				return false;
+		} else if (!players.equals(other.players))
+			return false;
+		if (positionGrosseBlinde != other.positionGrosseBlinde)
+			return false;
+		if (positionPetiteBlinde != other.positionPetiteBlinde)
+			return false;
+		if (Double.doubleToLongBits(pot) != Double.doubleToLongBits(other.pot))
+			return false;
+		if (tourDeTable != other.tourDeTable)
+			return false;
+		return true;
+	}
+	
+	
+
 }

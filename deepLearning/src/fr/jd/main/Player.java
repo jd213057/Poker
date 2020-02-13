@@ -61,7 +61,7 @@ public class Player {
 	}
 
 	public void setScore(int score) {
-		score = score;
+		this.score = score;
 	}
 
 	public boolean isInGame() {
@@ -70,6 +70,7 @@ public class Player {
 
 	public void setInGame(boolean inGame) {
 		this.inGame = inGame;
+		this.inPlay = false;
 	}
 
 	public boolean isInPlay() {
@@ -155,9 +156,60 @@ public class Player {
 		return "Player [playerName=" + playerName + ", hand=" + hand + ", moneyBet=" + moneyBet + "€]";
 	}
 
-	public void scenario1() {
-		// TODO Auto-generated method stub
-
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (grosseBlinde ? 1231 : 1237);
+		result = prime * result + ((hand == null) ? 0 : hand.hashCode());
+		result = prime * result + (inGame ? 1231 : 1237);
+		result = prime * result + (inPlay ? 1231 : 1237);
+		long temp;
+		temp = Double.doubleToLongBits(moneyBet);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (petiteBlinde ? 1231 : 1237);
+		result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
+		result = prime * result + score;
+		temp = Double.doubleToLongBits(totalMoney);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		if (grosseBlinde != other.grosseBlinde)
+			return false;
+		if (hand == null) {
+			if (other.hand != null)
+				return false;
+		} else if (!hand.equals(other.hand))
+			return false;
+		if (inGame != other.inGame)
+			return false;
+		if (inPlay != other.inPlay)
+			return false;
+		if (Double.doubleToLongBits(moneyBet) != Double.doubleToLongBits(other.moneyBet))
+			return false;
+		if (petiteBlinde != other.petiteBlinde)
+			return false;
+		if (playerName == null) {
+			if (other.playerName != null)
+				return false;
+		} else if (!playerName.equals(other.playerName))
+			return false;
+		if (score != other.score)
+			return false;
+		if (Double.doubleToLongBits(totalMoney) != Double.doubleToLongBits(other.totalMoney))
+			return false;
+		return true;
+	}
+
+	
 }
