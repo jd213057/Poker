@@ -205,10 +205,12 @@ public class GameCoveryTests {
 	@Test
 	public void testSetBlinde() {
 		double blinde = 10.0;
+		double moneyBetCheck =0;
+		double totalMoneyCheck = 2000;
 		for (int i = 0; i < 7; i++) {
 			Player player = new Player("Player " + i);
-			player.setTotalMoney(2000);
-			player.setMoneyBet(0);
+			player.setTotalMoney(totalMoneyCheck);
+			player.setMoneyBet(moneyBetCheck);
 			players.add(player);
 		}
 		for (int i = 0; i <= 20; i++) {
@@ -216,6 +218,7 @@ public class GameCoveryTests {
 			game.setBlinde(blinde);
 			System.out.println(game.getPlayers().get(i).getTotalMoney());
 			System.out.println(game.getPlayers().get(i).getMoneyBet());
+			moneyBetCheck += game.getPlayers().get(i).getMoneyBet();
 			assertEquals(1990.0, game.getPlayers().get(i).getTotalMoney(), 0.0);
 			assertEquals(10.0, game.getPlayers().get(i).getMoneyBet(), 0.0);
 		}
