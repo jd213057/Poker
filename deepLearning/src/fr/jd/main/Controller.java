@@ -92,7 +92,7 @@ public class Controller {
 		for (Player player : game.getPlayersInPlay()) {
 			playersResults.add(game.getCombo(player));
 		}
-		game.getWinner(playersResults);
+		System.out.println(game.getWinner(playersResults));
 		game.showAllHands();
 		for (Player player : game.getPlayersInGame())
 			if (player.getTotalMoney() <= 0)

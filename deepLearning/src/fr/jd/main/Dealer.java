@@ -59,13 +59,16 @@ public class Dealer {
 			break;
 		case 1:
 			cardsPackage.remove(cardsPackage.get(cardsPackage.size() - 1));
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 3; i++) {
 				carpet.add(cardsPackage.get(cardsPackage.size() - 1));
+				cardsPackage.remove(cardsPackage.get(cardsPackage.size() - 1));
+			}
 			break;
 		case 2:
 		case 3:
 			cardsPackage.remove(cardsPackage.get(cardsPackage.size() - 1));
 			carpet.add(cardsPackage.get(cardsPackage.size() - 1));
+			cardsPackage.remove(cardsPackage.get(cardsPackage.size() - 1));
 			break;
 		}
 	}

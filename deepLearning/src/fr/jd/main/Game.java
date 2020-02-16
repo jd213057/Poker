@@ -25,12 +25,16 @@ public class Game {
 		super();
 		this.players = players;
 		this.tourDeTable = 0;
+		this.nbTour = 0;
 		this.manche = 0;
+		this.positionPetiteBlinde = 0;
+		this.positionGrosseBlinde = 0;
 		this.maxBet = 0;
+		this.blinde = 10;
+		this.pot = 0;
 		this.onPlay = true;
 		this.debugMode = false;
-		this.dealer = new Dealer(new ArrayList<Cards>(EnumSet.allOf(Cards.class)),
-				new ArrayList<Cards>(EnumSet.allOf(Cards.class)));
+		this.dealer = new Dealer(new ArrayList<Cards>(EnumSet.allOf(Cards.class)), new ArrayList<Cards>());
 	}
 
 	public List<Player> getPlayers() {
@@ -101,8 +105,7 @@ public class Game {
 	}
 
 	public void setPositionPetiteBlinde() {
-		positionPetiteBlinde = (this.manche + 1) % (getPlayersInGame().size() + 1);
-		this.positionPetiteBlinde = positionPetiteBlinde;
+		this.positionPetiteBlinde = (this.manche + 1) % (this.getPlayersInGame().size() + 1);
 	}
 
 	public int getPositionGrosseBlinde() {
@@ -110,8 +113,7 @@ public class Game {
 	}
 
 	public void setPositionGrosseBlinde() {
-		positionGrosseBlinde = this.manche % (getPlayersInGame().size() + 1);
-		this.positionGrosseBlinde = positionGrosseBlinde;
+		this.positionGrosseBlinde = this.manche % (this.getPlayersInGame().size() + 1);
 	}
 
 	public double getBlinde() {
@@ -177,6 +179,8 @@ public class Game {
 
 	public void fold(Player player) {
 		player.fold();
+		this.pot += player.getMoneyBet();
+		player.setMoneyBet(0);
 	}
 
 	public void allIn(Player player) {
@@ -221,7 +225,7 @@ public class Game {
 
 	public List<Player> getPlayersInGame() {
 		List<Player> playersInGame = new ArrayList<>();
-		for (Player player : this.players)
+		for (Player player : players)
 			if (player.isInGame())
 				playersInGame.add(player);
 		return playersInGame;
@@ -229,7 +233,7 @@ public class Game {
 
 	public List<Player> getPlayersInPlay() {
 		List<Player> playersInPlay = new ArrayList<>();
-		for (Player player : this.players)
+		for (Player player : players)
 			if (player.isInPlay() && player.isInGame())
 				playersInPlay.add(player);
 		return playersInPlay;
@@ -237,21 +241,19 @@ public class Game {
 
 	public void showAllHands() {
 		System.out.println("Situation finale : ");
-		List<Player> playersInPlay = new ArrayList<>();
-		for (Player player : this.players)
-			if (player.isInPlay())
-				playersInPlay.add(player);
-		playersInPlay.forEach(p -> p.toStringHand());
+		List<Player> playersInPlay = this.getPlayersInPlay();
+		playersInPlay.forEach(p -> System.out.println(p.toStringHand()));
 		System.out.println();
 	}
 
-	public void getWinner(List<Player> playersResults) {
+	public Player getWinner(List<Player> playersResults) {
+		Player winner = null;
 		List<Integer> results = new ArrayList<>();
 		for (Player player : playersResults) {
 			results.add(player.getScore());
 		}
 		int winnerScore = Collections.max(results);
-		Player winner;
+		
 		for (Player player : playersResults) {
 			if (player.getScore() == winnerScore) {
 				List<Cards> bestCombo = new ArrayList<Cards>();
@@ -262,9 +264,11 @@ public class Game {
 				System.out.println("et remporte : " + this.pot);
 				System.out.println();
 				player.winMoney(this.pot);
+				winner = player;
+				return winner;
 			}
 		}
-
+		return winner;
 	}
 
 	public void eliminate(Player player) {
@@ -418,7 +422,7 @@ public class Game {
 		int playerStraightFlushScore = Cards.checkStraightFlush(playerCombo);
 		int playerFourOfAKindScore = Cards.checkFourOfAKind(playerCombo);
 		int playerFullHouseScoreCards = Cards.checkFull(playerCombo);
-//		int playerFlushScore = Cards.checkFlush(playerCombo);
+		int playerFlushScore = Cards.checkFlush(playerCombo);
 		int playerStraightScore = Cards.checkStraight(playerCombo);
 		int playerThreeOfAKind = Cards.checkThreeOfAKind(playerCombo);
 		int playersOnePairScore = Cards.checkOnePair(playerCombo);
@@ -427,7 +431,7 @@ public class Game {
 		playerResults.add(playerStraightFlushScore);
 		playerResults.add(playerFourOfAKindScore);
 		playerResults.add(playerFullHouseScoreCards);
-//		playerResults.add(playerFlushScore);
+		playerResults.add(playerFlushScore);
 		playerResults.add(playerStraightScore);
 		playerResults.add(playerThreeOfAKind);
 		playerResults.add(playersOnePairScore);
@@ -509,7 +513,5 @@ public class Game {
 			return false;
 		return true;
 	}
-	
-	
 
 }

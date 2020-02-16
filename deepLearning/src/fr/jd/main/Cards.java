@@ -73,8 +73,22 @@ public enum Cards {
 	public static int getSum(List<Integer> playerFinalCombo) {
 		int cardsTotalValues = 0;
 		for (int value : playerFinalCombo)
-			cardsTotalValues += playerFinalCombo.get(value);
+			cardsTotalValues += value;
 		return cardsTotalValues;
+	}
+
+	public static List<Integer> getListOfValues(List<Cards> playerCombo) {
+		List<Integer> playerListOfValues = new ArrayList<>();
+		for (Cards card : playerCombo)
+			playerListOfValues.add(card.value());
+		return playerListOfValues;
+	}
+
+	public static List<String> getListOfColors(List<Cards> playerCombo) {
+		List<String> playerListOfColors = new ArrayList<>();
+		for (Cards card : playerCombo)
+			playerListOfColors.add(card.color());
+		return playerListOfColors;
 	}
 
 	public static int checkHighRaise(List<Cards> playerCombo) {
@@ -93,7 +107,8 @@ public enum Cards {
 		List<Integer> pairs = new ArrayList<>();
 		List<Integer> cardsTempValues = new ArrayList<>();
 		int playerScore = 0;
-		for (Cards card : playerCombo) cardsTempValues.add(card.value());
+		for (Cards card : playerCombo)
+			cardsTempValues.add(card.value());
 		for (int value : cardsTempValues) {
 			if (Collections.frequency(cardsTempValues, value) == 2) {
 				pairs.add(value);
@@ -111,14 +126,15 @@ public enum Cards {
 		List<Integer> pairs = new ArrayList<>();
 		List<Integer> cardsTempValues = new ArrayList<>();
 		int playerScore = 0;
-		for (Cards card : playerCombo) cardsTempValues.add(card.value());
+		for (Cards card : playerCombo)
+			cardsTempValues.add(card.value());
 		for (int value : cardsTempValues) {
 			if (Collections.frequency(cardsTempValues, value) == 2) {
 				pairs.add(value);
 			}
 		}
 		Collections.sort(pairs, Collections.reverseOrder());
-		if (!pairs.isEmpty() & pairs.size()>=4) {
+		if (!pairs.isEmpty() & pairs.size() >= 4) {
 			playerScore += (pairs.get(0) + pairs.get(2)) * 2 * COEF_COMBO.TWO_PAIRS.coef();
 			return playerScore;
 		}
@@ -126,31 +142,30 @@ public enum Cards {
 	}
 
 	public static int checkThreeOfAKind(List<Cards> playerCombo) {
-		List<Cards> brelansTemp = new ArrayList<Cards>();
-		List<Cards> brelans = new ArrayList<Cards>();
+		List<Integer> playerValues = new ArrayList<>(Cards.getListOfValues(playerCombo));
+		List<Integer> brelansTemp = new ArrayList<>();
+		List<Integer> brelans = new ArrayList<>();
 		int playerScore = 0;
-		for (Cards card : playerCombo) {
-			if (Collections.frequency(playerCombo, card) == 3) {
-				brelansTemp.add(card);
+		for (int value : playerValues) {
+			if (Collections.frequency(playerValues, value) == 3) {
+				brelansTemp.add(value);
 			}
 		}
-		if (!brelansTemp.isEmpty() && brelansTemp.size()>=3) {
+		if (!brelansTemp.isEmpty() && brelansTemp.size() >= 3) {
 			Collections.sort(brelansTemp, Collections.reverseOrder());
 			brelans.add(brelansTemp.get(0));
-			if (brelansTemp.size()>=4)
-			brelans.add(brelansTemp.get(3));
-			playerScore += getCount(brelans) * 3 * COEF_COMBO.THREE_OF_A_KIND.coef();
+			brelans.add(brelansTemp.get(1));
+			brelans.add(brelansTemp.get(2));
+			playerScore += getSum(brelans) * COEF_COMBO.THREE_OF_A_KIND.coef();
 		}
 		return playerScore;
 	}
 
 	public static int checkStraight(List<Cards> playerCombo) {
 		int playerScore = 0;
-		List<Integer> values = new ArrayList<>();
+		List<Integer> values = new ArrayList<>(Cards.getListOfValues(playerCombo));
 		List<List<Integer>> combo = new ArrayList<>();
 		List<Integer> playerBestCombo = new ArrayList<>();
-		for (Cards card : playerCombo)
-			values.add(card.value());
 		Collections.sort(values);
 		if (values.containsAll(SUITE_5))
 			combo.add(SUITE_5);
@@ -172,97 +187,99 @@ public enum Cards {
 			combo.add(SUITE_K);
 		if (values.containsAll(SUITE_A))
 			combo.add(SUITE_A);
+		if (combo.isEmpty()) return playerScore;
 		playerBestCombo.addAll(combo.get(combo.size() - 1));
-		playerScore += Collections.max(playerBestCombo) * COEF_COMBO.STRAIGHT.coef();
+		if (playerBestCombo.contains(13))
+			playerScore += (getSum(playerBestCombo) - 13) * COEF_COMBO.STRAIGHT.coef();
+		playerScore += getSum(playerBestCombo) * COEF_COMBO.STRAIGHT.coef();
 		return playerScore;
 	}
 
-//	public static int checkFlush(List<Cards> playerCombo) {
-//		List<String> checkColor = new ArrayList<>();
-//		List<Cards> playerColor = new ArrayList<>();
-//		int playerScore = 0;
-//		for (Cards card : playerCombo)
-//			checkColor.add(card.color());
-//		for (Cards card : playerCombo)
-//			if (Collections.frequency(checkColor, card.color()) == 5) {
-//				// Trouver methode de calcul
-//				
-//				
-//				playerScore += getCount() * COEF_COMBO.STRAIGHT.coef();
-//				return playerScore;
-//			}
-//		;
-//		return playerScore;
-//	}
+	public static int checkFlush(List<Cards> playerCombo) {
+		List<String> playerColors = new ArrayList<>(Cards.getListOfColors(playerCombo));
+		List<String> checkColor = new ArrayList<>();
+		List<Cards> playerColor = new ArrayList<>();
+		int playerScore = 0;
+		for (Cards card : playerCombo)
+			if (Collections.frequency(playerColors, card.color()) >= 5) {
+				checkColor.add(card.color());
+				playerColor.add(card);
+			}
+		if (!checkColor.isEmpty())
+			playerScore += getCount(playerColor) * COEF_COMBO.FLUSH.coef();
+		return playerScore;
+	}
 
 	public static int checkFull(List<Cards> playerCombo) {
+		List<Integer> values = new ArrayList<>(Cards.getListOfValues(playerCombo));
 		List<Cards> brelansTemp = new ArrayList<Cards>();
-		List<Cards> brelans = new ArrayList<Cards>();
+		List<Integer> brelans = new ArrayList<>();
 		List<Cards> pairsTemp = new ArrayList<Cards>();
-		List<Cards> pairs = new ArrayList<Cards>();
-		List<Cards> playerFinalCombo = new ArrayList<>();
+		List<Integer> pairs = new ArrayList<>();
+		List<Integer> playerFinalCombo = new ArrayList<>();
 		int playerScore = 0;
 		for (Cards card : playerCombo) {
-			if (Collections.frequency(playerCombo, card) == 3) {
+			if (Collections.frequency(values, card.value()) == 3) {
 				brelansTemp.add(card);
 			}
-			if (Collections.frequency(playerCombo, card) == 2) {
+			if (Collections.frequency(values, card.value()) == 2) {
 				pairsTemp.add(card);
 			}
 		}
-		if (!brelansTemp.isEmpty() && !pairs.isEmpty()) {
+		if (!(brelansTemp.isEmpty() && pairs.isEmpty())) {
 			Collections.sort(brelansTemp, Collections.reverseOrder());
-			brelans.add(brelansTemp.get(0));
-			brelans.add(brelansTemp.get(3));
+			brelans.add(brelansTemp.get(0).value());
+			if (brelansTemp.size()>=4) brelans.add(brelansTemp.get(3).value());
 			Collections.sort(pairsTemp, Collections.reverseOrder());
-			pairs.add(pairsTemp.get(0));
-			pairs.add(pairsTemp.get(2));
+			pairs.add(pairsTemp.get(0).value());
+			if (pairs.size()>=2) pairs.add(pairsTemp.get(2).value());
 			playerFinalCombo.add(brelans.get(0));
 			playerFinalCombo.add(brelans.get(0));
 			playerFinalCombo.add(brelans.get(0));
 			playerFinalCombo.add(pairs.get(0));
 			playerFinalCombo.add(pairs.get(0));
-			playerScore += getCount(playerFinalCombo) * COEF_COMBO.FULL.coef();
+			System.out.println(playerFinalCombo);
+			playerScore += getSum(playerFinalCombo) * COEF_COMBO.FULL.coef();
 		}
 		return playerScore;
 	}
 
 	public static int checkFourOfAKind(List<Cards> playerCombo) {
-		List<Cards> carreTemp = new ArrayList<Cards>();
-		List<Cards> carre = new ArrayList<Cards>();
+		List<Integer> playerValues = new ArrayList<>(Cards.getListOfValues(playerCombo));
+		List<Integer> carreTemp = new ArrayList<>();
+		List<Integer> carre = new ArrayList<>();
 		int playerScore = 0;
-		for (Cards card : playerCombo) {
-			if (Collections.frequency(playerCombo, card) == 4) {
-				carreTemp.add(card);
+		for (int value : playerValues) {
+			if (Collections.frequency(playerValues, value) == 4) {
+				carreTemp.add(value);
 			}
 		}
-		if (!carreTemp.isEmpty()) {
+		if (!carreTemp.isEmpty() && carreTemp.size() >= 4) {
 			Collections.sort(carreTemp, Collections.reverseOrder());
 			carre.add(carreTemp.get(0));
-			playerScore += getCount(carre) * 4 * COEF_COMBO.FOUR_OF_A_KIND.coef();
-
+			carre.add(carreTemp.get(1));
+			carre.add(carreTemp.get(2));
+			carre.add(carreTemp.get(3));
+			playerScore += getSum(carre) * COEF_COMBO.FOUR_OF_A_KIND.coef();
 		}
 		return playerScore;
 	}
 
 	public static int checkStraightFlush(List<Cards> playerCombo) {
 		int playerScore = 0;
-		List<Integer> values = new ArrayList<>();
+		List<Integer> values = new ArrayList<>(Cards.getListOfValues(playerCombo));
+		List<String> colors = new ArrayList<>(Cards.getListOfColors(playerCombo));
 		List<List<Integer>> combo = new ArrayList<>();
 		List<Integer> playerBestCombo = new ArrayList<>();
-		List<String> checkColor = new ArrayList<>();
 		boolean hasColor = false;
 		for (Cards card : playerCombo)
-			checkColor.add(card.color());
-		for (Cards card : playerCombo)
-			if (Collections.frequency(checkColor, card.color()) == 5) {
+			if (Collections.frequency(colors, card.color()) >= 5) {
 				hasColor = true;
 			}
 		;
+		System.out.println(hasColor);
 		if (!hasColor)
 			return playerScore;
-		for (Cards card : playerCombo)
-			values.add(card.value());
 		Collections.sort(values);
 		if (values.containsAll(SUITE_5))
 			combo.add(SUITE_5);
@@ -284,7 +301,10 @@ public enum Cards {
 			combo.add(SUITE_K);
 		if (values.containsAll(SUITE_A))
 			combo.add(SUITE_A);
-		playerBestCombo.addAll(combo.get(combo.size() - 1));
+		if (combo.isEmpty()) return playerScore;
+			playerBestCombo.addAll(combo.get(combo.size() - 1));
+		if (playerBestCombo.contains(13))
+			playerScore += (getSum(playerBestCombo) - 13) * COEF_COMBO.STRAIGHT_FLUSH.coef();
 		playerScore += getSum(playerBestCombo) * COEF_COMBO.STRAIGHT_FLUSH.coef();
 		return playerScore;
 	}
