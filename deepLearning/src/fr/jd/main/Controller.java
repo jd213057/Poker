@@ -21,31 +21,25 @@ public class Controller {
 	}
 
 	public void initialize() {
-		game.setPlayers();
-		System.out.println("Souhaitez-vous activer le mode Debug sur votre jeu? y/n");
-		Scanner keyboard = new Scanner(System.in);
-		String answer = keyboard.toString();
-		keyboard.close();
-		switch (answer) {
-		case "y":
-			game.setDebugMode(true);
-			break;
-		case "n":
-			break;
-		default:
-			System.out.println("Réponse non pris en charge.");
-			System.out.println("Par mesure de sécurité, l'application va se lancer sans le mode debug.");
-			System.out.println();
+		boolean isCorrect = false;
+		while (!isCorrect) {
+			game.setPlayers();
+			if (game.getPlayersInGame().size() >= 2) {
+				game.initialize();
+				isCorrect = true;
+			} else {
+				System.out.println("Desolez vous devez au moins etre deux pour jouer, veuillez recommencer.");
+			}
 		}
 	}
 
 	public void configure() {
-		// TODO Auto-generated method stub
-
+//		game.configureDebugMode();
 	}
 
 	public void round() {
-		while (game.getPlayersInPlay().size() < 1) {
+		int tourDeTable = 1;
+		while (game.getPlayersInPlay().size() > 1 && tourDeTable < 5) {
 			System.out.println("Manche N°: " + game.getManche());
 			game.distributeCards();
 			game.setBlinde(game.getBlinde());
@@ -58,13 +52,15 @@ public class Controller {
 				System.out.println("Votre mise pour le moment est de : " + player.getMoneyBet());
 				System.out.println("Les autres disposent de : ");
 				System.out.println();
+				game.getPlayersInPlay()
+						.forEach(p -> System.out.println("Joueur : " + p.getPlayerName() + "    Argent sur la table : "
+								+ p.getMoneyBet() + "€     Argent total : " + p.getTotalMoney() + "€."));
+				System.out.println();
 				System.out.println("Choisir parmis les options suivantes : ");
 				System.out.println("Tapez 1 : Tapis");
 				double moneyToCall = game.getMaxBet() - player.getMoneyBet();
 				System.out.println("Tapez 2 : Se Coucher");
-				game.getPlayersInPlay()
-						.forEach(p -> System.out.println("Joueur : " + p.getPlayerName() + "    Argent sur la table : "
-								+ p.getMoneyBet() + "€     Argent total : " + p.getTotalMoney() + "€."));
+				System.out.println();
 				if (player.getMoneyBet() == game.getMaxBet()) {
 					game.scenario1(player);
 				} else if (player.getMoneyBet() < game.getMaxBet()
@@ -74,7 +70,7 @@ public class Controller {
 				} else if (player.getMoneyBet() < game.getMaxBet()) {
 					game.scenario3(player);
 				}
-
+				game.setTourDeTable(tourDeTable++);
 			}
 		}
 	}
@@ -107,5 +103,4 @@ public class Controller {
 	public String toString() {
 		return "Controller [game=" + game + "]";
 	}
-
 }

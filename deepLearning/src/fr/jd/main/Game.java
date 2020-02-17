@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-
 	private List<Player> players = new ArrayList<>();
 	private Dealer dealer;
 	private int tourDeTable;
@@ -15,22 +14,25 @@ public class Game {
 	private int positionPetiteBlinde;
 	private int positionGrosseBlinde;
 	private int nbTour;
+	private int tourBlinde;
 	private double maxBet;
 	private double blinde;
 	private double pot;
 	private boolean onPlay;
 	private boolean debugMode;
 
+	Scanner keyboard = new Scanner(System.in);
+
 	public Game(List<Player> players) {
 		super();
 		this.players = players;
 		this.tourDeTable = 0;
 		this.nbTour = 0;
-		this.manche = 0;
+		this.manche = 1;
 		this.positionPetiteBlinde = 0;
 		this.positionGrosseBlinde = 0;
 		this.maxBet = 0;
-		this.blinde = 10;
+		this.blinde = 0;
 		this.pot = 0;
 		this.onPlay = true;
 		this.debugMode = false;
@@ -42,18 +44,16 @@ public class Game {
 	}
 
 	public void setPlayers() {
-		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Entrez le nombre de joueurs: ");
 		int nbPlayers = keyboard.nextInt();
+		keyboard.nextLine();
 		List<Player> players = new ArrayList<>();
-		for (Player player : players) {
-			int i = 1;
+		for (int i = 1; i <= nbPlayers; i++) {
 			System.out.println("Entrez le nom du joueur N°" + i + ":");
-			String playerName = keyboard.toString();
+			String playerName = keyboard.nextLine();
 			players.add(new Player(playerName));
-			i++;
 		}
-		keyboard.close();
+		this.setPlayers(players);
 	}
 
 	public int getTour() {
@@ -78,6 +78,14 @@ public class Game {
 
 	public void setTourDeTable(int tourDeTable) {
 		this.tourDeTable = tourDeTable;
+	}
+
+	public int getTourBlinde() {
+		return tourBlinde;
+	}
+
+	public void setTourBlinde(int answer2) {
+		this.tourBlinde = answer2;
 	}
 
 	public int getManche() {
@@ -125,8 +133,9 @@ public class Game {
 		for (Player player : this.players)
 			if (player.isInGame())
 				playersInGame.add(player);
-		playersInGame.get(this.manche % (getPlayersInGame().size() + 1)).PayGrosseBlinde(blinde);
-		playersInGame.get((this.manche + 1) % (getPlayersInGame().size() + 1)).PayPetiteBlinde(blinde);
+		playersInGame.get(this.manche % getPlayersInGame().size()).PayGrosseBlinde(blinde);
+		playersInGame.get((this.manche - 1) % getPlayersInGame().size()).PayPetiteBlinde(blinde);
+		this.maxBet += blinde;
 	}
 
 	public double getPot() {
@@ -173,6 +182,51 @@ public class Game {
 		player.setTotalMoney(player.getTotalMoney() + this.pot);
 	}
 
+	public void initialize() {
+		System.out.println("Appuyez sur Entrée pour initialiser la partie.");
+		keyboard.nextLine();
+		System.out.println("Souhaitez-vous activer le mode Debug sur votre jeu? y/n");
+		String answer = keyboard.nextLine();
+		switch (answer) {
+		case "y":
+			this.setDebugMode(true);
+			break;
+		case "n":
+			break;
+		default:
+			System.out.println("Réponse non pris en charge.");
+			System.out.println("Par mesure de sécurité, l'application va se lancer sans le mode debug.");
+			System.out.println();
+		}
+		System.out.println("Saisir le montant initial pour chaque joueur :");
+		double answer1 = keyboard.nextDouble();
+		System.out.println("Saisir le montant de la grosseBlinde :");
+		double answer2 = keyboard.nextDouble();
+		System.out.println("Augmonter la blinde tous les combien de tours ?");
+		int answer3 = keyboard.nextInt();
+		for (Player player : this.getPlayers())
+			player.setTotalMoney(answer1);
+		this.setBlinde(answer2);
+		this.setTourBlinde(answer3);
+	}
+
+//	public void configureDebugMode() {
+//String answer1;
+//String answer2;
+//String answer3;
+//this.setDebugMode(true);
+//System.out.println("Lancement du DebugMode");
+//System.out.println("Souhaitez-vous activer les codes de triches? (y/n)");
+//answer1 = keyboard.nextLine();
+//System.out.println("Souhaitez-vous sauvegardé les rapports de jeu? (y/n)");
+//answer2 = keyboard.nextLine();
+//System.out.println("Souhaitez-vous affichez les probabilités de jeu en temps réel? (y/n)");
+//answer3 = keyboard.nextLine();
+//answer1 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
+//answer2 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
+//answer3 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
+//}
+
 	public void check(Player player) {
 		player.check();
 	}
@@ -196,12 +250,10 @@ public class Game {
 	public void raise(Player player) {
 		System.out.println("De combien souhaitez-vous relancer?");
 		System.out.println();
-		Scanner keyboard = new Scanner(System.in);
 		double raiseMoney = keyboard.nextDouble();
 		double moneyToTransfer = this.maxBet - player.getMoneyBet() + raiseMoney;
 		player.raise(moneyToTransfer);
 		this.maxBet += raiseMoney;
-		keyboard.close();
 	}
 
 	public void distributeCards() {
@@ -212,6 +264,7 @@ public class Game {
 					dealer.distribute(players.get(i));
 				}
 			}
+			System.out.println("Jeu de cartes distribué aux joueurs");
 		} else
 			dealer.putOnTable(this.tourDeTable);
 	}
@@ -253,7 +306,7 @@ public class Game {
 			results.add(player.getScore());
 		}
 		int winnerScore = Collections.max(results);
-		
+
 		for (Player player : playersResults) {
 			if (player.getScore() == winnerScore) {
 				List<Cards> bestCombo = new ArrayList<Cards>();
@@ -293,26 +346,28 @@ public class Game {
 			}
 			player.setScore(0);
 			player.setMoneyBet(0);
-			player.setPetiteBlinde(false);
-			player.setGrosseBlinde(false);
 		}
 		nbTour += this.tourDeTable;
 		this.tourDeTable = 0;
 		this.manche++;
 		this.pot = 0;
 		dealer.recoverCards();
+		System.out.println("Continuer la prochaine manche? y/n");
+		String answer = keyboard.nextLine();
+		if (answer == "n" || answer == "N")
+			this.setOnPlay(false);
 	}
 
 	public void scenario1(Player player) {
-		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Tapez 3 : Relancer");
 		System.out.println("Tapez 5 : Check");
 		System.out.println();
 		int playerMove = keyboard.nextInt();
-		keyboard.close();
 		switch (playerMove) {
 		case 1:
 			player.allIn();
+			if (player.getMoneyBet() > this.maxBet)
+				this.maxBet = player.getMoneyBet();
 			break;
 		case 2:
 			player.fold();
@@ -347,14 +402,14 @@ public class Game {
 	}
 
 	public void scenario2(Player player) {
-		Scanner keyboard = new Scanner(System.in);
 		System.out.println();
 		System.out.println("Vous n'avez pas assez pour suivre.");
 		int playerMove = keyboard.nextInt();
-		keyboard.close();
 		switch (playerMove) {
 		case 1:
 			player.allIn();
+			if (player.getMoneyBet() > this.maxBet)
+				this.maxBet = player.getMoneyBet();
 			break;
 		case 2:
 			player.fold();
@@ -371,15 +426,15 @@ public class Game {
 	}
 
 	public void scenario3(Player player) {
-		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Tapez 3 : Relancer");
 		System.out.println("Tapez 4 : Suivre (" + (this.maxBet - player.getMoneyBet()) + ")");
 		System.out.println();
 		int playerMove = keyboard.nextInt();
-		keyboard.close();
 		switch (playerMove) {
 		case 1:
 			player.allIn();
+			if (player.getMoneyBet() > this.maxBet)
+				this.maxBet = player.getMoneyBet();
 			break;
 		case 2:
 			player.fold();
@@ -396,7 +451,6 @@ public class Game {
 					isCorrect = true;
 				}
 
-				answer.close();
 			}
 			break;
 		case 4:
@@ -458,6 +512,7 @@ public class Game {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((dealer == null) ? 0 : dealer.hashCode());
 		result = prime * result + (debugMode ? 1231 : 1237);
+		result = prime * result + ((keyboard == null) ? 0 : keyboard.hashCode());
 		result = prime * result + manche;
 		temp = Double.doubleToLongBits(maxBet);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -468,6 +523,7 @@ public class Game {
 		result = prime * result + positionPetiteBlinde;
 		temp = Double.doubleToLongBits(pot);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + tourBlinde;
 		result = prime * result + tourDeTable;
 		return result;
 	}
@@ -490,6 +546,11 @@ public class Game {
 			return false;
 		if (debugMode != other.debugMode)
 			return false;
+		if (keyboard == null) {
+			if (other.keyboard != null)
+				return false;
+		} else if (!keyboard.equals(other.keyboard))
+			return false;
 		if (manche != other.manche)
 			return false;
 		if (Double.doubleToLongBits(maxBet) != Double.doubleToLongBits(other.maxBet))
@@ -509,9 +570,15 @@ public class Game {
 			return false;
 		if (Double.doubleToLongBits(pot) != Double.doubleToLongBits(other.pot))
 			return false;
+		if (tourBlinde != other.tourBlinde)
+			return false;
 		if (tourDeTable != other.tourDeTable)
 			return false;
 		return true;
+	}
+
+	public void closeReader() {
+		keyboard.close();
 	}
 
 }

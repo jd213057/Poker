@@ -11,16 +11,11 @@ public class Main {
 		Controller controller = new Controller();
 
 		controller.initialize();
-		if (controller.getGame().isDebugMode()) controller.configure();
+//		if (controller.getGame().isDebugMode())
+//			controller.configure();
 		while (controller.getGame().isOnPlay()) {
 			controller.round();
 			controller.endRound();
-			System.out.println("Continuer la prochaine manche? y/n");
-			Scanner keyboard = new Scanner(System.in);
-			String answer = keyboard.toString();
-			if (answer == "n")
-				controller.getGame().setOnPlay(false);
-			keyboard.close();
 		}
 
 	}
