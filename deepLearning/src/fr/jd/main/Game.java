@@ -384,6 +384,8 @@ public class Game {
 		System.out.println("Tapez 3 : Relancer");
 		System.out.println("Tapez 5 : Check");
 		System.out.println();
+		System.out.println("Appuyez sur Entrée avant de saisir votre choix");
+		keyboard.nextLine();
 		int playerMove = keyboard.nextInt();
 		switch (playerMove) {
 		case 1:
@@ -426,6 +428,8 @@ public class Game {
 	public void scenario2(Player player) {
 		System.out.println();
 		System.out.println("Vous n'avez pas assez pour suivre.");
+		System.out.println("Appuyez sur Entrée avant de saisir votre choix");
+		keyboard.nextLine();
 		int playerMove = keyboard.nextInt();
 		switch (playerMove) {
 		case 1:
@@ -451,6 +455,8 @@ public class Game {
 		System.out.println("Tapez 3 : Relancer");
 		System.out.println("Tapez 4 : Suivre (" + (this.maxBet - player.getMoneyBet()) + ")");
 		System.out.println();
+		System.out.println("Appuyez sur Entrée avant de saisir votre choix");
+		keyboard.nextLine();
 		int playerMove = keyboard.nextInt();
 		switch (playerMove) {
 		case 1:

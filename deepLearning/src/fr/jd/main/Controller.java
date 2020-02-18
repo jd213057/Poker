@@ -80,8 +80,10 @@ public class Controller {
 					game.scenario3(player);
 				}
 				game.setPot(game.getPot() + player.getMoneyBet());
+				if (game.getMaxBet() < player.getTotalMoney())
+					game.setMaxBet(player.getMoneyBet());
 			}
-			game.getPlayersInPlay();
+			game.getPlayersInPlay().size();
 			game.setTourDeTable(game.getTourDeTable() + 1);
 			game.setMaxBet(0);
 			for (Player player : game.getPlayersInPlay())
