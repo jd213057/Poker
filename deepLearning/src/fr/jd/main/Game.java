@@ -139,14 +139,14 @@ public class Game {
 	}
 
 	public double getPot() {
-		List<Player> playersInGame = new ArrayList<>();
-		for (Player player : this.players)
-			if (player.isInGame())
-				playersInGame.add(player);
-		double pot = 0;
-		for (Player player : playersInGame) {
-			pot += player.getMoneyBet();
-		}
+//		List<Player> playersInGame = new ArrayList<>();
+//		for (Player player : this.players)
+//			if (player.isInGame())
+//				playersInGame.add(player);
+//		double pot = 0;
+//		for (Player player : playersInGame) {
+//			pot += player.getMoneyBet();
+//		}
 		return pot;
 	}
 
@@ -256,8 +256,12 @@ public class Game {
 		this.maxBet += raiseMoney;
 	}
 
-	public void distributeCards() {
+	public void shuffleCards() {
 		dealer.shuffle();
+	}
+
+	public void distributeCards() {
+
 		if (this.tourDeTable == 0) {
 			for (int j = 0; j < 2; j++) {
 				for (int i = 0; i < players.size(); i++) {
@@ -265,8 +269,9 @@ public class Game {
 				}
 			}
 			System.out.println("Jeu de cartes distribué aux joueurs");
-		} else
-			dealer.putOnTable(this.tourDeTable);
+		} else {
+			dealer.putOnTable(this.tourDeTable - 1);
+		}
 	}
 
 	public void recoverCards() {
@@ -314,7 +319,7 @@ public class Game {
 				bestCombo.addAll(this.dealer.getCarpet());
 				System.out.println("Le gagnant de la manche est : " + player.getPlayerName());
 				System.out.println("avec la combinaison suivante : " + bestCombo);
-				System.out.println("et remporte : " + this.pot);
+				System.out.println("et remporte : " + this.pot + "€");
 				System.out.println();
 				player.winMoney(this.pot);
 				winner = player;
@@ -331,9 +336,24 @@ public class Game {
 	}
 
 	public void endGame() {
+		List<Double> playersMoney = new ArrayList<>();
 		this.onPlay = false;
-		System.out.println("Le gagnant est : " + getPlayersInGame().get(0).toString());
-		System.out.println("");
+		Player winner;
+		if (this.getPlayersInGame().size() == 1) {
+			winner = getPlayersInGame().get(0);
+			System.out.println("Le gagnant est : " + winner.getPlayerName());
+			System.out.println("");
+		} else {
+			for (Player player : this.getPlayersInGame()) {
+				playersMoney.add(player.getTotalMoney());
+			}
+			for (Player player : this.getPlayersInGame())
+				if (player.getTotalMoney() == Collections.max(playersMoney)) {
+					winner = player;
+					System.out.println("Le gagnant est : " + winner.getPlayerName());
+					System.out.println("");
+				}
+		}
 		System.out.println("Voici le récapitulatif de la partie : ");
 		this.players.forEach(player -> System.out.println(player.toString()));
 		System.out.println("Jeu terminé.");
@@ -346,13 +366,15 @@ public class Game {
 			}
 			player.setScore(0);
 			player.setMoneyBet(0);
+			player.getHand().clear();
 		}
 		nbTour += this.tourDeTable;
-		this.tourDeTable = 0;
 		this.manche++;
-		this.pot = 0;
 		dealer.recoverCards();
-		System.out.println("Continuer la prochaine manche? y/n");
+		System.out.println("Fin de la manche.");
+		keyboard.nextLine();
+		System.out.println("Continuer la prochaine manche? Appuyez sur Entrée puis y/n");
+		
 		String answer = keyboard.nextLine();
 		if (answer == "n" || answer == "N")
 			this.setOnPlay(false);

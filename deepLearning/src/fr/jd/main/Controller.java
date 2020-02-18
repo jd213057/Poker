@@ -37,19 +37,28 @@ public class Controller {
 //		game.configureDebugMode();
 	}
 
+	public void startRound() {
+		System.out.println("Manche N°: " + game.getManche());
+		game.setPot(0);
+		game.shuffleCards();
+		game.distributeCards();
+		game.setBlinde(game.getBlinde());
+		game.setTourDeTable(1);
+	}
+
 	public void round() {
-		int tourDeTable = 1;
-		while (game.getPlayersInPlay().size() > 1 && tourDeTable < 5) {
-			System.out.println("Manche N°: " + game.getManche());
+		while (game.getPlayersInPlay().size() > 1 || game.getTourDeTable() <= 4) {
 			game.distributeCards();
-			game.setBlinde(game.getBlinde());
 			for (Player player : game.getPlayersInPlay()) {
 				System.out.println("Tour de table N°: " + game.getTourDeTable());
 				System.out.println();
+				System.out.println("A vous de jouer " + player.getPlayerName() + "!");
 				System.out.println("Votre main : " + player.getHand());
-				System.out.println("La mise est de : " + game.getMaxBet());
+				System.out.println("Sur la table il y a : " + game.getDealer().getCarpet());
+				System.out.println("La mise est de : " + game.getMaxBet() + " €");
+				System.out.println("Le pot a remporté est de : " + game.getPot() + " €");
 				System.out.println("Vous disposez de : " + player.getTotalMoney() + " €");
-				System.out.println("Votre mise pour le moment est de : " + player.getMoneyBet());
+				System.out.println("Votre mise pour le moment est de : " + player.getMoneyBet() + " €");
 				System.out.println("Les autres disposent de : ");
 				System.out.println();
 				game.getPlayersInPlay()
@@ -70,9 +79,15 @@ public class Controller {
 				} else if (player.getMoneyBet() < game.getMaxBet()) {
 					game.scenario3(player);
 				}
-				game.setTourDeTable(tourDeTable++);
+				game.setPot(game.getPot() + player.getMoneyBet());
 			}
+			game.getPlayersInPlay();
+			game.setTourDeTable(game.getTourDeTable() + 1);
+			game.setMaxBet(0);
+			for (Player player : game.getPlayersInPlay())
+				player.setMoneyBet(0);
 		}
+		game.getPlayersInPlay();
 	}
 
 	public void endRound() {
@@ -81,22 +96,26 @@ public class Controller {
 			System.out.println("Le gagnant de la manche N° " + game.getManche() + " est "
 					+ game.getPlayersInPlay().get(0).getPlayerName());
 			System.out.println("car tous les autres se sont couchés");
-			System.out.println("et remporte : " + game.getPot());
+			System.out.println("et remporte : " + game.getPot() + "€");
 			System.out.println();
 			game.getPlayersInPlay().get(0).winMoney(game.getPot());
+		} else {
+			for (Player player : game.getPlayersInPlay()) {
+				playersResults.add(game.getCombo(player));
+			}
+			System.out.println("Le gagnant de cette manche est : " + game.getWinner(playersResults).getPlayerName());
+			System.out.println("Voici tous les mains des joueurs :");
+			this.getGame().getPlayersInGame()
+					.forEach(p -> System.out.println("Joueur " + p.getPlayerName() + " a " + p.getHand()));
+			for (Player player : game.getPlayersInGame())
+				if (player.getTotalMoney() <= 0)
+					game.eliminate(player);
 		}
-		for (Player player : game.getPlayersInPlay()) {
-			playersResults.add(game.getCombo(player));
-		}
-		System.out.println(game.getWinner(playersResults));
-		game.showAllHands();
-		for (Player player : game.getPlayersInGame())
-			if (player.getTotalMoney() <= 0)
-				game.eliminate(player);
-		if (game.getPlayersInGame().size() < 1)
-			game.endGame();
-		else
-			game.endRound();
+		game.endRound();
+	}
+
+	public void endGame() {
+		game.endGame();
 	}
 
 	@Override

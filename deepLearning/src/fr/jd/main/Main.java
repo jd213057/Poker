@@ -13,10 +13,13 @@ public class Main {
 		controller.initialize();
 //		if (controller.getGame().isDebugMode())
 //			controller.configure();
-		while (controller.getGame().isOnPlay()) {
+		while (controller.getGame().getPlayersInGame().size() > 1 && controller.getGame().isOnPlay()) {
+			controller.startRound();
 			controller.round();
 			controller.endRound();
+			controller.getGame().isOnPlay();
 		}
+		controller.endGame();
 
 	}
 
