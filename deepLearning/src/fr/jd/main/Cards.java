@@ -226,7 +226,7 @@ public enum Cards {
 				pairsTemp.add(card);
 			}
 		}
-		if (!(brelansTemp.isEmpty() && pairs.isEmpty())) {
+		if (!brelansTemp.isEmpty() && !pairsTemp.isEmpty()) {
 			Collections.sort(brelansTemp, Collections.reverseOrder());
 			brelans.add(brelansTemp.get(0).value());
 			if (brelansTemp.size()>=4) brelans.add(brelansTemp.get(3).value());

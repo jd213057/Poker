@@ -14,7 +14,7 @@ public class Game {
 	private int positionPetiteBlinde;
 	private int positionGrosseBlinde;
 	private int nbTour;
-	private int tourBlinde;
+	private int mancheBlinde;
 	private double maxBet;
 	private double blinde;
 	private double pot;
@@ -29,6 +29,7 @@ public class Game {
 		this.tourDeTable = 0;
 		this.nbTour = 0;
 		this.manche = 1;
+		this.mancheBlinde = 10;
 		this.positionPetiteBlinde = 0;
 		this.positionGrosseBlinde = 0;
 		this.maxBet = 0;
@@ -42,6 +43,53 @@ public class Game {
 	public List<Player> getPlayers() {
 		return players;
 	}
+	
+	public void initialize() {
+		System.out.println("Appuyez sur Entr√©e pour initialiser la partie.");
+		keyboard.nextLine();
+		System.out.println("Souhaitez-vous activer le mode Debug sur votre jeu? y/n");
+		String answer = keyboard.nextLine();
+		switch (answer) {
+		case "y":
+			this.setDebugMode(true);
+			break;
+		case "n":
+			break;
+		default:
+			System.out.println("R√©ponse non pris en charge.");
+			System.out.println("Par mesure de s√©curit√©, l'application va se lancer sans le mode debug.");
+			System.out.println();
+		}
+		System.out.println("Saisir le montant initial pour chaque joueur :");
+		double answer1 = keyboard.nextDouble();
+		System.out.println("Saisir le montant de la grosseBlinde :");
+		double answer2 = keyboard.nextDouble();
+		System.out.println("Doubler la blinde toutes les combien de manche ?");
+		int answer3 = keyboard.nextInt();
+		for (Player player : this.getPlayers())
+			player.setTotalMoney(answer1);
+		this.setBlinde(answer2);
+		this.setMancheBlinde(answer3);
+		System.out.println(this.getBlinde());
+		System.out.println(this.getMancheBlinde());
+	}
+
+//	public void configureDebugMode() {
+//String answer1;
+//String answer2;
+//String answer3;
+//this.setDebugMode(true);
+//System.out.println("Lancement du DebugMode");
+//System.out.println("Souhaitez-vous activer les codes de triches? (y/n)");
+//answer1 = keyboard.nextLine();
+//System.out.println("Souhaitez-vous sauvegard√© les rapports de jeu? (y/n)");
+//answer2 = keyboard.nextLine();
+//System.out.println("Souhaitez-vous affichez les probabilit√©s de jeu en temps r√©el? (y/n)");
+//answer3 = keyboard.nextLine();
+//answer1 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
+//answer2 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
+//answer3 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
+//}
 
 	public void setPlayers() {
 		System.out.println("Entrez le nombre de joueurs: ");
@@ -49,7 +97,7 @@ public class Game {
 		keyboard.nextLine();
 		List<Player> players = new ArrayList<>();
 		for (int i = 1; i <= nbPlayers; i++) {
-			System.out.println("Entrez le nom du joueur N∞" + i + ":");
+			System.out.println("Entrez le nom du joueur N¬∞" + i + ":");
 			String playerName = keyboard.nextLine();
 			players.add(new Player(playerName));
 		}
@@ -80,12 +128,12 @@ public class Game {
 		this.tourDeTable = tourDeTable;
 	}
 
-	public int getTourBlinde() {
-		return tourBlinde;
+	public int getMancheBlinde() {
+		return mancheBlinde;
 	}
 
-	public void setTourBlinde(int answer2) {
-		this.tourBlinde = answer2;
+	public void setMancheBlinde(int mancheBlinde) {
+		this.mancheBlinde = mancheBlinde;
 	}
 
 	public int getManche() {
@@ -130,6 +178,7 @@ public class Game {
 
 	public void setBlinde(double blinde) {
 		List<Player> playersInGame = new ArrayList<>();
+		if (this.getManche() % this.getMancheBlinde() == 0) this.blinde *= 2;
 		for (Player player : this.players)
 			if (player.isInGame())
 				playersInGame.add(player);
@@ -182,51 +231,6 @@ public class Game {
 		player.setTotalMoney(player.getTotalMoney() + this.pot);
 	}
 
-	public void initialize() {
-		System.out.println("Appuyez sur EntrÈe pour initialiser la partie.");
-		keyboard.nextLine();
-		System.out.println("Souhaitez-vous activer le mode Debug sur votre jeu? y/n");
-		String answer = keyboard.nextLine();
-		switch (answer) {
-		case "y":
-			this.setDebugMode(true);
-			break;
-		case "n":
-			break;
-		default:
-			System.out.println("RÈponse non pris en charge.");
-			System.out.println("Par mesure de sÈcuritÈ, l'application va se lancer sans le mode debug.");
-			System.out.println();
-		}
-		System.out.println("Saisir le montant initial pour chaque joueur :");
-		double answer1 = keyboard.nextDouble();
-		System.out.println("Saisir le montant de la grosseBlinde :");
-		double answer2 = keyboard.nextDouble();
-		System.out.println("Augmonter la blinde tous les combien de tours ?");
-		int answer3 = keyboard.nextInt();
-		for (Player player : this.getPlayers())
-			player.setTotalMoney(answer1);
-		this.setBlinde(answer2);
-		this.setTourBlinde(answer3);
-	}
-
-//	public void configureDebugMode() {
-//String answer1;
-//String answer2;
-//String answer3;
-//this.setDebugMode(true);
-//System.out.println("Lancement du DebugMode");
-//System.out.println("Souhaitez-vous activer les codes de triches? (y/n)");
-//answer1 = keyboard.nextLine();
-//System.out.println("Souhaitez-vous sauvegardÈ les rapports de jeu? (y/n)");
-//answer2 = keyboard.nextLine();
-//System.out.println("Souhaitez-vous affichez les probabilitÈs de jeu en temps rÈel? (y/n)");
-//answer3 = keyboard.nextLine();
-//answer1 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
-//answer2 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
-//answer3 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
-//}
-
 	public void check(Player player) {
 		player.check();
 	}
@@ -268,7 +272,7 @@ public class Game {
 					dealer.distribute(players.get(i));
 				}
 			}
-			System.out.println("Jeu de cartes distribuÈ aux joueurs");
+			System.out.println("Jeu de cartes distribu√© aux joueurs");
 		} else {
 			dealer.putOnTable(this.tourDeTable - 1);
 		}
@@ -319,7 +323,7 @@ public class Game {
 				bestCombo.addAll(this.dealer.getCarpet());
 				System.out.println("Le gagnant de la manche est : " + player.getPlayerName());
 				System.out.println("avec la combinaison suivante : " + bestCombo);
-				System.out.println("et remporte : " + this.pot + "Ä");
+				System.out.println("et remporte : " + this.pot + "¬Ä");
 				System.out.println();
 				player.winMoney(this.pot);
 				winner = player;
@@ -354,9 +358,9 @@ public class Game {
 					System.out.println("");
 				}
 		}
-		System.out.println("Voici le rÈcapitulatif de la partie : ");
-		this.players.forEach(player -> System.out.println(player.toString()));
-		System.out.println("Jeu terminÈ.");
+		System.out.println("Voici le r√©capitulatif de la partie : ");
+		this.players.forEach(player -> System.out.println(player.toStringOnPlay()));
+		System.out.println("Jeu termin√©.");
 	}
 
 	public void endRound() {
@@ -368,15 +372,15 @@ public class Game {
 			player.setMoneyBet(0);
 			player.getHand().clear();
 		}
-		nbTour += this.tourDeTable;
+//		nbTour += this.tourDeTable;
+		this.tourDeTable = 0;
 		this.manche++;
 		dealer.recoverCards();
 		System.out.println("Fin de la manche.");
 		keyboard.nextLine();
-		System.out.println("Continuer la prochaine manche? Appuyez sur EntrÈe puis y/n");
-		
+		System.out.println("Continuer la prochaine manche? y/n");
 		String answer = keyboard.nextLine();
-		if (answer == "n" || answer == "N")
+		if (answer.equals("n") || answer.equals("N"))
 			this.setOnPlay(false);
 	}
 
@@ -384,8 +388,8 @@ public class Game {
 		System.out.println("Tapez 3 : Relancer");
 		System.out.println("Tapez 5 : Check");
 		System.out.println();
-		System.out.println("Appuyez sur EntrÈe avant de saisir votre choix");
-		keyboard.nextLine();
+//		System.out.println("Appuyez sur Entr√©e avant de saisir votre choix");
+//		keyboard.nextLine();
 		int playerMove = keyboard.nextInt();
 		switch (playerMove) {
 		case 1:
@@ -399,26 +403,25 @@ public class Game {
 		case 3:
 			boolean isCorrect = false;
 			while (!isCorrect) {
-				Scanner answer = new Scanner(System.in);
 				System.out.println("De combien souhaitez-vous relancer?");
-				System.out.println("Attention ‡ ne pas mettre plus que ce que vous avez!");
-				int raiseMoney = answer.nextInt();
+				System.out.println("Attention √† ne pas mettre plus que ce que vous avez!");
+				int raiseMoney = keyboard.nextInt();
+				System.out.println("Appuyez sur Entr√©e pour confirmer");
+				keyboard.nextLine();
 				if (raiseMoney <= (player.getTotalMoney() + (this.maxBet - player.getMoneyBet()))) {
 					player.raise(raiseMoney);
 					isCorrect = true;
 				}
-
-				answer.close();
 			}
 			break;
 		case 5:
 			player.check();
 			break;
 		default:
-			System.out.println("Vous avez tapÈ : " + playerMove + ".");
-			System.out.println("La rÈponse n'est pas prise en charge par le systËme.");
+			System.out.println("Vous avez tap√© : " + playerMove + ".");
+			System.out.println("La r√©ponse n'est pas prise en charge par le syst√®me.");
 			System.out.println();
-			System.out.println("RÈponse par dÈfaut : Check");
+			System.out.println("R√©ponse par d√©faut : Check");
 			player.check();
 			break;
 		}
@@ -428,7 +431,7 @@ public class Game {
 	public void scenario2(Player player) {
 		System.out.println();
 		System.out.println("Vous n'avez pas assez pour suivre.");
-		System.out.println("Appuyez sur EntrÈe avant de saisir votre choix");
+		System.out.println("Appuyez sur Entr√©e avant de saisir votre choix");
 		keyboard.nextLine();
 		int playerMove = keyboard.nextInt();
 		switch (playerMove) {
@@ -441,10 +444,10 @@ public class Game {
 			player.fold();
 			break;
 		default:
-			System.out.println("Vous avez tapÈ : " + playerMove + ".");
-			System.out.println("La rÈponse n'est pas prise en charge par le systËme.");
+			System.out.println("Vous avez tap√© : " + playerMove + ".");
+			System.out.println("La r√©ponse n'est pas prise en charge par le syst√®me.");
 			System.out.println();
-			System.out.println("RÈponse par dÈfaut : Se Coucher");
+			System.out.println("R√©ponse par d√©faut : Se Coucher");
 			player.fold();
 			break;
 		}
@@ -455,8 +458,8 @@ public class Game {
 		System.out.println("Tapez 3 : Relancer");
 		System.out.println("Tapez 4 : Suivre (" + (this.maxBet - player.getMoneyBet()) + ")");
 		System.out.println();
-		System.out.println("Appuyez sur EntrÈe avant de saisir votre choix");
-		keyboard.nextLine();
+//		System.out.println("Appuyez sur Entr√©e avant de saisir votre choix");
+//		keyboard.nextLine();
 		int playerMove = keyboard.nextInt();
 		switch (playerMove) {
 		case 1:
@@ -470,15 +473,15 @@ public class Game {
 		case 3:
 			boolean isCorrect = false;
 			while (!isCorrect) {
-				Scanner answer = new Scanner(System.in);
 				System.out.println("De combien souhaitez-vous relancer?");
-				System.out.println("Attention ‡ ne pas mettre plus que ce que vous avez!");
-				int raiseMoney = answer.nextInt();
+				System.out.println("Attention √† ne pas mettre plus que ce que vous avez!");
+				int raiseMoney = keyboard.nextInt();
+				System.out.println("Appuyez sur Entr√©e pour confirmer");
+				keyboard.nextLine();
 				if (raiseMoney <= (player.getTotalMoney() + (this.maxBet - player.getMoneyBet()))) {
 					player.raise(raiseMoney);
 					isCorrect = true;
 				}
-
 			}
 			break;
 		case 4:
@@ -486,10 +489,10 @@ public class Game {
 			player.call(moneyToTransfer);
 			break;
 		default:
-			System.out.println("Vous avez tapÈ : " + playerMove + ".");
-			System.out.println("La rÈponse n'est pas prise en charge par le systËme.");
+			System.out.println("Vous avez tap√© : " + playerMove + ".");
+			System.out.println("La r√©ponse n'est pas prise en charge par le syst√®me.");
 			System.out.println();
-			System.out.println("RÈponse par dÈfaut : Se Coucher");
+			System.out.println("R√©ponse par d√©faut : Se Coucher");
 			player.fold();
 			break;
 		}
@@ -551,7 +554,7 @@ public class Game {
 		result = prime * result + positionPetiteBlinde;
 		temp = Double.doubleToLongBits(pot);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + tourBlinde;
+		result = prime * result + mancheBlinde;
 		result = prime * result + tourDeTable;
 		return result;
 	}
@@ -598,7 +601,7 @@ public class Game {
 			return false;
 		if (Double.doubleToLongBits(pot) != Double.doubleToLongBits(other.pot))
 			return false;
-		if (tourBlinde != other.tourBlinde)
+		if (mancheBlinde != other.mancheBlinde)
 			return false;
 		if (tourDeTable != other.tourDeTable)
 			return false;

@@ -66,9 +66,9 @@ public class Dealer {
 			break;
 		case 2:
 		case 3:
-			cardsPackage.remove(cardsPackage.get(cardsPackage.size() - 1));
-			carpet.add(cardsPackage.get(cardsPackage.size() - 1));
-			cardsPackage.remove(cardsPackage.get(cardsPackage.size() - 1));
+			this.cardsPackage.remove(this.cardsPackage.get(this.cardsPackage.size() - 1));
+			this.carpet.add(this.cardsPackage.get(this.cardsPackage.size() - 1));
+			this.cardsPackage.remove(this.cardsPackage.get(this.cardsPackage.size() - 1));
 			break;
 		}
 	}
