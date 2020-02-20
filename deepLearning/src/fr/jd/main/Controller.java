@@ -112,7 +112,7 @@ public class Controller {
 			System.out.println();
 			game.getPlayersInPlay().get(0).winMoney(game.getPot());
 		} else {
-			for (Player player : game.getPlayersInPlay()) {
+			for (Player player : game.getPlayersInGame()) {
 				playersResults.add(game.getCombo(player));
 			}
 			System.out.println("Le gagnant de cette manche est : " + game.getWinner(playersResults).getPlayerName());

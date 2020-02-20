@@ -238,7 +238,6 @@ public enum Cards {
 			playerFinalCombo.add(brelans.get(0));
 			playerFinalCombo.add(pairs.get(0));
 			playerFinalCombo.add(pairs.get(0));
-			System.out.println(playerFinalCombo);
 			playerScore += getSum(playerFinalCombo) * COEF_COMBO.FULL.coef();
 		}
 		return playerScore;
@@ -277,7 +276,6 @@ public enum Cards {
 				hasColor = true;
 			}
 		;
-		System.out.println(hasColor);
 		if (!hasColor)
 			return playerScore;
 		Collections.sort(values);

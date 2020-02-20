@@ -79,14 +79,14 @@ public class GameCoveryTests {
 	@Test
 	public void testSetDealer() {
 		Dealer dealerCheck = new Dealer(new ArrayList<Cards>(EnumSet.allOf(Cards.class)),
-				new ArrayList<Cards>(EnumSet.allOf(Cards.class)));
+				new ArrayList<Cards>());
 		game.setDealer(dealerCheck);
 		assertEquals(dealerCheck, game.getDealer());
 		assertTrue(game.getDealer().getCardsPackage().size() == 52);
 		assertEquals(dealerCheck.getCarpet(), game.getDealer().getCarpet());
-		assertTrue(game.getDealer().getCarpet().size() == 0);
+		assertTrue(dealerCheck.getCarpet().size() == 0);
 		for (Cards card : game.getDealer().getCardsPackage())
-			assertEquals(card.value(), game.getDealer().getCardsPackage().get(card.value()));
+			assertEquals(card, game.getDealer().getCardsPackage().get(card.value()));
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class GameCoveryTests {
 
 	@Test
 	public void testGetManche() {
-		assertEquals(0, game.getManche());
+		assertEquals(1, game.getManche());
 	}
 
 	@Test
@@ -232,14 +232,12 @@ public class GameCoveryTests {
 
 	@Test
 	public void testSetPot() {
-		for (int i = 0; i < 7; i++)
-			players.add(new Player("Player " + i));
-		assertNotNull(game.getPot());
-		assertEquals(0, game.getPot(), 0.0);
-		for (Player player : game.getPlayers())
-			player.setMoneyBet(100);
-		assertNotNull(game.getPot());
-		assertEquals(700, game.getPot(), 0.0);
+	this.game.setPot(100);
+	assertEquals(100, this.game.getPot());
+	assertNotNull(this.game.getPot());
+	this.game.setPot(500);
+	assertEquals(500, this.game.getPot());
+	assertNotNull(this.game.getPot());
 	}
 
 	@Test
@@ -480,9 +478,9 @@ public class GameCoveryTests {
 		carpet.add(Cards.Cinq_Coeur);
 		carpet.add(Cards.Six_Coeur);
 		game.getPlayers().get(0).setHand(hand1);
-		game.getPlayers().get(0).setHand(hand2);
-		game.getPlayers().get(0).setHand(hand3);
-		game.getPlayers().get(0).setHand(hand4);
+		game.getPlayers().get(1).setHand(hand2);
+		game.getPlayers().get(2).setHand(hand3);
+		game.getPlayers().get(3).setHand(hand4);
 		game.getDealer().setCarpet(carpet);
 		Player winner = game.getWinner(players);
 		assertEquals(game.getPlayers().get(3).getPlayerName(), winner.getPlayerName());
@@ -533,12 +531,15 @@ public class GameCoveryTests {
 		List<Cards> hand1 = new ArrayList<>();
 		hand1.add(Cards.As_Carreau);
 		hand1.add(Cards.Roi_Carreau);
+		playerTest.setHand(hand1);
 		List<Cards> carpet = new ArrayList<>();
 		carpet.add(Cards.As_Pique);
 		carpet.add(Cards.Roi_Pique);
 		carpet.add(Cards.Quatre_Carreau);
 		carpet.add(Cards.Cinq_Carreau);
 		carpet.add(Cards.Six_Carreau);
+		Dealer dealer =  new Dealer(carpet, carpet);
+		dealer.setCarpet(carpet);
 		game.getCombo(playerTest);
 		assertEquals(1586875, playerTest.getScore());
 	}

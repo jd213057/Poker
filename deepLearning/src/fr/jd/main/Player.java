@@ -141,6 +141,7 @@ public class Player {
 	public void allIn() {
 		this.moneyBet += this.totalMoney;
 		this.totalMoney = 0;
+		this.setInPlay(false);
 	}
 
 	public void winMoney(double pot) {

@@ -43,7 +43,7 @@ public class Game {
 	public List<Player> getPlayers() {
 		return players;
 	}
-	
+
 	public void initialize() {
 		System.out.println("Appuyez sur Entrée pour initialiser la partie.");
 		keyboard.nextLine();
@@ -59,6 +59,7 @@ public class Game {
 			System.out.println("Réponse non pris en charge.");
 			System.out.println("Par mesure de sécurité, l'application va se lancer sans le mode debug.");
 			System.out.println();
+			break;
 		}
 		System.out.println("Saisir le montant initial pour chaque joueur :");
 		double answer1 = keyboard.nextDouble();
@@ -70,8 +71,6 @@ public class Game {
 			player.setTotalMoney(answer1);
 		this.setBlinde(answer2);
 		this.setMancheBlinde(answer3);
-		System.out.println(this.getBlinde());
-		System.out.println(this.getMancheBlinde());
 	}
 
 //	public void configureDebugMode() {
@@ -177,8 +176,12 @@ public class Game {
 	}
 
 	public void setBlinde(double blinde) {
+		this.blinde = blinde;
 		List<Player> playersInGame = new ArrayList<>();
-		if (this.getManche() % this.getMancheBlinde() == 0) this.blinde *= 2;
+		if (this.getManche() % this.getMancheBlinde() == 0) {
+			this.blinde *= 2;
+			System.out.println("La blinde augmonte ce tour ci est passa à : " + this.blinde + " €.");
+		}
 		for (Player player : this.players)
 			if (player.isInGame())
 				playersInGame.add(player);
@@ -188,14 +191,6 @@ public class Game {
 	}
 
 	public double getPot() {
-//		List<Player> playersInGame = new ArrayList<>();
-//		for (Player player : this.players)
-//			if (player.isInGame())
-//				playersInGame.add(player);
-//		double pot = 0;
-//		for (Player player : playersInGame) {
-//			pot += player.getMoneyBet();
-//		}
 		return pot;
 	}
 
@@ -265,7 +260,6 @@ public class Game {
 	}
 
 	public void distributeCards() {
-
 		if (this.tourDeTable == 0) {
 			for (int j = 0; j < 2; j++) {
 				for (int i = 0; i < players.size(); i++) {
@@ -335,7 +329,7 @@ public class Game {
 
 	public void eliminate(Player player) {
 		player.setInGame(false);
-		System.out.println("Le joueur : " + player.getPlayerName() + "a perdu.");
+		System.out.println("Le joueur : " + player.getPlayerName() + " a perdu.");
 		System.out.println();
 	}
 
@@ -365,7 +359,7 @@ public class Game {
 
 	public void endRound() {
 		for (Player player : this.players) {
-			if (player.isInGame()) {
+			if (player.isInGame() && player.getTotalMoney() > 0) {
 				player.setInPlay(true);
 			}
 			player.setScore(0);
