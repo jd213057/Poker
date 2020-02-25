@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Jonathan
+ * Classe Enum regroupant l'ensemble des paramètres liées aux cartes et à leurs combinaisons
+ */
 public enum Cards {
 	As_Coeur(13, "Coeur"), Deux_Coeur(1, "Coeur"), Trois_Coeur(2, "Coeur"), Quatre_Coeur(3, "Coeur"),
 	Cinq_Coeur(4, "Coeur"), Six_Coeur(5, "Coeur"), Sept_Coeur(6, "Coeur"), Huit_Coeur(7, "Coeur"),
@@ -20,9 +24,18 @@ public enum Cards {
 	Six_Carreau(5, "Carreau"), Sept_Carreau(6, "Carreau"), Huit_Carreau(7, "Carreau"), Neuf_Carreau(8, "Carreau"),
 	Dix_Carreau(9, "Carreau"), Valet_Carreau(10, "Carreau"), Dame_Carreau(11, "Carreau"), Roi_Carreau(12, "Carreau");
 
+	/**
+	 * Attribut de Cards : value, valeur de la carte
+	 */
 	private final int value;
+	/**
+	 * Attribut de Cards : color, couleur de la carte
+	 */
 	private final String color;
 
+	/**
+	 * Suites possibles 
+	 */
 	private static List<Integer> SUITE_5 = Arrays.asList(1, 2, 3, 4, 13);
 	private static List<Integer> SUITE_6 = Arrays.asList(1, 2, 3, 4, 5);
 	private static List<Integer> SUITE_7 = Arrays.asList(2, 3, 4, 5, 6);
@@ -34,35 +47,68 @@ public enum Cards {
 	private static List<Integer> SUITE_K = Arrays.asList(8, 9, 10, 11, 12);
 	private static List<Integer> SUITE_A = Arrays.asList(9, 10, 11, 12, 13);
 
+	/**
+	 * @author Jonathan
+	 * Classe Enum regroupant les différentes combinaisons possibles de cartes
+	 */
 	private enum COEF_COMBO {
 		HIGH_RAISE(1), ONE_PAIR(7), TWO_PAIRS(19), THREE_OF_A_KIND(159), STRAIGHT(414), FLUSH(1085), FULL(2325),
 		FOUR_OF_A_KIND(18310), STRAIGHT_FLUSH(63475);
 
+		/**
+		 * Attribut de COEF_COMBO : coef, coefficient spécifique à un type de combinaison
+		 */
 		private int coef;
 
+		/**
+		 * Setter de coef
+		 * @param coef
+		 */
 		COEF_COMBO(int coef) {
 			this.coef = coef;
 		}
 
+		/**
+		 * Getter de coef
+		 * @return coef
+		 */
 		int coef() {
 			return this.coef;
 		}
 
 	}
 
+	/**
+	 * Constructeur de cards
+	 * @param value
+	 * @param color
+	 */
 	Cards(int value, String color) {
 		this.value = value;
 		this.color = color;
 	}
 
+	/**
+	 * Getter de value
+	 * @return value
+	 */
 	public int value() {
 		return this.value;
 	}
 
+	/**
+	 * Getter de color
+	 * @return color
+	 */
 	public String color() {
 		return this.color;
 	}
 
+	/**
+	 * Méthode calculant la somme des valeurs d'un combo de cartes
+	 * @param playerFinalCombo
+	 * @return cardsTotalValues
+	 */
 	public static int getCount(List<Cards> playerFinalCombo) {
 		int cardsTotalValues = 0;
 		for (Cards card : playerFinalCombo)
@@ -70,6 +116,11 @@ public enum Cards {
 		return cardsTotalValues;
 	}
 
+	/**
+	 * Méthode calculant la somme d'une liste de valeures entières
+	 * @param playerFinalCombo
+	 * @return cardsTotalvalues
+	 */
 	public static int getSum(List<Integer> playerFinalCombo) {
 		int cardsTotalValues = 0;
 		for (int value : playerFinalCombo)
@@ -77,6 +128,11 @@ public enum Cards {
 		return cardsTotalValues;
 	}
 
+	/**
+	 * Méthode traduisant un combo de cartes en liste de valeures entières
+	 * @param playerCombo
+	 * @return playerListOfValues
+	 */
 	public static List<Integer> getListOfValues(List<Cards> playerCombo) {
 		List<Integer> playerListOfValues = new ArrayList<>();
 		for (Cards card : playerCombo)
@@ -84,6 +140,11 @@ public enum Cards {
 		return playerListOfValues;
 	}
 
+	/**
+	 * Méthode traduisant un combo de cartes en liste de couleurs de type String
+	 * @param playerCombo
+	 * @return playerListOfColors
+	 */
 	public static List<String> getListOfColors(List<Cards> playerCombo) {
 		List<String> playerListOfColors = new ArrayList<>();
 		for (Cards card : playerCombo)
@@ -91,6 +152,11 @@ public enum Cards {
 		return playerListOfColors;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la main haute 
+	 * @param playerCombo
+	 * @return playerScore
+	 */
 	public static int checkHighRaise(List<Cards> playerCombo) {
 		int playerScore = 0;
 		List<Integer> cardsValues = new ArrayList<>();
@@ -103,6 +169,11 @@ public enum Cards {
 		return playerScore;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la présence d'une paire
+	 * @param playerCombo
+	 * @return playerScore
+	 */
 	public static int checkOnePair(List<Cards> playerCombo) {
 		List<Integer> pairs = new ArrayList<>();
 		List<Integer> cardsTempValues = new ArrayList<>();
@@ -122,6 +193,11 @@ public enum Cards {
 		return playerScore;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la présence de deux paires
+	 * @param playerCombo
+	 * @return playerScore
+	 */
 	public static int checkTwoPairs(List<Cards> playerCombo) {
 		List<Integer> pairs = new ArrayList<>();
 		List<Integer> cardsTempValues = new ArrayList<>();
@@ -141,6 +217,11 @@ public enum Cards {
 		return playerScore;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la présence d'un brelan
+	 * @param playerCombo
+	 * @return playerScore
+	 */
 	public static int checkThreeOfAKind(List<Cards> playerCombo) {
 		List<Integer> playerValues = new ArrayList<>(Cards.getListOfValues(playerCombo));
 		List<Integer> brelansTemp = new ArrayList<>();
@@ -161,6 +242,11 @@ public enum Cards {
 		return playerScore;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la présence d'une suite
+	 * @param playerCombo
+	 * @return playerScore
+	 */
 	public static int checkStraight(List<Cards> playerCombo) {
 		int playerScore = 0;
 		List<Integer> values = new ArrayList<>(Cards.getListOfValues(playerCombo));
@@ -195,6 +281,11 @@ public enum Cards {
 		return playerScore;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la présence d'une couleur
+	 * @param playerCombo
+	 * @return playerScore
+	 */
 	public static int checkFlush(List<Cards> playerCombo) {
 		List<String> playerColors = new ArrayList<>(Cards.getListOfColors(playerCombo));
 		List<String> checkColor = new ArrayList<>();
@@ -210,6 +301,11 @@ public enum Cards {
 		return playerScore;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la présence d'un full (brelan + paire)
+	 * @param playerCombo
+	 * @return playerSCore
+	 */
 	public static int checkFull(List<Cards> playerCombo) {
 		List<Integer> values = new ArrayList<>(Cards.getListOfValues(playerCombo));
 		List<Cards> brelansTemp = new ArrayList<Cards>();
@@ -243,6 +339,11 @@ public enum Cards {
 		return playerScore;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la présence d'un carré
+	 * @param playerCombo
+	 * @return playerScore
+	 */
 	public static int checkFourOfAKind(List<Cards> playerCombo) {
 		List<Integer> playerValues = new ArrayList<>(Cards.getListOfValues(playerCombo));
 		List<Integer> carreTemp = new ArrayList<>();
@@ -264,6 +365,11 @@ public enum Cards {
 		return playerScore;
 	}
 
+	/**
+	 * Méthode vérifiant pour un combo, la présence d'une Quinte Flush (& Quinte Flush Royale)
+	 * @param playerCombo
+	 * @return playerScore
+	 */
 	public static int checkStraightFlush(List<Cards> playerCombo) {
 		int playerScore = 0;
 		List<Integer> values = new ArrayList<>(Cards.getListOfValues(playerCombo));

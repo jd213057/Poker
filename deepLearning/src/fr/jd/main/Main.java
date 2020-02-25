@@ -4,8 +4,15 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 
+/**
+ * @author Jonathan
+ * Classe Main qui assure le fonctionnement de l'application
+ */
 public class Main {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		Controller controller = new Controller();

@@ -6,23 +6,73 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author Jonathan
+ * Classe Game implémenant la partie de poker
+ */
 public class Game {
+	/**
+	 * Attribut de Game : players, liste des joueurs de la partie
+	 */
 	private List<Player> players = new ArrayList<>();
+	/**
+	 * Attribut de Game : dealer
+	 */
 	private Dealer dealer;
+	/**
+	 * Attribut de Game : tourdeTable
+	 */
 	private int tourDeTable;
+	/**
+	 * Attribut de Game : manche
+	 */
 	private int manche;
+	/**
+	 * Attribut de Game : positionPetiteBlinde
+	 */
 	private int positionPetiteBlinde;
+	/**
+	 * Attribut de Game : positionGrosseBlinde
+	 */
 	private int positionGrosseBlinde;
+	/**
+	 * Attribut de Game : nbTour
+	 */
 	private int nbTour;
+	/**
+	 * Attribut de Game : mancheBlinde
+	 */
 	private int mancheBlinde;
+	/**
+	 * Attribut de Game : maxBet
+	 */
 	private double maxBet;
+	/**
+	 * Attribut de Game : blinde
+	 */
 	private double blinde;
+	/**
+	 * Attribut de Game : pot
+	 */
 	private double pot;
+	/**
+	 * Attribut de Game : onPlay
+	 */
 	private boolean onPlay;
+	/**
+	 * Attribut de Game : debugMode
+	 */
 	private boolean debugMode;
 
+	/**
+	 * Attribut de Game : keyboard, reader pour le mode console du jeu
+	 */
 	Scanner keyboard = new Scanner(System.in);
 
+	/**
+	 * Constructeur de Game
+	 * @param players
+	 */
 	public Game(List<Player> players) {
 		super();
 		this.players = players;
@@ -40,10 +90,41 @@ public class Game {
 		this.dealer = new Dealer(new ArrayList<Cards>(EnumSet.allOf(Cards.class)), new ArrayList<Cards>());
 	}
 
+	/**
+	 * Getter de players
+	 * @return players
+	 */
 	public List<Player> getPlayers() {
 		return players;
 	}
+	
+	/**
+	 * Setter de players
+	 * @param players
+	 */
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+	
+	/**
+	 * Méthode implémentant la configuration des joueurs
+	 */
+	public void setPlayers() {
+		System.out.println("Entrez le nombre de joueurs: ");
+		int nbPlayers = keyboard.nextInt();
+		keyboard.nextLine();
+		List<Player> players = new ArrayList<>();
+		for (int i = 1; i <= nbPlayers; i++) {
+			System.out.println("Entrez le nom du joueur N°" + i + ":");
+			String playerName = keyboard.nextLine();
+			players.add(new Player(playerName));
+		}
+		this.setPlayers(players);
+	}
 
+	/**
+	 * Méthode implémentant l'initialisation de la partie
+	 */
 	public void initialize() {
 		System.out.println("Appuyez sur Entrée pour initialiser la partie.");
 		keyboard.nextLine();
@@ -90,91 +171,162 @@ public class Game {
 //answer3 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
 //}
 
-	public void setPlayers() {
-		System.out.println("Entrez le nombre de joueurs: ");
-		int nbPlayers = keyboard.nextInt();
-		keyboard.nextLine();
-		List<Player> players = new ArrayList<>();
-		for (int i = 1; i <= nbPlayers; i++) {
-			System.out.println("Entrez le nom du joueur N°" + i + ":");
-			String playerName = keyboard.nextLine();
-			players.add(new Player(playerName));
-		}
-		this.setPlayers(players);
-	}
 
+
+	/**
+	 * Getter de tourdeTable
+	 * @return tourDeTable
+	 */
 	public int getTour() {
 		return tourDeTable;
 	}
 
+	/**
+	 * Setter de tourDeTable
+	 * @param tourDeTable
+	 */
 	public void setTour(int tourDeTable) {
 		this.tourDeTable = tourDeTable;
 	}
 
+	/**
+	 * Getter de dealer
+	 * @return dealer
+	 */
 	public Dealer getDealer() {
 		return dealer;
 	}
 
+	/**
+	 * Setetr de dealer
+	 * @param dealer
+	 */
 	public void setDealer(Dealer dealer) {
 		this.dealer = dealer;
 	}
 
+	/**
+	 * Getter de tourDeTable
+	 * @return tourDeTable
+	 */
 	public int getTourDeTable() {
 		return tourDeTable;
 	}
 
+	/**
+	 * Setter de tourDeTable
+	 * @param tourDeTable
+	 */
 	public void setTourDeTable(int tourDeTable) {
 		this.tourDeTable = tourDeTable;
 	}
 
+	/**
+	 * Getter mancheBlinde
+	 * @return mancheBlinde
+	 */
 	public int getMancheBlinde() {
 		return mancheBlinde;
 	}
 
+	/**
+	 * Setter de mancheBlinde
+	 * @param mancheBlinde
+	 */
 	public void setMancheBlinde(int mancheBlinde) {
 		this.mancheBlinde = mancheBlinde;
 	}
 
+	/**
+	 * Getter de manche
+	 * @return manche
+	 */
 	public int getManche() {
 		return manche;
 	}
 
+	/**
+	 * Setter de manche
+	 * @param manche
+	 */
 	public void setManche(int manche) {
 		this.manche = manche;
 	}
 
+	/**
+	 * Getter de nbTour
+	 * @return nbTour
+	 */
 	public int getNbTour() {
 		return nbTour;
 	}
 
+	/**
+	 * Setter de nbTour
+	 * @param nbTour
+	 */
 	public void setNbTour(int nbTour) {
 		this.nbTour = nbTour;
 	}
 
+	/**
+	 * Getter de maxBet
+	 * @return maxBet
+	 */
 	public double getMaxBet() {
 		return maxBet;
 	}
+	
+	/**
+	 * Setter de maxBet
+	 * @param maxBet
+	 */
+	public void setMaxBet(double maxBet) {
+		this.maxBet = maxBet;
+	}
 
+	/**
+	 * Getter de positionPetiteBlinde
+	 * @return positionBlinde
+	 */
 	public int getPositionPetiteBlinde() {
 		return positionPetiteBlinde;
 	}
 
+	/**
+	 * Setter de positionPetiteBlinde
+	 */
 	public void setPositionPetiteBlinde() {
 		this.positionPetiteBlinde = (this.manche + 1) % (this.getPlayersInGame().size() + 1);
 	}
 
+	/**
+	 * Getter de positionPetiteBlinde
+	 * @return positionPetiteBlinde
+	 */
 	public int getPositionGrosseBlinde() {
 		return this.positionGrosseBlinde;
 	}
 
+	/**
+	 * Setter de positionPetiteBlinde
+	 */
 	public void setPositionGrosseBlinde() {
 		this.positionGrosseBlinde = this.manche % (this.getPlayersInGame().size() + 1);
 	}
 
+	/**
+	 * Getter de blinde
+	 * @return blinde
+	 */
 	public double getBlinde() {
 		return blinde;
 	}
 
+	/**
+	 * Setter spéciale de blinde
+	 * @param blinde
+	 */
 	public void setBlinde(double blinde) {
 		this.blinde = blinde;
 		List<Player> playersInGame = new ArrayList<>();
@@ -190,62 +342,106 @@ public class Game {
 		this.maxBet += blinde;
 	}
 
+	/**
+	 * Getter de pot
+	 * @return pot
+	 */
 	public double getPot() {
 		return pot;
 	}
 
+	/**
+	 * Setter de pot
+	 * @param pot
+	 */
 	public void setPot(double pot) {
 		this.pot = pot;
 	}
 
-	public void setMaxBet(double maxBet) {
-		this.maxBet = maxBet;
-	}
 
+
+	/**
+	 * Getter de onPlay
+	 * @return onPlay
+	 */
 	public boolean isOnPlay() {
 		return onPlay;
 	}
 
+	/**
+	 * Setter de onPlay
+	 * @param onPlay
+	 */
 	public void setOnPlay(boolean onPlay) {
 		this.onPlay = onPlay;
 	}
 
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
 
+
+	/**
+	 * Getter de debugMode
+	 * @return debugMode
+	 */
 	public boolean isDebugMode() {
 		return debugMode;
 	}
 
+	/**
+	 * Setter de debugMode
+	 * @param debugMode
+	 */
 	public void setDebugMode(boolean debugMode) {
 		this.debugMode = debugMode;
 	}
 
+	/**
+	 * Méthode implémentant l'encaissement de la mise par un joueur
+	 * @param player
+	 */
 	public void winMoney(Player player) {
 		player.setTotalMoney(player.getTotalMoney() + this.pot);
 	}
 
+	/**
+	 * Méthode implémentant le check par le joueur
+	 * @param player
+	 */
 	public void check(Player player) {
 		player.check();
 	}
 
+	/**
+	 * Méthode implémentant le fait de se coucher par le joueur
+	 * @param player
+	 */
 	public void fold(Player player) {
 		player.fold();
 		this.pot += player.getMoneyBet();
 		player.setMoneyBet(0);
 	}
 
+	/**
+	 * Méthode implémentant le tapis par le joueur
+	 * @param player
+	 */
 	public void allIn(Player player) {
 		player.allIn();
 		this.maxBet += player.getTotalMoney();
 	}
 
+	/**
+	 * Méthode implémentant l'action de suivre par le joueur
+	 * @param player
+	 */
 	public void call(Player player) {
 		double moneyToTransfer = this.maxBet - player.getMoneyBet();
 		player.call(moneyToTransfer);
 	}
 
+	/**
+	 * Méthode implémentant la relance par le joueur
+	 * @param player
+	 */
 	public void raise(Player player) {
 		System.out.println("De combien souhaitez-vous relancer?");
 		System.out.println();
@@ -255,10 +451,16 @@ public class Game {
 		this.maxBet += raiseMoney;
 	}
 
+	/**
+	 * Méthode implémentant le mélange du paquet de cartes
+	 */
 	public void shuffleCards() {
 		dealer.shuffle();
 	}
 
+	/**
+	 * Méthode implémentant la distribution des cartes
+	 */
 	public void distributeCards() {
 		if (this.tourDeTable == 0) {
 			for (int j = 0; j < 2; j++) {
@@ -272,6 +474,9 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Méthode implémentant la récupération des cartes
+	 */
 	public void recoverCards() {
 		for (int i = 0; i < players.size(); i++)
 			players.get(i).getHand().clear();
@@ -279,6 +484,10 @@ public class Game {
 
 	}
 
+	/**
+	 * Méthode calculant la liste des joeurs en jeu sur la partie
+	 * @return playersInGame
+	 */
 	public List<Player> getPlayersInGame() {
 		List<Player> playersInGame = new ArrayList<>();
 		for (Player player : players)
@@ -287,6 +496,10 @@ public class Game {
 		return playersInGame;
 	}
 
+	/**
+	 * Méthode construisant la liste des joeurs en jeu sur la manche
+	 * @return playersInPlay
+	 */
 	public List<Player> getPlayersInPlay() {
 		List<Player> playersInPlay = new ArrayList<>();
 		for (Player player : players)
@@ -295,6 +508,9 @@ public class Game {
 		return playersInPlay;
 	}
 
+	/**
+	 * Méthode montrant l'ensemble des joueurs
+	 */
 	public void showAllHands() {
 		System.out.println("Situation finale : ");
 		List<Player> playersInPlay = this.getPlayersInPlay();
@@ -302,6 +518,11 @@ public class Game {
 		System.out.println();
 	}
 
+	/**
+	 * Méthode determinant le gagant de la manche
+	 * @param playersResults
+	 * @return winner
+	 */
 	public Player getWinner(List<Player> playersResults) {
 		Player winner = null;
 		List<Integer> results = new ArrayList<>();
@@ -327,12 +548,19 @@ public class Game {
 		return winner;
 	}
 
+	/**
+	 * Méthode implémentant l'elemination du joueur
+	 * @param player
+	 */
 	public void eliminate(Player player) {
 		player.setInGame(false);
 		System.out.println("Le joueur : " + player.getPlayerName() + " a perdu.");
 		System.out.println();
 	}
 
+	/**
+	 * Méthode implémentant la finalisation d'une partie
+	 */
 	public void endGame() {
 		List<Double> playersMoney = new ArrayList<>();
 		this.onPlay = false;
@@ -357,6 +585,9 @@ public class Game {
 		System.out.println("Jeu terminé.");
 	}
 
+	/**
+	 * Méthode implémentant la finalisation d'une manche
+	 */
 	public void endRound() {
 		for (Player player : this.players) {
 			if (player.isInGame() && player.getTotalMoney() > 0) {
@@ -364,6 +595,7 @@ public class Game {
 			}
 			player.setScore(0);
 			player.setMoneyBet(0);
+			player.setAllIn(false);
 			player.getHand().clear();
 		}
 //		nbTour += this.tourDeTable;
@@ -378,12 +610,14 @@ public class Game {
 			this.setOnPlay(false);
 	}
 
+	/**
+	 * Méthode implémentant le scénario 1
+	 * @param player
+	 */
 	public void scenario1(Player player) {
 		System.out.println("Tapez 3 : Relancer");
 		System.out.println("Tapez 5 : Check");
 		System.out.println();
-//		System.out.println("Appuyez sur Entrée avant de saisir votre choix");
-//		keyboard.nextLine();
 		int playerMove = keyboard.nextInt();
 		switch (playerMove) {
 		case 1:
@@ -422,6 +656,10 @@ public class Game {
 
 	}
 
+	/**
+	 * Méthode implémentant le scénario 2
+	 * @param player
+	 */
 	public void scenario2(Player player) {
 		System.out.println();
 		System.out.println("Vous n'avez pas assez pour suivre.");
@@ -448,12 +686,14 @@ public class Game {
 
 	}
 
+	/**
+	 * Méthode implémentant le scénario 3
+	 * @param player
+	 */
 	public void scenario3(Player player) {
 		System.out.println("Tapez 3 : Relancer");
 		System.out.println("Tapez 4 : Suivre (" + (this.maxBet - player.getMoneyBet()) + ")");
 		System.out.println();
-//		System.out.println("Appuyez sur Entrée avant de saisir votre choix");
-//		keyboard.nextLine();
 		int playerMove = keyboard.nextInt();
 		switch (playerMove) {
 		case 1:
@@ -492,6 +732,11 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Méthode determinant la meilleure combinaison possible possédée par un joueur
+	 * @param player
+	 * @return player
+	 */
 	public Player getCombo(Player player) {
 		List<Cards> playerCombo = new ArrayList<Cards>();
 		List<Integer> playerResults = new ArrayList<>();
@@ -521,6 +766,9 @@ public class Game {
 		return player;
 	}
 
+	/**
+	 * @return information concernat Game de type String
+	 */
 	public String playReport() {
 		return "Game [players=" + players + ", dealer=" + dealer + ", tourDeTable=" + tourDeTable + ", manche=" + manche
 				+ ", positionPetiteBlinde=" + positionPetiteBlinde + ", positionGrosseBlinde=" + positionGrosseBlinde
@@ -528,6 +776,9 @@ public class Game {
 				+ onPlay + "]";
 	}
 
+	/**
+	 * Méthode Hashcode de Game
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -553,6 +804,9 @@ public class Game {
 		return result;
 	}
 
+	/**
+	 * Méthode Equals de Game
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -602,6 +856,9 @@ public class Game {
 		return true;
 	}
 
+	/**
+	 * Méthode cloturant le reader du jeu
+	 */
 	public void closeReader() {
 		keyboard.close();
 	}

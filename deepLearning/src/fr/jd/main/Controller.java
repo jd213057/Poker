@@ -4,22 +4,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author Jonathan
+ * Classe implémentant Controller, le gestionnaire de la partie
+ */
 public class Controller {
+	/**
+	 * Attribut de Controller : game de type Game
+	 */
 	private Game game;
 
+	/**
+	 * Getter de game
+	 * @return game
+	 */
 	public Game getGame() {
 		return game;
 	}
 
+	/**
+	 * Stter de game
+	 * @param game
+	 */
 	public void setGame(Game game) {
 		this.game = game;
 	}
 
+	/**
+	 * Constructeur de Controller
+	 */
 	public Controller() {
 		super();
 		this.game = new Game(null);
 	}
 
+	/**
+	 * Méthode implémentant d'initialisation du jeu
+	 */
 	public void initialize() {
 		boolean isCorrect = false;
 		while (!isCorrect) {
@@ -33,10 +54,16 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Méthode implémenatant la configuration de la partie
+	 */
 	public void configure() {
 //		game.configureDebugMode();
 	}
 
+	/**
+	 * Méthode implémentant le début d'une manche
+	 */
 	public void startRound() {
 		System.out.println("Manche N°: " + game.getManche());
 		game.setPot(0);
@@ -46,6 +73,9 @@ public class Controller {
 		game.setTourDeTable(1);
 	}
 
+	/**
+	 * Méthode implémentant le déroulement d'une manche, tour par tour
+	 */
 	public void round() {
 		while (game.getPlayersInPlay().size() > 1 && game.getTourDeTable() <= 4) {
 			boolean isBetPaid = false;
@@ -102,6 +132,9 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Méthode implémentant la finalisation d'une manche
+	 */
 	public void endRound() {
 		List<Player> playersResults = new ArrayList<>();
 		if (game.getPlayersInPlay().size() == 1) {
@@ -113,7 +146,7 @@ public class Controller {
 			game.getPlayersInPlay().get(0).winMoney(game.getPot());
 		} else {
 			for (Player player : game.getPlayersInGame()) {
-				playersResults.add(game.getCombo(player));
+				if (player.isInPlay() || (player.isAllIn() && !player.isInPlay())) playersResults.add(game.getCombo(player));
 			}
 			System.out.println("Le gagnant de cette manche est : " + game.getWinner(playersResults).getPlayerName());
 			System.out.println("Voici tous les mains des joueurs :");
@@ -126,10 +159,16 @@ public class Controller {
 		game.endRound();
 	}
 
+	/**
+	 * Méthode implémenatnt la finalisation d'une partie
+	 */
 	public void endGame() {
 		game.endGame();
 	}
 
+	/**
+	 * Méthode retournant l'information de type String concernant le gestionnaire de jeu
+	 */
 	@Override
 	public String toString() {
 		return "Controller [game=" + game + "]";
