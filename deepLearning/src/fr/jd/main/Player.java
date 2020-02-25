@@ -62,7 +62,6 @@ public class Player {
 
 	/**
 	 * Getter de playerName
-	 * 
 	 * @return playername
 	 */
 	public String getPlayerName() {
@@ -71,7 +70,6 @@ public class Player {
 
 	/**
 	 * Setter de playerName
-	 * 
 	 * @param playerName
 	 */
 	public void setPlayerName(String playerName) {
@@ -80,7 +78,6 @@ public class Player {
 
 	/**
 	 * Getter de totalMoney
-	 * 
 	 * @return totalMoney
 	 */
 	public double getTotalMoney() {
@@ -89,7 +86,6 @@ public class Player {
 
 	/**
 	 * Setter de totalMoney
-	 * 
 	 * @param totalMoney
 	 */
 	public void setTotalMoney(double totalMoney) {
@@ -98,7 +94,6 @@ public class Player {
 
 	/**
 	 * Getter de moneyBet
-	 * 
 	 * @return moneyBet
 	 */
 	public double getMoneyBet() {
@@ -107,7 +102,6 @@ public class Player {
 
 	/**
 	 * Setter de moneyBet
-	 * 
 	 * @param moneyBet
 	 */
 	public void setMoneyBet(double moneyBet) {
@@ -116,7 +110,6 @@ public class Player {
 
 	/**
 	 * Getter de hand
-	 * 
 	 * @return hand
 	 */
 	public List<Cards> getHand() {
@@ -125,7 +118,6 @@ public class Player {
 
 	/**
 	 * Setter de hand
-	 * 
 	 * @param hand
 	 */
 	public void setHand(List<Cards> hand) {
@@ -134,7 +126,6 @@ public class Player {
 
 	/**
 	 * Getter de score
-	 * 
 	 * @return score
 	 */
 	public int getScore() {
@@ -143,7 +134,6 @@ public class Player {
 
 	/**
 	 * Setter de score
-	 * 
 	 * @param score
 	 */
 	public void setScore(int score) {
@@ -152,7 +142,6 @@ public class Player {
 
 	/**
 	 * Getter de inGame
-	 * 
 	 * @return inGame
 	 */
 	public boolean isInGame() {
@@ -161,7 +150,6 @@ public class Player {
 
 	/**
 	 * Setter de inGame
-	 * 
 	 * @param inGame
 	 */
 	public void setInGame(boolean inGame) {
@@ -171,7 +159,6 @@ public class Player {
 
 	/**
 	 * Getter de inPlay
-	 * 
 	 * @return inPlay
 	 */
 	public boolean isInPlay() {
@@ -180,7 +167,6 @@ public class Player {
 
 	/**
 	 * Setter de inPlay
-	 * 
 	 * @param inPlay
 	 */
 	public void setInPlay(boolean inPlay) {
@@ -189,7 +175,6 @@ public class Player {
 
 	/**
 	 * Getter de petiteBlinde
-	 * 
 	 * @return petiteBlinde
 	 */
 	public boolean isPetiteBlinde() {
@@ -198,7 +183,6 @@ public class Player {
 
 	/**
 	 * Setter de petiteBlinde
-	 * 
 	 * @param petiteBlinde
 	 */
 	public void setPetiteBlinde(boolean petiteBlinde) {
@@ -207,7 +191,6 @@ public class Player {
 
 	/**
 	 * Setter spécial de petiteBlinde
-	 * 
 	 * @param petiteBlinde
 	 * @param blinde
 	 */
@@ -219,7 +202,6 @@ public class Player {
 
 	/**
 	 * Getter de grosseBlinde
-	 * 
 	 * @return grosseBlinde
 	 */
 	public boolean isGrosseBlinde() {
@@ -228,7 +210,6 @@ public class Player {
 
 	/**
 	 * Setter de grosseBlinde
-	 * 
 	 * @param grosseBlinde
 	 */
 	public void setGrosseBlinde(boolean grosseBlinde) {
@@ -237,7 +218,6 @@ public class Player {
 
 	/**
 	 * Setter spécial de grosseBlinde
-	 * 
 	 * @param grosseBlinde
 	 * @param blinde
 	 */
@@ -249,7 +229,6 @@ public class Player {
 
 	/**
 	 * Méthode implémentant la paye de la petiteBlinde
-	 * 
 	 * @param blinde
 	 */
 	public void PayPetiteBlinde(double blinde) {
@@ -260,7 +239,6 @@ public class Player {
 
 	/**
 	 * Méthode implémentant la paye de la grosseBlinde
-	 * 
 	 * @param blinde
 	 */
 	public void PayGrosseBlinde(double blinde) {
@@ -271,7 +249,6 @@ public class Player {
 
 	/**
 	 * Getter de isAllIn
-	 * 
 	 * @return isAllIn
 	 */
 	public boolean isAllIn() {
@@ -280,7 +257,6 @@ public class Player {
 
 	/**
 	 * Setter de isAllIn
-	 * 
 	 * @param isAllIn
 	 */
 	public void setAllIn(boolean isAllIn) {
@@ -302,7 +278,6 @@ public class Player {
 
 	/**
 	 * Méthode implémentant l'action de suivre
-	 * 
 	 * @param moneyToTransfer
 	 */
 	public void call(double moneyToTransfer) {
@@ -312,7 +287,6 @@ public class Player {
 
 	/**
 	 * Méthode implémentant l'action de relancer
-	 * 
 	 * @param moneyToTransfer
 	 */
 	public void raise(double moneyToTransfer) {
@@ -332,7 +306,6 @@ public class Player {
 
 	/**
 	 * Méthode implémentant de remporter le pot
-	 * 
 	 * @param pot
 	 */
 	public void winMoney(double pot) {
