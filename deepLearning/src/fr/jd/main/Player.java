@@ -33,14 +33,6 @@ public class Player {
 	 * Attribut de Player : inPlay
 	 */
 	private boolean inPlay;
-	/**
-	 * Attribut de Player : petiteBlinde
-	 */
-	private boolean petiteBlinde;
-	/**
-	 * Attribut de Player : grosseBlinde
-	 */
-	private boolean grosseBlinde;
 
 	/**
 	 * Attribut de Player : isAllIn
@@ -174,65 +166,10 @@ public class Player {
 	}
 
 	/**
-	 * Getter de petiteBlinde
-	 * @return petiteBlinde
-	 */
-	public boolean isPetiteBlinde() {
-		return petiteBlinde;
-	}
-
-	/**
-	 * Setter de petiteBlinde
-	 * @param petiteBlinde
-	 */
-	public void setPetiteBlinde(boolean petiteBlinde) {
-		this.petiteBlinde = petiteBlinde;
-	}
-
-	/**
-	 * Setter spécial de petiteBlinde
-	 * @param petiteBlinde
-	 * @param blinde
-	 */
-	public void setPetiteBlinde(boolean petiteBlinde, double blinde) {
-		this.petiteBlinde = petiteBlinde;
-		this.totalMoney -= (blinde) / 2;
-		this.moneyBet += (blinde) / 2;
-	}
-
-	/**
-	 * Getter de grosseBlinde
-	 * @return grosseBlinde
-	 */
-	public boolean isGrosseBlinde() {
-		return grosseBlinde;
-	}
-
-	/**
-	 * Setter de grosseBlinde
-	 * @param grosseBlinde
-	 */
-	public void setGrosseBlinde(boolean grosseBlinde) {
-		this.grosseBlinde = grosseBlinde;
-	}
-
-	/**
-	 * Setter spécial de grosseBlinde
-	 * @param grosseBlinde
-	 * @param blinde
-	 */
-	public void setGrosseBlinde(boolean grosseBlinde, double blinde) {
-		this.grosseBlinde = grosseBlinde;
-		this.totalMoney -= (blinde);
-		this.moneyBet += (blinde);
-	}
-
-	/**
 	 * Méthode implémentant la paye de la petiteBlinde
 	 * @param blinde
 	 */
 	public void PayPetiteBlinde(double blinde) {
-		this.grosseBlinde = true;
 		this.totalMoney -= (blinde / 2);
 		this.moneyBet += (blinde / 2);
 	}
@@ -242,7 +179,6 @@ public class Player {
 	 * @param blinde
 	 */
 	public void PayGrosseBlinde(double blinde) {
-		this.grosseBlinde = true;
 		this.totalMoney -= (blinde);
 		this.moneyBet += (blinde);
 	}
@@ -267,6 +203,7 @@ public class Player {
 	 * Méthode implémentant le check
 	 */
 	public void check() {
+		// Method for non action from player
 	}
 
 	/**
@@ -316,8 +253,8 @@ public class Player {
 	 * @return information sur le joueur de type String
 	 */
 	public String toStringOnPlay() {
-		return "Player [playerName=" + playerName + ", totalMoney=" + totalMoney + ", moneyBet=" + moneyBet
-				+ ", inPlay=" + inPlay + "]";
+		return "Player [playerName=" + playerName + ", totalMoney=" + totalMoney + "€, moneyBet=" + moneyBet
+				+ "€, inPlay=" + inPlay + "]";
 	}
 
 	/**
@@ -327,14 +264,10 @@ public class Player {
 		return "Player [playerName=" + playerName + ", hand=" + hand + ", moneyBet=" + moneyBet + "€]";
 	}
 
-	/**
-	 * Méthode Hashcode de Player
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (grosseBlinde ? 1231 : 1237);
 		result = prime * result + ((hand == null) ? 0 : hand.hashCode());
 		result = prime * result + (inGame ? 1231 : 1237);
 		result = prime * result + (inPlay ? 1231 : 1237);
@@ -342,7 +275,6 @@ public class Player {
 		long temp;
 		temp = Double.doubleToLongBits(moneyBet);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + (petiteBlinde ? 1231 : 1237);
 		result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
 		result = prime * result + score;
 		temp = Double.doubleToLongBits(totalMoney);
@@ -350,9 +282,6 @@ public class Player {
 		return result;
 	}
 
-	/**
-	 * Méthode Equals de Player
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -362,8 +291,6 @@ public class Player {
 		if (getClass() != obj.getClass())
 			return false;
 		Player other = (Player) obj;
-		if (grosseBlinde != other.grosseBlinde)
-			return false;
 		if (hand == null) {
 			if (other.hand != null)
 				return false;
@@ -376,8 +303,6 @@ public class Player {
 		if (isAllIn != other.isAllIn)
 			return false;
 		if (Double.doubleToLongBits(moneyBet) != Double.doubleToLongBits(other.moneyBet))
-			return false;
-		if (petiteBlinde != other.petiteBlinde)
 			return false;
 		if (playerName == null) {
 			if (other.playerName != null)

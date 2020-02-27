@@ -6,9 +6,10 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Scanner;
 
+import fr.jd.main.Bot.DIFFICULTY;
+
 /**
- * @author Jonathan
- * Classe Game implémenant la partie de poker
+ * @author Jonathan Classe Game implémenant la partie de poker
  */
 public class Game {
 	/**
@@ -71,6 +72,7 @@ public class Game {
 
 	/**
 	 * Constructeur de Game
+	 * 
 	 * @param players
 	 */
 	public Game(List<Player> players) {
@@ -92,25 +94,27 @@ public class Game {
 
 	/**
 	 * Getter de players
+	 * 
 	 * @return players
 	 */
 	public List<Player> getPlayers() {
 		return players;
 	}
-	
+
 	/**
 	 * Setter de players
+	 * 
 	 * @param players
 	 */
 	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
-	
+
 	/**
 	 * Méthode implémentant la configuration des joueurs
 	 */
 	public void setPlayers() {
-		System.out.println("Entrez le nombre de joueurs: ");
+		System.out.println("Entrez le nombre de joueurs humains: ");
 		int nbPlayers = keyboard.nextInt();
 		keyboard.nextLine();
 		List<Player> players = new ArrayList<>();
@@ -120,6 +124,50 @@ public class Game {
 			players.add(new Player(playerName));
 		}
 		this.setPlayers(players);
+	}
+
+	/**
+	 * Méthode implémentant les Bots dans une partie de Poker
+	 */
+	public void configureBots() {
+		System.out.println();
+		System.out.println("Entrez le nombre de Bots qui vont jouer :");
+		String answer1 = keyboard.nextLine();
+		int number = Integer.parseInt(answer1);
+		for (int i = 0; i < number; i++) {
+			System.out.println();
+			System.out.println("Veuillez donner un nom au Bot :");
+			String answer2 = keyboard.nextLine();
+			Bot bot = new Bot(answer2);
+			System.out.println("");
+			System.out.println("Veuillez selectionner une difficulté pour ce Bot :");
+			System.out.println("Tapez 1 pour Easy");
+			System.out.println("Tapez 2 pour Medium");
+			System.out.println("Tapez 3 pour Hardcore");
+			System.out.println("");
+			String answer3 = keyboard.nextLine();
+			switch (answer3) {
+			case "1":
+				bot.setDifficulty(bot.getDifficulty().EASY);
+				this.players.add(bot);
+				break;
+			case "2":
+				bot.setDifficulty(bot.getDifficulty().MEDIUM);
+				this.players.add(bot);
+				break;
+			case "3":
+				bot.setDifficulty(bot.getDifficulty().HARDCORE);
+				this.players.add(bot);
+				break;
+			default:
+				System.out.println("Saisie incorrecte, par mesure de sécurité la difficulté a été mise à EASY");
+				bot.setDifficulty(bot.getDifficulty().EASY);
+				this.players.add(bot);
+				break;
+			}
+		}
+		System.out.println("Configuration du Bot terminée.");
+		System.out.println();
 	}
 
 	/**
@@ -171,10 +219,13 @@ public class Game {
 //answer3 = "y" ? this.setCheatMode(true) : this.setCheatMode(false);
 //}
 
-
+	private void setBlinde(double answer2) {
+		this.blinde = answer2;
+	}
 
 	/**
 	 * Getter de tourdeTable
+	 * 
 	 * @return tourDeTable
 	 */
 	public int getTour() {
@@ -183,6 +234,7 @@ public class Game {
 
 	/**
 	 * Setter de tourDeTable
+	 * 
 	 * @param tourDeTable
 	 */
 	public void setTour(int tourDeTable) {
@@ -191,6 +243,7 @@ public class Game {
 
 	/**
 	 * Getter de dealer
+	 * 
 	 * @return dealer
 	 */
 	public Dealer getDealer() {
@@ -198,7 +251,8 @@ public class Game {
 	}
 
 	/**
-	 * Setetr de dealer
+	 * Setter de dealer
+	 * 
 	 * @param dealer
 	 */
 	public void setDealer(Dealer dealer) {
@@ -207,6 +261,7 @@ public class Game {
 
 	/**
 	 * Getter de tourDeTable
+	 * 
 	 * @return tourDeTable
 	 */
 	public int getTourDeTable() {
@@ -215,6 +270,7 @@ public class Game {
 
 	/**
 	 * Setter de tourDeTable
+	 * 
 	 * @param tourDeTable
 	 */
 	public void setTourDeTable(int tourDeTable) {
@@ -223,6 +279,7 @@ public class Game {
 
 	/**
 	 * Getter mancheBlinde
+	 * 
 	 * @return mancheBlinde
 	 */
 	public int getMancheBlinde() {
@@ -231,6 +288,7 @@ public class Game {
 
 	/**
 	 * Setter de mancheBlinde
+	 * 
 	 * @param mancheBlinde
 	 */
 	public void setMancheBlinde(int mancheBlinde) {
@@ -239,6 +297,7 @@ public class Game {
 
 	/**
 	 * Getter de manche
+	 * 
 	 * @return manche
 	 */
 	public int getManche() {
@@ -247,6 +306,7 @@ public class Game {
 
 	/**
 	 * Setter de manche
+	 * 
 	 * @param manche
 	 */
 	public void setManche(int manche) {
@@ -255,6 +315,7 @@ public class Game {
 
 	/**
 	 * Getter de nbTour
+	 * 
 	 * @return nbTour
 	 */
 	public int getNbTour() {
@@ -263,6 +324,7 @@ public class Game {
 
 	/**
 	 * Setter de nbTour
+	 * 
 	 * @param nbTour
 	 */
 	public void setNbTour(int nbTour) {
@@ -271,14 +333,16 @@ public class Game {
 
 	/**
 	 * Getter de maxBet
+	 * 
 	 * @return maxBet
 	 */
 	public double getMaxBet() {
 		return maxBet;
 	}
-	
+
 	/**
 	 * Setter de maxBet
+	 * 
 	 * @param maxBet
 	 */
 	public void setMaxBet(double maxBet) {
@@ -287,6 +351,7 @@ public class Game {
 
 	/**
 	 * Getter de positionPetiteBlinde
+	 * 
 	 * @return positionBlinde
 	 */
 	public int getPositionPetiteBlinde() {
@@ -302,6 +367,7 @@ public class Game {
 
 	/**
 	 * Getter de positionPetiteBlinde
+	 * 
 	 * @return positionPetiteBlinde
 	 */
 	public int getPositionGrosseBlinde() {
@@ -317,6 +383,7 @@ public class Game {
 
 	/**
 	 * Getter de blinde
+	 * 
 	 * @return blinde
 	 */
 	public double getBlinde() {
@@ -325,9 +392,10 @@ public class Game {
 
 	/**
 	 * Setter spéciale de blinde
+	 * 
 	 * @param blinde
 	 */
-	public void setBlinde(double blinde) {
+	public void setBlindeRound(double blinde) {
 		this.blinde = blinde;
 		List<Player> playersInGame = new ArrayList<>();
 		if (this.getManche() % this.getMancheBlinde() == 0) {
@@ -340,10 +408,12 @@ public class Game {
 		playersInGame.get(this.manche % getPlayersInGame().size()).PayGrosseBlinde(blinde);
 		playersInGame.get((this.manche - 1) % getPlayersInGame().size()).PayPetiteBlinde(blinde);
 		this.maxBet += blinde;
+		this.pot += blinde;
 	}
 
 	/**
 	 * Getter de pot
+	 * 
 	 * @return pot
 	 */
 	public double getPot() {
@@ -352,16 +422,16 @@ public class Game {
 
 	/**
 	 * Setter de pot
+	 * 
 	 * @param pot
 	 */
 	public void setPot(double pot) {
 		this.pot = pot;
 	}
 
-
-
 	/**
 	 * Getter de onPlay
+	 * 
 	 * @return onPlay
 	 */
 	public boolean isOnPlay() {
@@ -370,16 +440,16 @@ public class Game {
 
 	/**
 	 * Setter de onPlay
+	 * 
 	 * @param onPlay
 	 */
 	public void setOnPlay(boolean onPlay) {
 		this.onPlay = onPlay;
 	}
 
-
-
 	/**
 	 * Getter de debugMode
+	 * 
 	 * @return debugMode
 	 */
 	public boolean isDebugMode() {
@@ -388,6 +458,7 @@ public class Game {
 
 	/**
 	 * Setter de debugMode
+	 * 
 	 * @param debugMode
 	 */
 	public void setDebugMode(boolean debugMode) {
@@ -396,6 +467,7 @@ public class Game {
 
 	/**
 	 * Méthode implémentant l'encaissement de la mise par un joueur
+	 * 
 	 * @param player
 	 */
 	public void winMoney(Player player) {
@@ -404,6 +476,7 @@ public class Game {
 
 	/**
 	 * Méthode implémentant le check par le joueur
+	 * 
 	 * @param player
 	 */
 	public void check(Player player) {
@@ -412,6 +485,7 @@ public class Game {
 
 	/**
 	 * Méthode implémentant le fait de se coucher par le joueur
+	 * 
 	 * @param player
 	 */
 	public void fold(Player player) {
@@ -422,6 +496,7 @@ public class Game {
 
 	/**
 	 * Méthode implémentant le tapis par le joueur
+	 * 
 	 * @param player
 	 */
 	public void allIn(Player player) {
@@ -431,24 +506,152 @@ public class Game {
 
 	/**
 	 * Méthode implémentant l'action de suivre par le joueur
+	 * 
 	 * @param player
 	 */
 	public void call(Player player) {
-		double moneyToTransfer = this.maxBet - player.getMoneyBet();
-		player.call(moneyToTransfer);
+		player.call(this.maxBet - player.getMoneyBet());
 	}
 
 	/**
 	 * Méthode implémentant la relance par le joueur
+	 * 
 	 * @param player
 	 */
 	public void raise(Player player) {
 		System.out.println("De combien souhaitez-vous relancer?");
 		System.out.println();
 		double raiseMoney = keyboard.nextDouble();
-		double moneyToTransfer = this.maxBet - player.getMoneyBet() + raiseMoney;
-		player.raise(moneyToTransfer);
+		player.raise(this.maxBet - player.getMoneyBet() + raiseMoney);
 		this.maxBet += raiseMoney;
+	}
+
+	/**
+	 * Méthode déterminant l'action à mener par le Bot en fonction de son niveau et
+	 * de sa main
+	 * 
+	 * @param bot
+	 */
+	public void getBotMove(Bot bot) {
+		double probaCombo = this.getComboProbability(bot);
+		if (this.tourDeTable > 1) {
+			if (bot.getMoneyBet() == this.getMaxBet()) {
+				if (bot.getDifficulty().equals(DIFFICULTY.EASY)) {
+					if (probaCombo > 0.7 && probaCombo < 1
+							&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet())))
+						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
+					else
+						bot.check();
+				}
+
+				else if (probaCombo > 0.25 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.MEDIUM)
+						&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet()))) {
+					if (this.pot < (10 * this.blinde))
+						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
+					else
+						bot.check();
+				} else if (probaCombo > 0.25 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE)
+						&& (bot.getTotalMoney() > 3 * (this.getMaxBet() - bot.getMoneyBet()))) {
+					if (this.pot < (10 * this.blinde))
+						bot.raise(3 * (this.getMaxBet() - bot.getMoneyBet()));
+					else
+						bot.check();
+				}
+			} else if ((bot.getMoneyBet() < this.getMaxBet())
+					&& (this.getMaxBet() - bot.getMoneyBet() > bot.getTotalMoney())) {
+				if (probaCombo > 0.5 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE))
+					bot.allIn();
+				else
+					bot.fold();
+			} else if (bot.getMoneyBet() < this.getMaxBet()) {
+				if (probaCombo > 0.1 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.EASY))
+					bot.call(this.getMaxBet() - bot.getMoneyBet());
+				else if (probaCombo > 0.25 && probaCombo < 1 && (bot.getDifficulty().equals(DIFFICULTY.MEDIUM)
+						|| bot.getDifficulty().equals(DIFFICULTY.HARDCORE)))
+					bot.call(this.getMaxBet() - bot.getMoneyBet());
+				else if (probaCombo > 0.5 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE)
+						&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet()))) {
+					if (this.pot < (10 * this.blinde))
+						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
+					else
+						bot.check();
+				} else if (probaCombo > 0.7 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE))
+					bot.allIn();
+				else
+					bot.fold();
+			}
+		} else {
+			if (bot.getMoneyBet() == this.getMaxBet())
+				bot.check();
+			else
+				bot.call(this.getMaxBet() - bot.getMoneyBet());
+		}
+		System.out.println(probaCombo); // a enlever
+	}
+
+	/**
+	 * Méthode calculant les chances de victoire du Bot
+	 * 
+	 * @param bot
+	 * @return probaCombo
+	 */
+	public double getComboProbability(Bot bot) {
+		System.out.println("Le Bot " + bot.getPlayerName() + " a " + bot.getHand()); // a enlever
+		double probaCombo = 1;
+		List<Player> playersInPlayOrAllIn = new ArrayList<>();
+		playersInPlayOrAllIn.addAll(this.getPlayersInPlay());
+		for (Player player : this.getPlayersInGame())
+			if (player.isAllIn())
+				playersInPlayOrAllIn.add(player);
+		List<Cards> botCombo = new ArrayList<>();
+		List<Integer> playerResults = new ArrayList<>();
+		botCombo.addAll(bot.getHand());
+		botCombo.addAll(dealer.getCarpet());
+		int playerFinalScore;
+		switch (dealer.getCarpet().size()) {
+		case 0:
+			playerResults.add(Cards.checkOnePair(botCombo));
+			playerResults.add(Cards.checkHighRaise(botCombo));
+			playerFinalScore = Collections.max(playerResults);
+			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);
+			break;
+		case 1:
+			playerResults.add(Cards.checkThreeOfAKind(botCombo));
+			playerResults.add(Cards.checkOnePair(botCombo));
+			playerResults.add(Cards.checkHighRaise(botCombo));
+			playerFinalScore = Collections.max(playerResults);
+			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);
+			break;
+		case 2:
+			playerResults.add(Cards.checkFourOfAKind(botCombo));
+			playerResults.add(Cards.checkThreeOfAKind(botCombo));
+			playerResults.add(Cards.checkOnePair(botCombo));
+			playerResults.add(Cards.checkTwoPairs(botCombo));
+			playerResults.add(Cards.checkHighRaise(botCombo));
+			playerFinalScore = Collections.max(playerResults);
+			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);
+			break;
+		case 3:
+		case 4:
+		case 5:
+			playerResults.add(Cards.checkStraightFlush(botCombo));
+			playerResults.add(Cards.checkFourOfAKind(botCombo));
+			playerResults.add(Cards.checkFull(botCombo));
+			playerResults.add(Cards.checkFlush(botCombo));
+			playerResults.add(Cards.checkStraight(botCombo));
+			playerResults.add(Cards.checkThreeOfAKind(botCombo));
+			playerResults.add(Cards.checkOnePair(botCombo));
+			playerResults.add(Cards.checkTwoPairs(botCombo));
+			playerResults.add(Cards.checkHighRaise(botCombo));
+			playerFinalScore = Collections.max(playerResults);
+			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);
+			break;
+		default:
+			System.out.println("Erreur - Impossible de lire dealer.getCarpet().");
+			probaCombo = 0;
+			break;
+		}
+		return probaCombo;
 	}
 
 	/**
@@ -486,6 +689,7 @@ public class Game {
 
 	/**
 	 * Méthode calculant la liste des joeurs en jeu sur la partie
+	 * 
 	 * @return playersInGame
 	 */
 	public List<Player> getPlayersInGame() {
@@ -498,6 +702,7 @@ public class Game {
 
 	/**
 	 * Méthode construisant la liste des joeurs en jeu sur la manche
+	 * 
 	 * @return playersInPlay
 	 */
 	public List<Player> getPlayersInPlay() {
@@ -520,6 +725,7 @@ public class Game {
 
 	/**
 	 * Méthode determinant le gagant de la manche
+	 * 
 	 * @param playersResults
 	 * @return winner
 	 */
@@ -550,6 +756,7 @@ public class Game {
 
 	/**
 	 * Méthode implémentant l'elemination du joueur
+	 * 
 	 * @param player
 	 */
 	public void eliminate(Player player) {
@@ -598,7 +805,6 @@ public class Game {
 			player.setAllIn(false);
 			player.getHand().clear();
 		}
-//		nbTour += this.tourDeTable;
 		this.tourDeTable = 0;
 		this.manche++;
 		dealer.recoverCards();
@@ -612,6 +818,7 @@ public class Game {
 
 	/**
 	 * Méthode implémentant le scénario 1
+	 * 
 	 * @param player
 	 */
 	public void scenario1(Player player) {
@@ -658,6 +865,7 @@ public class Game {
 
 	/**
 	 * Méthode implémentant le scénario 2
+	 * 
 	 * @param player
 	 */
 	public void scenario2(Player player) {
@@ -688,6 +896,7 @@ public class Game {
 
 	/**
 	 * Méthode implémentant le scénario 3
+	 * 
 	 * @param player
 	 */
 	public void scenario3(Player player) {
@@ -734,6 +943,7 @@ public class Game {
 
 	/**
 	 * Méthode determinant la meilleure combinaison possible possédée par un joueur
+	 * 
 	 * @param player
 	 * @return player
 	 */
@@ -743,24 +953,15 @@ public class Game {
 		playerCombo.addAll(player.getHand());
 		playerCombo.addAll(this.dealer.getCarpet());
 		int playerFinalScore;
-		int playerStraightFlushScore = Cards.checkStraightFlush(playerCombo);
-		int playerFourOfAKindScore = Cards.checkFourOfAKind(playerCombo);
-		int playerFullHouseScoreCards = Cards.checkFull(playerCombo);
-		int playerFlushScore = Cards.checkFlush(playerCombo);
-		int playerStraightScore = Cards.checkStraight(playerCombo);
-		int playerThreeOfAKind = Cards.checkThreeOfAKind(playerCombo);
-		int playersOnePairScore = Cards.checkOnePair(playerCombo);
-		int playersTwoPairsScore = Cards.checkTwoPairs(playerCombo);
-		int playerHighRaiseScore = Cards.checkHighRaise(playerCombo);
-		playerResults.add(playerStraightFlushScore);
-		playerResults.add(playerFourOfAKindScore);
-		playerResults.add(playerFullHouseScoreCards);
-		playerResults.add(playerFlushScore);
-		playerResults.add(playerStraightScore);
-		playerResults.add(playerThreeOfAKind);
-		playerResults.add(playersOnePairScore);
-		playerResults.add(playersTwoPairsScore);
-		playerResults.add(playerHighRaiseScore);
+		playerResults.add(Cards.checkStraightFlush(playerCombo));
+		playerResults.add(Cards.checkFourOfAKind(playerCombo));
+		playerResults.add(Cards.checkFull(playerCombo));
+		playerResults.add(Cards.checkFlush(playerCombo));
+		playerResults.add(Cards.checkStraight(playerCombo));
+		playerResults.add(Cards.checkThreeOfAKind(playerCombo));
+		playerResults.add(Cards.checkOnePair(playerCombo));
+		playerResults.add(Cards.checkTwoPairs(playerCombo));
+		playerResults.add(Cards.checkHighRaise(playerCombo));
 		playerFinalScore = Collections.max(playerResults);
 		player.setScore(playerFinalScore);
 		return player;

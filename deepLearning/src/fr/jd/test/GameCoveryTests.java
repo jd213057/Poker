@@ -215,7 +215,7 @@ public class GameCoveryTests {
 		}
 		for (int i = 0; i <= 20; i++) {
 			game.setManche(i);
-			game.setBlinde(blinde);
+			game.setBlindeRound(blinde);
 			System.out.println(game.getPlayers().get(i).getTotalMoney());
 			System.out.println(game.getPlayers().get(i).getMoneyBet());
 			moneyBetCheck += game.getPlayers().get(i).getMoneyBet();

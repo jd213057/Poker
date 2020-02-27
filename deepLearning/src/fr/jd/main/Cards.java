@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author Jonathan
- * Classe Enum regroupant l'ensemble des paramètres liées aux cartes et à leurs combinaisons
+ * @author Jonathan Classe Enum regroupant l'ensemble des paramètres liées aux
+ *         cartes et à leurs combinaisons
  */
 public enum Cards {
 	As_Coeur(13, "Coeur"), Deux_Coeur(1, "Coeur"), Trois_Coeur(2, "Coeur"), Quatre_Coeur(3, "Coeur"),
@@ -34,7 +34,7 @@ public enum Cards {
 	private final String color;
 
 	/**
-	 * Suites possibles 
+	 * Suites possibles
 	 */
 	private static List<Integer> SUITE_5 = Arrays.asList(1, 2, 3, 4, 13);
 	private static List<Integer> SUITE_6 = Arrays.asList(1, 2, 3, 4, 5);
@@ -48,7 +48,7 @@ public enum Cards {
 	private static List<Integer> SUITE_A = Arrays.asList(9, 10, 11, 12, 13);
 
 	/**
-	 * @author Jonathan
+	 * @author Jonathan 
 	 * Classe Enum regroupant les différentes combinaisons possibles de cartes
 	 */
 	private enum COEF_COMBO {
@@ -56,12 +56,14 @@ public enum Cards {
 		FOUR_OF_A_KIND(18310), STRAIGHT_FLUSH(63475);
 
 		/**
-		 * Attribut de COEF_COMBO : coef, coefficient spécifique à un type de combinaison
+		 * Attribut de COEF_COMBO : coef, coefficient spécifique à un type de
+		 * combinaison
 		 */
 		private int coef;
 
 		/**
 		 * Setter de coef
+		 * 
 		 * @param coef
 		 */
 		COEF_COMBO(int coef) {
@@ -70,6 +72,7 @@ public enum Cards {
 
 		/**
 		 * Getter de coef
+		 * 
 		 * @return coef
 		 */
 		int coef() {
@@ -79,7 +82,40 @@ public enum Cards {
 	}
 
 	/**
+	 * @author Jonathan
+	 * Enum regroupant les différentes probabilités de remporter la manche avec une main donnée.
+	 */
+	private enum COEF_PROBA {
+		PAIR_TWO(0.513), PAIR_THREE(0.482), PAIR_FOUR(0.452), PAIR_FIVE(0.421), PAIR_SIX(0.39), PAIR_SEVEN(0.359),
+		PAIR_EIGHT(0.328), PAIR_NINE(0.298), PAIR_TEN(0.267), PAIR_JACK(0.236), PAIR_QUEEN(0.205), PAIR_KING(0.175),
+		PAIR_ACE(0.144), TWO_PAIRS(0.028), THREE_OF_A_KIND(0.007), DRAW(0.075), DEFAULT(0);
+
+		/**
+		 * Attribut de COEF_PROBA : coefProba
+		 */
+		private double coefProba;
+
+		/**
+		 * Constructeur de COEF_PROBA
+		 * @param coefProba
+		 */
+		COEF_PROBA(double coefProba) {
+			this.coefProba = coefProba;
+		}
+
+		/**
+		 * Getter de coefProba
+		 * @return coefProba
+		 */
+		public double coef() {
+			return this.coefProba;
+		}
+
+	}
+
+	/**
 	 * Constructeur de cards
+	 * 
 	 * @param value
 	 * @param color
 	 */
@@ -90,6 +126,7 @@ public enum Cards {
 
 	/**
 	 * Getter de value
+	 * 
 	 * @return value
 	 */
 	public int value() {
@@ -98,6 +135,7 @@ public enum Cards {
 
 	/**
 	 * Getter de color
+	 * 
 	 * @return color
 	 */
 	public String color() {
@@ -106,6 +144,7 @@ public enum Cards {
 
 	/**
 	 * Méthode calculant la somme des valeurs d'un combo de cartes
+	 * 
 	 * @param playerFinalCombo
 	 * @return cardsTotalValues
 	 */
@@ -118,6 +157,7 @@ public enum Cards {
 
 	/**
 	 * Méthode calculant la somme d'une liste de valeures entières
+	 * 
 	 * @param playerFinalCombo
 	 * @return cardsTotalvalues
 	 */
@@ -130,6 +170,7 @@ public enum Cards {
 
 	/**
 	 * Méthode traduisant un combo de cartes en liste de valeures entières
+	 * 
 	 * @param playerCombo
 	 * @return playerListOfValues
 	 */
@@ -142,6 +183,7 @@ public enum Cards {
 
 	/**
 	 * Méthode traduisant un combo de cartes en liste de couleurs de type String
+	 * 
 	 * @param playerCombo
 	 * @return playerListOfColors
 	 */
@@ -153,7 +195,8 @@ public enum Cards {
 	}
 
 	/**
-	 * Méthode vérifiant pour un combo, la main haute 
+	 * Méthode vérifiant pour un combo, la main haute
+	 * 
 	 * @param playerCombo
 	 * @return playerScore
 	 */
@@ -171,6 +214,7 @@ public enum Cards {
 
 	/**
 	 * Méthode vérifiant pour un combo, la présence d'une paire
+	 * 
 	 * @param playerCombo
 	 * @return playerScore
 	 */
@@ -195,6 +239,7 @@ public enum Cards {
 
 	/**
 	 * Méthode vérifiant pour un combo, la présence de deux paires
+	 * 
 	 * @param playerCombo
 	 * @return playerScore
 	 */
@@ -219,6 +264,7 @@ public enum Cards {
 
 	/**
 	 * Méthode vérifiant pour un combo, la présence d'un brelan
+	 * 
 	 * @param playerCombo
 	 * @return playerScore
 	 */
@@ -244,6 +290,7 @@ public enum Cards {
 
 	/**
 	 * Méthode vérifiant pour un combo, la présence d'une suite
+	 * 
 	 * @param playerCombo
 	 * @return playerScore
 	 */
@@ -273,7 +320,8 @@ public enum Cards {
 			combo.add(SUITE_K);
 		if (values.containsAll(SUITE_A))
 			combo.add(SUITE_A);
-		if (combo.isEmpty()) return playerScore;
+		if (combo.isEmpty())
+			return playerScore;
 		playerBestCombo.addAll(combo.get(combo.size() - 1));
 		if (playerBestCombo.contains(13))
 			playerScore += (getSum(playerBestCombo) - 13) * COEF_COMBO.STRAIGHT.coef();
@@ -283,6 +331,7 @@ public enum Cards {
 
 	/**
 	 * Méthode vérifiant pour un combo, la présence d'une couleur
+	 * 
 	 * @param playerCombo
 	 * @return playerScore
 	 */
@@ -303,6 +352,7 @@ public enum Cards {
 
 	/**
 	 * Méthode vérifiant pour un combo, la présence d'un full (brelan + paire)
+	 * 
 	 * @param playerCombo
 	 * @return playerSCore
 	 */
@@ -325,10 +375,12 @@ public enum Cards {
 		if (!brelansTemp.isEmpty() && !pairsTemp.isEmpty()) {
 			Collections.sort(brelansTemp, Collections.reverseOrder());
 			brelans.add(brelansTemp.get(0).value());
-			if (brelansTemp.size()>=4) brelans.add(brelansTemp.get(3).value());
+			if (brelansTemp.size() >= 4)
+				brelans.add(brelansTemp.get(3).value());
 			Collections.sort(pairsTemp, Collections.reverseOrder());
 			pairs.add(pairsTemp.get(0).value());
-			if (pairs.size()>=2) pairs.add(pairsTemp.get(2).value());
+			if (pairs.size() >= 2)
+				pairs.add(pairsTemp.get(2).value());
 			playerFinalCombo.add(brelans.get(0));
 			playerFinalCombo.add(brelans.get(0));
 			playerFinalCombo.add(brelans.get(0));
@@ -341,6 +393,7 @@ public enum Cards {
 
 	/**
 	 * Méthode vérifiant pour un combo, la présence d'un carré
+	 * 
 	 * @param playerCombo
 	 * @return playerScore
 	 */
@@ -366,7 +419,9 @@ public enum Cards {
 	}
 
 	/**
-	 * Méthode vérifiant pour un combo, la présence d'une Quinte Flush (& Quinte Flush Royale)
+	 * Méthode vérifiant pour un combo, la présence d'une Quinte Flush (& Quinte
+	 * Flush Royale)
+	 * 
 	 * @param playerCombo
 	 * @return playerScore
 	 */
@@ -381,7 +436,6 @@ public enum Cards {
 			if (Collections.frequency(colors, card.color()) >= 5) {
 				hasColor = true;
 			}
-		;
 		if (!hasColor)
 			return playerScore;
 		Collections.sort(values);
@@ -405,11 +459,75 @@ public enum Cards {
 			combo.add(SUITE_K);
 		if (values.containsAll(SUITE_A))
 			combo.add(SUITE_A);
-		if (combo.isEmpty()) return playerScore;
-			playerBestCombo.addAll(combo.get(combo.size() - 1));
+		if (combo.isEmpty())
+			return playerScore;
+		playerBestCombo.addAll(combo.get(combo.size() - 1));
 		if (playerBestCombo.contains(13))
 			playerScore += (getSum(playerBestCombo) - 13) * COEF_COMBO.STRAIGHT_FLUSH.coef();
 		playerScore += getSum(playerBestCombo) * COEF_COMBO.STRAIGHT_FLUSH.coef();
 		return playerScore;
+	}
+
+	/**
+	 * Méthode calculant la probabilité d'avoir une main supérieure à celle du Bot
+	 * @param playersInPlayOrAllIn
+	 * @param playerFinalScore
+	 * @return probaCombo
+	 */
+	public static double getProbaCoef(List<Player> playersInPlayOrAllIn, int playerFinalScore) {
+		double probaCombo = 1;
+		COEF_PROBA coefProba = COEF_PROBA.DEFAULT;
+		switch (playerFinalScore) {
+		case 14:
+			coefProba = COEF_PROBA.PAIR_TWO;
+			break;
+		case 28:
+			coefProba = COEF_PROBA.PAIR_THREE;
+			break;
+		case 42:
+			coefProba = COEF_PROBA.PAIR_FOUR;
+			break;
+		case 56:
+			coefProba = COEF_PROBA.PAIR_FIVE;
+			break;
+		case 70:
+			coefProba = COEF_PROBA.PAIR_SIX;
+			break;
+		case 84:
+			coefProba = COEF_PROBA.PAIR_SEVEN;
+			break;
+		case 98:
+			coefProba = COEF_PROBA.PAIR_EIGHT;
+			break;
+		case 112:
+			coefProba = COEF_PROBA.PAIR_NINE;
+			break;
+		case 126:
+			coefProba = COEF_PROBA.PAIR_TEN;
+			break;
+		case 140:
+			coefProba = COEF_PROBA.PAIR_JACK;
+			break;
+		case 154:
+			coefProba = COEF_PROBA.PAIR_QUEEN;
+			break;
+		case 168:
+			coefProba = COEF_PROBA.PAIR_KING;
+			break;
+		case 182:
+			coefProba = COEF_PROBA.PAIR_ACE;
+			break;
+		default:
+			if (playerFinalScore >= 114 && playerFinalScore < 477)
+				coefProba = COEF_PROBA.TWO_PAIRS;
+			if (playerFinalScore >= 477 && playerFinalScore < 6202)
+				coefProba = COEF_PROBA.THREE_OF_A_KIND;
+			if (playerFinalScore > 6202)
+				coefProba = COEF_PROBA.DRAW;
+			break;
+		}
+		for (int i = 0; i <= playersInPlayOrAllIn.size() - 2; i++)
+			probaCombo *= (1 - coefProba.coef());
+		return probaCombo;
 	}
 }

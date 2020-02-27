@@ -23,7 +23,7 @@ public class Controller {
 	}
 
 	/**
-	 * Stter de game
+	 * Setter de game
 	 * @param game
 	 */
 	public void setGame(Game game) {
@@ -45,6 +45,7 @@ public class Controller {
 		boolean isCorrect = false;
 		while (!isCorrect) {
 			game.setPlayers();
+			game.configureBots();
 			if (game.getPlayersInGame().size() >= 2) {
 				game.initialize();
 				isCorrect = true;
@@ -69,7 +70,7 @@ public class Controller {
 		game.setPot(0);
 		game.shuffleCards();
 		game.distributeCards();
-		game.setBlinde(game.getBlinde());
+		game.setBlindeRound(game.getBlinde());
 		game.setTourDeTable(1);
 	}
 
@@ -82,44 +83,85 @@ public class Controller {
 			game.distributeCards();
 			while (game.getPlayersInPlay().size() > 1 && !isBetPaid) {
 				for (Player player : game.getPlayersInPlay()) {
-					System.out.println("Tour de table N°: " + game.getTourDeTable());
-					System.out.println();
-					System.out.println("A vous de jouer " + player.getPlayerName() + "!");
-					System.out.println("Votre main : " + player.getHand());
-					System.out.println("Sur la table il y a : " + game.getDealer().getCarpet());
-					System.out.println("La mise est de : " + game.getMaxBet() + " €");
-					System.out.println("Le pot a remporté est de : " + game.getPot() + " €");
-					System.out.println("Vous disposez de : " + player.getTotalMoney() + " €");
-					System.out.println("Votre mise pour le moment est de : " + player.getMoneyBet() + " €");
-					System.out.println("Les autres disposent de : ");
-					System.out.println();
-					game.getPlayersInPlay().forEach(
-							p -> System.out.println("Joueur : " + p.getPlayerName() + "    Argent sur la table : "
-									+ p.getMoneyBet() + "€     Argent total : " + p.getTotalMoney() + " €."));
-					System.out.println();
-					System.out.println("Choisir parmis les options suivantes : ");
-					System.out.println("Tapez 1 : Tapis");
-					System.out.println("Tapez 2 : Se Coucher");
-					System.out.println();
-					if (player.getMoneyBet() == game.getMaxBet()) {
-						game.scenario1(player);
-					} else if ((player.getMoneyBet() < game.getMaxBet())
-							&& (game.getMaxBet() - player.getMoneyBet() > player.getTotalMoney())) {
-						game.scenario2(player);
+					if (player instanceof Bot) {
+						System.out.println("Tour de table N°: " + game.getTourDeTable());
+						System.out.println();
+						System.out.println("C'est au tour de " + player.getPlayerName() + " de jouer !");
+						System.out.println("La mise est de : " + game.getMaxBet() + " €");
+						System.out.println("Le pot a remporté est de : " + game.getPot() + " €");
+						System.out.println("Le joueur " + player.getPlayerName() + " a sur lui encore "
+								+ player.getTotalMoney() + " €");
+						System.out.println("Pour le moment la mise de joueur " + player.getPlayerName() + " est de : "
+								+ player.getMoneyBet() + " €");
+						System.out.println();
+						System.out.println("Cartes sur la table : " + game.getDealer().getCarpet()); // a enlever
+						game.getBotMove((Bot) player);
+						System.out.println();
+						
+						if (!(player.isInPlay()) && player.isAllIn())
+							System.out.println("Le joueur " + player.getPlayerName() + " s'est couché.");
+						else if (player.getMoneyBet() == game.getMaxBet()) 
+							System.out.println("Le joueur " + player.getPlayerName() + " a suivi ou a checké.");
+						else if (player.getMoneyBet() > game.getMaxBet()) {
+							System.out.println("Le joueur " + player.getPlayerName() + " a relancé de : "
+									+ player.getMoneyBet() + " €.");
+							System.out.println("Il lui reste : " + player.getTotalMoney() + " €.");
+							System.out.println();
+						}
+						System.out.println();
+						game.setPot(game.getPot() + player.getMoneyBet());
+						if (game.getMaxBet() < player.getMoneyBet())
+							game.setMaxBet(player.getMoneyBet());
+						if (game.getPlayersInPlay().size() <= 1)
+							break;
+						isBetPaid = true;
+						for (Player gamer : game.getPlayersInPlay()) {
+							if (game.getMaxBet() > gamer.getMoneyBet())
+								isBetPaid = false;
+						}
+					}
 
-					} else if (player.getMoneyBet() < game.getMaxBet()) {
-						game.scenario3(player);
+					if (!(player instanceof Bot)) {
+						System.out.println("Tour de table N°: " + game.getTourDeTable());
+						System.out.println();
+						System.out.println("A vous de jouer " + player.getPlayerName() + "!");
+						System.out.println("Votre main : " + player.getHand());
+						System.out.println("Sur la table il y a : " + game.getDealer().getCarpet());
+						System.out.println("La mise est de : " + game.getMaxBet() + " €");
+						System.out.println("Le pot a remporté est de : " + game.getPot() + " €");
+						System.out.println("Vous disposez de : " + player.getTotalMoney() + " €");
+						System.out.println("Votre mise pour le moment est de : " + player.getMoneyBet() + " €");
+						System.out.println("Les autres disposent de : ");
+						System.out.println();
+						game.getPlayersInPlay().forEach(
+								p -> System.out.println("Joueur : " + p.getPlayerName() + "    Argent sur la table : "
+										+ p.getMoneyBet() + "€     Argent total : " + p.getTotalMoney() + " €."));
+						System.out.println();
+						System.out.println("Choisir parmis les options suivantes : ");
+						System.out.println("Tapez 1 : Tapis");
+						System.out.println("Tapez 2 : Se Coucher");
+						System.out.println();
+						if (player.getMoneyBet() == game.getMaxBet()) {
+							game.scenario1(player);
+						} else if ((player.getMoneyBet() < game.getMaxBet())
+								&& (game.getMaxBet() - player.getMoneyBet() > player.getTotalMoney())) {
+							game.scenario2(player);
+
+						} else if (player.getMoneyBet() < game.getMaxBet()) {
+							game.scenario3(player);
+						}
+						game.setPot(game.getPot() + player.getMoneyBet());
+						if (game.getMaxBet() < player.getMoneyBet())
+							game.setMaxBet(player.getMoneyBet());
+						if (game.getPlayersInPlay().size() <= 1)
+							break;
+						isBetPaid = true;
+						for (Player gamer : game.getPlayersInPlay()) {
+							if (game.getMaxBet() > gamer.getMoneyBet())
+								isBetPaid = false;
+						}
 					}
-					game.setPot(game.getPot() + player.getMoneyBet());
-					if (game.getMaxBet() < player.getMoneyBet())
-						game.setMaxBet(player.getMoneyBet());
-					if (game.getPlayersInPlay().size() <= 1)
-						break;
-					isBetPaid = true;
-					for (Player gamer : game.getPlayersInPlay()) {
-						if (game.getMaxBet() > gamer.getMoneyBet())
-							isBetPaid = false;
-					}
+
 				}
 				for (Player gamer : game.getPlayersInPlay())
 					if (isBetPaid == true) {

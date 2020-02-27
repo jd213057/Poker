@@ -113,59 +113,13 @@ public class PlayerCoveryTests {
 	}
 
 	@Test
-	public void testIsPetiteBlinde() {
-		assertEquals(false, player.isPetiteBlinde());
-	}
-
-	@Test
-	public void testSetPetiteBlindeBoolean() {
-		player.setPetiteBlinde(true);
-		assertTrue(player.isPetiteBlinde());
-		player.setPetiteBlinde(false);
-		assertEquals(false, player.isPetiteBlinde());
-	}
-
-	@Test
-	public void testSetPetiteBlindeBooleanDouble() {
-		player.setPetiteBlinde(true, 10.0);
-		assertTrue(player.isPetiteBlinde());
-		assertEquals(995.0, player.getTotalMoney(), 0.0);
-		assertEquals(5.0, player.getMoneyBet(), 0.0);
-	}
-
-	@Test
-	public void testIsGrosseBlinde() {
-		assertEquals(false, player.isGrosseBlinde());
-	}
-
-	@Test
-	public void testSetGrosseBlindeBoolean() {
-		player.setGrosseBlinde(true);
-		assertTrue(player.isGrosseBlinde());
-		player.setGrosseBlinde(false);
-		assertEquals(false, player.isGrosseBlinde());
-	}
-
-	@Test
-	public void testSetGrosseBlindeBooleanDouble() {
-		player.setGrosseBlinde(true, 10.0);
-		assertTrue(player.isGrosseBlinde());
-		assertEquals(990, player.getTotalMoney(), 0.0);
-		assertEquals(10, player.getMoneyBet(), 0.0);
-	}
-
-	@Test
 	public void testPayPetiteBlinde() {
-		player.setPetiteBlinde(true, 10.0);
-		assertTrue(player.isPetiteBlinde());
 		assertEquals(995, player.getTotalMoney(), 0.0);
 		assertEquals(5, player.getMoneyBet(), 0.0);
 	}
 
 	@Test
 	public void testPayGrosseBlinde() {
-		player.setGrosseBlinde(true, 10.0);
-		assertTrue(player.isGrosseBlinde());
 		assertEquals(990.0, player.getTotalMoney(), 0.0);
 		assertEquals(10.0, player.getMoneyBet(), 0.0);
 	}
