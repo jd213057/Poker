@@ -88,7 +88,7 @@ public enum Cards {
 	private enum COEF_PROBA {
 		PAIR_TWO(0.513), PAIR_THREE(0.482), PAIR_FOUR(0.452), PAIR_FIVE(0.421), PAIR_SIX(0.39), PAIR_SEVEN(0.359),
 		PAIR_EIGHT(0.328), PAIR_NINE(0.298), PAIR_TEN(0.267), PAIR_JACK(0.236), PAIR_QUEEN(0.205), PAIR_KING(0.175),
-		PAIR_ACE(0.144), TWO_PAIRS(0.028), THREE_OF_A_KIND(0.007), DRAW(0.075), DEFAULT(0);
+		PAIR_ACE(0.144), TWO_PAIRS(0.028), THREE_OF_A_KIND(0.007), DRAW(0.075), DEFAULT(1);
 
 		/**
 		 * Attribut de COEF_PROBA : coefProba
@@ -524,6 +524,7 @@ public enum Cards {
 				coefProba = COEF_PROBA.THREE_OF_A_KIND;
 			if (playerFinalScore > 6202)
 				coefProba = COEF_PROBA.DRAW;
+			else coefProba = COEF_PROBA.DEFAULT;
 			break;
 		}
 		for (int i = 0; i <= playersInPlayOrAllIn.size() - 2; i++)

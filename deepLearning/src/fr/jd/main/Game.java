@@ -537,20 +537,20 @@ public class Game {
 		if (this.tourDeTable > 1) {
 			if (bot.getMoneyBet() == this.getMaxBet()) {
 				if (bot.getDifficulty().equals(DIFFICULTY.EASY)) {
-					if (probaCombo > 0.7 && probaCombo < 1
+					if (probaCombo > 0.7 
 							&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet())))
 						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
 					else
 						bot.check();
 				}
 
-				else if (probaCombo > 0.25 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.MEDIUM)
+				else if (probaCombo > 0.25 && bot.getDifficulty().equals(DIFFICULTY.MEDIUM)
 						&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet()))) {
 					if (this.pot < (10 * this.blinde))
 						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
 					else
 						bot.check();
-				} else if (probaCombo > 0.25 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE)
+				} else if (probaCombo > 0.25 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE)
 						&& (bot.getTotalMoney() > 3 * (this.getMaxBet() - bot.getMoneyBet()))) {
 					if (this.pot < (10 * this.blinde))
 						bot.raise(3 * (this.getMaxBet() - bot.getMoneyBet()));
@@ -559,23 +559,23 @@ public class Game {
 				}
 			} else if ((bot.getMoneyBet() < this.getMaxBet())
 					&& (this.getMaxBet() - bot.getMoneyBet() > bot.getTotalMoney())) {
-				if (probaCombo > 0.5 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE))
+				if (probaCombo > 0.5 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE))
 					bot.allIn();
 				else
 					bot.fold();
 			} else if (bot.getMoneyBet() < this.getMaxBet()) {
-				if (probaCombo > 0.1 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.EASY))
+				if (probaCombo > 0.1 && bot.getDifficulty().equals(DIFFICULTY.EASY))
 					bot.call(this.getMaxBet() - bot.getMoneyBet());
-				else if (probaCombo > 0.25 && probaCombo < 1 && (bot.getDifficulty().equals(DIFFICULTY.MEDIUM)
+				else if (probaCombo > 0.25 && (bot.getDifficulty().equals(DIFFICULTY.MEDIUM)
 						|| bot.getDifficulty().equals(DIFFICULTY.HARDCORE)))
 					bot.call(this.getMaxBet() - bot.getMoneyBet());
-				else if (probaCombo > 0.5 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE)
+				else if (probaCombo > 0.5 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE)
 						&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet()))) {
 					if (this.pot < (10 * this.blinde))
 						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
 					else
 						bot.check();
-				} else if (probaCombo > 0.7 && probaCombo < 1 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE))
+				} else if (probaCombo > 0.7 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE))
 					bot.allIn();
 				else
 					bot.fold();
