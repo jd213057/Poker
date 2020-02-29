@@ -2,13 +2,11 @@ package fr.jd.main;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import fr.jd.main.Bot.DIFFICULTY;
 
 /**
- * @author Jonathan
- * Classe implémentant Controller, le gestionnaire de la partie
+ * @author Jonathan Classe implï¿½mentant Controller, le gestionnaire de la partie
  */
 public class Controller {
 	/**
@@ -18,6 +16,7 @@ public class Controller {
 
 	/**
 	 * Getter de game
+	 * 
 	 * @return game
 	 */
 	public Game getGame() {
@@ -26,6 +25,7 @@ public class Controller {
 
 	/**
 	 * Setter de game
+	 * 
 	 * @param game
 	 */
 	public void setGame(Game game) {
@@ -41,7 +41,7 @@ public class Controller {
 	}
 
 	/**
-	 * Méthode implémentant d'initialisation du jeu
+	 * Mï¿½thode implï¿½mentant d'initialisation du jeu
 	 */
 	public void initialize() {
 		boolean isCorrect = false;
@@ -58,17 +58,17 @@ public class Controller {
 	}
 
 	/**
-	 * Méthode implémenatant la configuration de la partie
+	 * Mï¿½thode implï¿½menatant la configuration de la partie
 	 */
 	public void configure() {
 //		game.configureDebugMode();
 	}
 
 	/**
-	 * Méthode implémentant le début d'une manche
+	 * Mï¿½thode implï¿½mentant le dï¿½but d'une manche
 	 */
 	public void startRound() {
-		System.out.println("Manche N°: " + game.getManche());
+		System.out.println("Manche Nï¿½: " + game.getManche());
 		game.setPot(0);
 		game.shuffleCards();
 		game.distributeCards();
@@ -77,7 +77,7 @@ public class Controller {
 	}
 
 	/**
-	 * Méthode implémentant le déroulement d'une manche, tour par tour
+	 * Mï¿½thode implï¿½mentant le dï¿½roulement d'une manche, tour par tour
 	 */
 	public void round() {
 		while (game.getPlayersInPlay().size() > 1 && game.getTourDeTable() <= 4) {
@@ -86,31 +86,35 @@ public class Controller {
 			while (game.getPlayersInPlay().size() > 1 && !isBetPaid) {
 				for (Player player : game.getPlayersInPlay()) {
 					if (player instanceof Bot) {
-						System.out.println("Tour de table N°: " + game.getTourDeTable());
+						System.out.println("Tour de table Nï¿½: " + game.getTourDeTable());
 						System.out.println();
 						System.out.println("C'est au tour de " + player.getPlayerName() + " de jouer !");
-						System.out.println("La mise est de : " + game.getMaxBet() + " €");
-						System.out.println("Le pot a remporté est de : " + game.getPot() + " €");
+						System.out.println("La mise est de : " + game.getMaxBet() + " ï¿½");
+						System.out.println("Le pot a remportï¿½ est de : " + game.getPot() + " ï¿½");
 						System.out.println("Le joueur " + player.getPlayerName() + " a sur lui encore "
-								+ player.getTotalMoney() + " €");
+								+ player.getTotalMoney() + " ï¿½");
 						System.out.println("Pour le moment la mise de joueur " + player.getPlayerName() + " est de : "
-								+ player.getMoneyBet() + " €");
+								+ player.getMoneyBet() + " ï¿½");
 						System.out.println();
 						System.out.println("Cartes sur la table : " + game.getDealer().getCarpet()); // a enlever
-						
-						if (((Bot) player).getDifficulty().equals(DIFFICULTY.EASY)) game.getEasyBotMove((Bot) player);
-						if (((Bot) player).getDifficulty().equals(DIFFICULTY.MEDIUM)) game.getMediumBotMove((Bot) player);
-						if (((Bot) player).getDifficulty().equals(DIFFICULTY.HARDCORE)) game.getHardcoreBotMove((Bot) player);
+
+						if (((Bot) player).getDifficulty().equals(DIFFICULTY.EASY))
+							game.getEasyBotMove((Bot) player);
+						if (((Bot) player).getDifficulty().equals(DIFFICULTY.MEDIUM))
+							game.getMediumBotMove((Bot) player);
+						if (((Bot) player).getDifficulty().equals(DIFFICULTY.HARDCORE))
+							game.getHardcoreBotMove((Bot) player);
 						System.out.println();
-						if (player.isAllIn()) System.out.println("Le joueur " + player.getPlayerName() + " a fait tapis.");
-						else if (!(player.isInPlay()) && !(player.isAllIn())) 
-							System.out.println("Le joueur " + player.getPlayerName() + " s'est couché.");
-						else if (player.getMoneyBet() == game.getMaxBet()) 
-							System.out.println("Le joueur " + player.getPlayerName() + " a suivi ou a checké.");
+						if (player.isAllIn())
+							System.out.println("Le joueur " + player.getPlayerName() + " a fait tapis.");
+						else if (!(player.isInPlay()) && !(player.isAllIn()))
+							System.out.println("Le joueur " + player.getPlayerName() + " s'est couchï¿½.");
+						else if (player.getMoneyBet() == game.getMaxBet())
+							System.out.println("Le joueur " + player.getPlayerName() + " a suivi ou a checkï¿½.");
 						else if (player.getMoneyBet() > game.getMaxBet()) {
-							System.out.println("Le joueur " + player.getPlayerName() + " a relancé de : "
-									+ (player.getMoneyBet() - game.getMaxBet()) + " €.");
-							System.out.println("Il lui reste : " + player.getTotalMoney() + " €.");
+							System.out.println("Le joueur " + player.getPlayerName() + " a relancï¿½ de : "
+									+ (player.getMoneyBet() - game.getMaxBet()) + " ï¿½.");
+							System.out.println("Il lui reste : " + player.getTotalMoney() + " ï¿½.");
 							System.out.println();
 						}
 						System.out.println();
@@ -127,20 +131,20 @@ public class Controller {
 					}
 
 					if (!(player instanceof Bot)) {
-						System.out.println("Tour de table N°: " + game.getTourDeTable());
+						System.out.println("Tour de table Nï¿½: " + game.getTourDeTable());
 						System.out.println();
 						System.out.println("A vous de jouer " + player.getPlayerName() + "!");
 						System.out.println("Votre main : " + player.getHand());
 						System.out.println("Sur la table il y a : " + game.getDealer().getCarpet());
-						System.out.println("La mise est de : " + game.getMaxBet() + " €");
-						System.out.println("Le pot a remporté est de : " + game.getPot() + " €");
-						System.out.println("Vous disposez de : " + player.getTotalMoney() + " €");
-						System.out.println("Votre mise pour le moment est de : " + player.getMoneyBet() + " €");
+						System.out.println("La mise est de : " + game.getMaxBet() + " ï¿½");
+						System.out.println("Le pot a remportï¿½ est de : " + game.getPot() + " ï¿½");
+						System.out.println("Vous disposez de : " + player.getTotalMoney() + " ï¿½");
+						System.out.println("Votre mise pour le moment est de : " + player.getMoneyBet() + " ï¿½");
 						System.out.println("Les autres disposent de : ");
 						System.out.println();
 						game.getPlayersInPlay().forEach(
 								p -> System.out.println("Joueur : " + p.getPlayerName() + "    Argent sur la table : "
-										+ p.getMoneyBet() + "€     Argent total : " + p.getTotalMoney() + " €."));
+										+ p.getMoneyBet() + "ï¿½     Argent total : " + p.getTotalMoney() + " ï¿½."));
 						System.out.println();
 						System.out.println("Choisir parmis les options suivantes : ");
 						System.out.println("Tapez 1 : Tapis");
@@ -175,27 +179,51 @@ public class Controller {
 					}
 
 			}
+			List<Player> playersAllInCheck = new ArrayList<>();
+			for (Player player : game.getPlayers())
+				if (!player.isInPlay() && player.isAllIn())
+					playersAllInCheck.add(player);
+			if (!playersAllInCheck.isEmpty() && game.getPlayersInPlay().size()<=1) break;
 			game.setNbTour(0);
 			game.setTourDeTable(game.getTourDeTable() + 1);
 		}
 	}
 
 	/**
-	 * Méthode implémentant la finalisation d'une manche
+	 * Mï¿½thode implï¿½mentant la finalisation d'une manche
 	 */
 	public void endRound() {
 		List<Player> playersResults = new ArrayList<>();
-		if (game.getPlayersInPlay().size() == 1) {
-			System.out.println("Le gagnant de la manche N° " + game.getManche() + " est "
+		List<Player> playersAllInCheck = new ArrayList<>();
+		for (Player player : game.getPlayersInGame()) {
+			if (player.isInPlay() || (player.isAllIn() && !player.isInPlay()))
+				playersResults.add(game.getCombo(player));
+		}
+		for (Player player : game.getPlayers())
+			if (!player.isInPlay() && player.isAllIn())
+				playersAllInCheck.add(player);
+		if (game.getPlayersInPlay().size() == 1 && !playersAllInCheck.isEmpty()) {
+			game.setTourDeTable(game.getTourDeTable() + 1);
+			while (game.getTourDeTable() <= 4) {			
+				game.distributeCards();
+				game.setTourDeTable(game.getTourDeTable() + 1);
+			}
+
+			System.out.println("Le gagnant de cette manche est : " + game.getWinner(playersResults).getPlayerName());
+			System.out.println("Voici tous les mains des joueurs :");
+			this.getGame().getPlayersInGame()
+					.forEach(p -> System.out.println("Joueur " + p.getPlayerName() + " a " + p.getHand()));
+			for (Player player : game.getPlayersInGame())
+				if (player.getTotalMoney() <= 0)
+					game.eliminate(player);
+		} else if (game.getPlayersInPlay().size() == 1 && playersAllInCheck.isEmpty()) {
+			System.out.println("Le gagnant de la manche Nï¿½ " + game.getManche() + " est "
 					+ game.getPlayersInPlay().get(0).getPlayerName());
-			System.out.println("car tous les autres se sont couchés");
-			System.out.println("et remporte : " + game.getPot() + "€");
+			System.out.println("car tous les autres se sont couchï¿½s");
+			System.out.println("et remporte : " + game.getPot() + "ï¿½");
 			System.out.println();
 			game.getPlayersInPlay().get(0).winMoney(game.getPot());
 		} else {
-			for (Player player : game.getPlayersInGame()) {
-				if (player.isInPlay() || (player.isAllIn() && !player.isInPlay())) playersResults.add(game.getCombo(player));
-			}
 			System.out.println("Le gagnant de cette manche est : " + game.getWinner(playersResults).getPlayerName());
 			System.out.println("Voici tous les mains des joueurs :");
 			this.getGame().getPlayersInGame()
@@ -208,14 +236,15 @@ public class Controller {
 	}
 
 	/**
-	 * Méthode implémenatnt la finalisation d'une partie
+	 * Mï¿½thode implï¿½menatnt la finalisation d'une partie
 	 */
 	public void endGame() {
 		game.endGame();
 	}
 
 	/**
-	 * Méthode retournant l'information de type String concernant le gestionnaire de jeu
+	 * Mï¿½thode retournant l'information de type String concernant le gestionnaire de
+	 * jeu
 	 */
 	@Override
 	public String toString() {

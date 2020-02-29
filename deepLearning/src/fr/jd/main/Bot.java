@@ -1,13 +1,10 @@
 package fr.jd.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Jonathan 
  * Classe Bot implémentant l'IA du jeu
  */
-public class Bot extends Player {
+public class Bot extends Player implements Playable {
 
 	/**
 	 * @author Jonathan Classe 

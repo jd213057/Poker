@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * @author Jonathan Classe implémentant les joeurs dans la partie.
+ * @author Jonathan Classe implï¿½mentant les joeurs dans la partie.
  */
-public class Player {
+public class Player implements Playable {
+	/**
+	 * Attribut de Player : playerName, nom du joueur
+	 */
 	private String playerName;
 	/**
 	 * Attribut de Player : hand, main du joueur
@@ -56,6 +59,7 @@ public class Player {
 	 * Getter de playerName
 	 * @return playername
 	 */
+	@Override
 	public String getPlayerName() {
 		return playerName;
 	}
@@ -64,6 +68,7 @@ public class Player {
 	 * Setter de playerName
 	 * @param playerName
 	 */
+	@Override
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
 	}
@@ -72,6 +77,7 @@ public class Player {
 	 * Getter de totalMoney
 	 * @return totalMoney
 	 */
+	@Override
 	public double getTotalMoney() {
 		return totalMoney;
 	}
@@ -80,6 +86,7 @@ public class Player {
 	 * Setter de totalMoney
 	 * @param totalMoney
 	 */
+	@Override
 	public void setTotalMoney(double totalMoney) {
 		this.totalMoney = totalMoney;
 		if (this.totalMoney <= 0) this.setInPlay(false);
@@ -89,6 +96,7 @@ public class Player {
 	 * Getter de moneyBet
 	 * @return moneyBet
 	 */
+	@Override
 	public double getMoneyBet() {
 		return moneyBet;
 	}
@@ -97,6 +105,7 @@ public class Player {
 	 * Setter de moneyBet
 	 * @param moneyBet
 	 */
+	@Override
 	public void setMoneyBet(double moneyBet) {
 		this.moneyBet = moneyBet;
 	}
@@ -105,6 +114,7 @@ public class Player {
 	 * Getter de hand
 	 * @return hand
 	 */
+	@Override
 	public List<Cards> getHand() {
 		return hand;
 	}
@@ -113,6 +123,7 @@ public class Player {
 	 * Setter de hand
 	 * @param hand
 	 */
+	@Override
 	public void setHand(List<Cards> hand) {
 		this.hand = hand;
 	}
@@ -121,6 +132,7 @@ public class Player {
 	 * Getter de score
 	 * @return score
 	 */
+	@Override
 	public int getScore() {
 		return score;
 	}
@@ -129,6 +141,7 @@ public class Player {
 	 * Setter de score
 	 * @param score
 	 */
+	@Override
 	public void setScore(int score) {
 		this.score = score;
 	}
@@ -137,6 +150,7 @@ public class Player {
 	 * Getter de inGame
 	 * @return inGame
 	 */
+	@Override
 	public boolean isInGame() {
 		return inGame;
 	}
@@ -145,6 +159,7 @@ public class Player {
 	 * Setter de inGame
 	 * @param inGame
 	 */
+	@Override
 	public void setInGame(boolean inGame) {
 		this.inGame = inGame;
 		this.inPlay = false;
@@ -154,6 +169,7 @@ public class Player {
 	 * Getter de inPlay
 	 * @return inPlay
 	 */
+	@Override
 	public boolean isInPlay() {
 		return inPlay;
 	}
@@ -162,23 +178,26 @@ public class Player {
 	 * Setter de inPlay
 	 * @param inPlay
 	 */
+	@Override
 	public void setInPlay(boolean inPlay) {
 		this.inPlay = inPlay;
 	}
 
 	/**
-	 * Méthode implémentant la paye de la petiteBlinde
+	 * Mï¿½thode implï¿½mentant la paye de la petiteBlinde
 	 * @param blinde
 	 */
+	@Override
 	public void PayPetiteBlinde(double blinde) {
 		this.totalMoney -= (blinde / 2);
 		this.moneyBet += (blinde / 2);
 	}
 
 	/**
-	 * Méthode implémentant la paye de la grosseBlinde
+	 * Mï¿½thode implï¿½mentant la paye de la grosseBlinde
 	 * @param blinde
 	 */
+	@Override
 	public void PayGrosseBlinde(double blinde) {
 		this.totalMoney -= (blinde);
 		this.moneyBet += (blinde);
@@ -188,7 +207,8 @@ public class Player {
 	 * Getter de isAllIn
 	 * @return isAllIn
 	 */
-	public boolean isAllIn() {
+	@Override
+	public  boolean isAllIn() {
 		return isAllIn;
 	}
 
@@ -196,45 +216,51 @@ public class Player {
 	 * Setter de isAllIn
 	 * @param isAllIn
 	 */
+	@Override
 	public void setAllIn(boolean isAllIn) {
 		this.isAllIn = isAllIn;
 	}
 
 	/**
-	 * Méthode implémentant le check
+	 * Mï¿½thode implï¿½mentant le check
 	 */
+	@Override
 	public void check() {
 		// Method for non action from player
 	}
 
 	/**
-	 * Méthode implémentant l'action de se coucher
+	 * Mï¿½thode implï¿½mentant l'action de se coucher
 	 */
+	@Override
 	public void fold() {
 		this.inPlay = false;
 	}
 
 	/**
-	 * Méthode implémentant l'action de suivre
+	 * Mï¿½thode implï¿½mentant l'action de suivre
 	 * @param moneyToTransfer
 	 */
+	@Override
 	public void call(double moneyToTransfer) {
 		this.totalMoney -= moneyToTransfer;
 		this.moneyBet += moneyToTransfer;
 	}
 
 	/**
-	 * Méthode implémentant l'action de relancer
+	 * Mï¿½thode implï¿½mentant l'action de relancer
 	 * @param moneyToTransfer
 	 */
+	@Override
 	public void raise(double moneyToTransfer) {
 		this.totalMoney -= moneyToTransfer;
 		this.moneyBet += moneyToTransfer;
 	}
 
 	/**
-	 * Méthode implémentant l'action de faire tapis
+	 * Mï¿½thode implï¿½mentant l'action de faire tapis
 	 */
+	@Override
 	public void allIn() {
 		this.moneyBet += this.totalMoney;
 		this.totalMoney = 0;
@@ -243,9 +269,10 @@ public class Player {
 	}
 
 	/**
-	 * Méthode implémentant de remporter le pot
+	 * Mï¿½thode implï¿½mentant de remporter le pot
 	 * @param pot
 	 */
+	@Override
 	public void winMoney(double pot) {
 		this.totalMoney += pot;
 	}
@@ -253,16 +280,18 @@ public class Player {
 	/**
 	 * @return information sur le joueur de type String
 	 */
+	@Override
 	public String toStringOnPlay() {
-		return "Player [playerName=" + playerName + ", totalMoney=" + totalMoney + "€, moneyBet=" + moneyBet
-				+ "€, inPlay=" + inPlay + "]";
+		return "Player [playerName=" + playerName + ", totalMoney=" + totalMoney + "ï¿½, moneyBet=" + moneyBet
+				+ "ï¿½, inPlay=" + inPlay + "]";
 	}
 
 	/**
 	 * @return information sur le joueur de type String
 	 */
+	@Override
 	public String toStringHand() {
-		return "Player [playerName=" + playerName + ", hand=" + hand + ", moneyBet=" + moneyBet + "€]";
+		return "Player [playerName=" + playerName + ", hand=" + hand + ", moneyBet=" + moneyBet + "ï¿½]";
 	}
 
 	@Override

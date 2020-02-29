@@ -437,8 +437,10 @@ public class Game {
 	public boolean isOnPlay() {
 		List<Player> playersOnPlay = new ArrayList<>();
 		for (Player player : this.players)
-			if (player.isInPlay()) playersOnPlay.add(player);
-		if(playersOnPlay.size()<2) this.onPlay = false;
+			if (player.isInPlay())
+				playersOnPlay.add(player);
+		if (playersOnPlay.size() < 2)
+			this.onPlay = false;
 		return onPlay;
 	}
 
@@ -540,30 +542,30 @@ public class Game {
 		double probaCombo = this.getComboProbability(bot);
 		if (this.tourDeTable > 1) {
 			if (bot.getMoneyBet() == this.getMaxBet()) {
-				 if (probaCombo > 0.25
-						&& (bot.getTotalMoney() > 2 * this.blinde) && this.nbTour <1) {
-						bot.raise(2 * this.blinde);
-						this.nbTour ++;
-					} else {
-						bot.check();
-					}
+				if (probaCombo > 0.25 && (bot.getTotalMoney() > 2 * this.blinde) && this.nbTour < 1) {
+					bot.raise(2 * this.blinde);
+					this.nbTour++;
+				} else {
+					bot.check();
+				}
 			} else if ((bot.getMoneyBet() < this.getMaxBet())
 					&& ((this.getMaxBet() - bot.getMoneyBet()) > bot.getTotalMoney())) {
 				bot.fold();
 			} else if (bot.getMoneyBet() < this.getMaxBet()) {
 				if (probaCombo > 0.1) {
 					bot.call(this.getMaxBet() - bot.getMoneyBet());
-				} else bot.fold();
-			
-		}
-			} else {
+				} else
+					bot.fold();
+
+			}
+		} else {
 			if (bot.getMoneyBet() == this.getMaxBet()) {
 				bot.check();
 			} else {
 				bot.call(this.getMaxBet() - bot.getMoneyBet());
 			}
 		}
-	
+
 	}
 
 	/**
@@ -576,9 +578,9 @@ public class Game {
 		double probaCombo = this.getComboProbability(bot);
 		if (this.tourDeTable > 1) {
 			if (bot.getMoneyBet() == this.getMaxBet()) {
-				if (probaCombo > 0.25 && (bot.getTotalMoney() > 2 * this.blinde) && this.nbTour <1) {
+				if (probaCombo > 0.25 && (bot.getTotalMoney() > 2 * this.blinde) && this.nbTour < 1) {
 					bot.raise(2 * this.blinde);
-					this.nbTour ++;
+					this.nbTour++;
 				} else {
 					bot.check();
 				}
@@ -586,12 +588,13 @@ public class Game {
 					&& ((this.getMaxBet() - bot.getMoneyBet()) > bot.getTotalMoney())) {
 				bot.fold();
 			} else if (bot.getMoneyBet() < this.getMaxBet()) {
-				   if (probaCombo > 0.25) {
+				if (probaCombo > 0.25) {
 					bot.call(this.getMaxBet() - bot.getMoneyBet());
-				} else bot.fold();
-			
-		}
-			} else {
+				} else
+					bot.fold();
+
+			}
+		} else {
 			if (bot.getMoneyBet() == this.getMaxBet()) {
 				bot.check();
 			} else {
@@ -599,7 +602,6 @@ public class Game {
 			}
 		}
 	}
-	
 
 	/**
 	 * Méthode déterminant l'action à mener par le Bot en fonction de son niveau et
@@ -611,16 +613,15 @@ public class Game {
 		double probaCombo = this.getComboProbability(bot);
 		if (this.tourDeTable > 1) {
 			if (bot.getMoneyBet() == this.getMaxBet()) {
-				if (probaCombo > 0.25
-						&& (bot.getTotalMoney() > 3 * this.blinde)) {
-					if (this.nbTour <1) {
+				if (probaCombo > 0.25 && (bot.getTotalMoney() > 3 * this.blinde)) {
+					if (this.nbTour < 1) {
 						bot.raise(3 * this.blinde);
-						this.nbTour ++;
+						this.nbTour++;
 					} else {
 						bot.check();
-					} 
-				} 
-//				else bot.fold();   // a enlever eventuellement
+					}
+				} else
+					bot.check();
 			} else if ((bot.getMoneyBet() < this.getMaxBet())
 					&& ((this.getMaxBet() - bot.getMoneyBet()) > bot.getTotalMoney())) {
 				if (probaCombo > 0.7) {
@@ -629,15 +630,15 @@ public class Game {
 					bot.fold();
 				}
 			} else if (bot.getMoneyBet() < this.getMaxBet()) {
-					if (probaCombo > 0.5
-							&& (bot.getTotalMoney() > 3 * this.blinde)) {
-						if (this.pot < (10 * this.blinde)) {
-							bot.raise(3 * this.blinde);
-						} else {
-							bot.check();
-						}
-				} else bot.fold();
-				}	
+				if (probaCombo > 0.5 && (bot.getTotalMoney() > 3 * this.blinde)) {
+					if (this.pot < (10 * this.blinde)) {
+						bot.raise(3 * this.blinde);
+					} else {
+						bot.check();
+					}
+				} else
+					bot.fold();
+			}
 		} else {
 			if (bot.getMoneyBet() == this.getMaxBet()) {
 				bot.check();
@@ -646,7 +647,6 @@ public class Game {
 			}
 		}
 	}
-	
 
 	/**
 	 * Méthode calculant les chances de victoire du Bot
@@ -669,10 +669,12 @@ public class Game {
 		int playerFinalScore;
 		switch (dealer.getCarpet().size()) {
 		case 0:
-			/*playerResults.add(Cards.checkOnePair(botCombo));
-			playerResults.add(Cards.checkHighRaise(botCombo));
-			playerFinalScore = Collections.max(playerResults);
-			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);*/
+			/*
+			 * playerResults.add(Cards.checkOnePair(botCombo));
+			 * playerResults.add(Cards.checkHighRaise(botCombo)); playerFinalScore =
+			 * Collections.max(playerResults); probaCombo =
+			 * Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);
+			 */
 			return probaCombo;
 		case 3:
 		case 4:
@@ -848,15 +850,19 @@ public class Game {
 			player.setAllIn(false);
 			player.getHand().clear();
 		}
+		this.maxBet =0;
 		this.tourDeTable = 0;
 		this.manche++;
 		dealer.recoverCards();
-		System.out.println("Fin de la manche.");
+		System.out.println("Fin de la manche. Tapez sur Entrée");
 		keyboard.nextLine();
+		if (this.getPlayersInPlay().size()<=1) this.endGame();
+		else {
 		System.out.println("Continuer la prochaine manche? y/n");
-		String answer = keyboard.nextLine();                            
+		String answer = keyboard.nextLine();
 		if (answer.equals("n") || answer.equals("N"))
-			this.setOnPlay(false);
+			this.setOnPlay(false); 
+		}
 	}
 
 	/**
