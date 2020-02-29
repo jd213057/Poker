@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import fr.jd.main.Bot.DIFFICULTY;
+
 /**
  * @author Jonathan
  * Classe implémentant Controller, le gestionnaire de la partie
@@ -95,16 +97,19 @@ public class Controller {
 								+ player.getMoneyBet() + " €");
 						System.out.println();
 						System.out.println("Cartes sur la table : " + game.getDealer().getCarpet()); // a enlever
-						game.getBotMove((Bot) player);
-						System.out.println();
 						
-						if (!(player.isInPlay()) && player.isAllIn())
+						if (((Bot) player).getDifficulty().equals(DIFFICULTY.EASY)) game.getEasyBotMove((Bot) player);
+						if (((Bot) player).getDifficulty().equals(DIFFICULTY.MEDIUM)) game.getMediumBotMove((Bot) player);
+						if (((Bot) player).getDifficulty().equals(DIFFICULTY.HARDCORE)) game.getHardcoreBotMove((Bot) player);
+						System.out.println();
+						if (player.isAllIn()) System.out.println("Le joueur " + player.getPlayerName() + " a fait tapis.");
+						else if (!(player.isInPlay()) && !(player.isAllIn())) 
 							System.out.println("Le joueur " + player.getPlayerName() + " s'est couché.");
 						else if (player.getMoneyBet() == game.getMaxBet()) 
 							System.out.println("Le joueur " + player.getPlayerName() + " a suivi ou a checké.");
 						else if (player.getMoneyBet() > game.getMaxBet()) {
 							System.out.println("Le joueur " + player.getPlayerName() + " a relancé de : "
-									+ player.getMoneyBet() + " €.");
+									+ (player.getMoneyBet() - game.getMaxBet()) + " €.");
 							System.out.println("Il lui reste : " + player.getTotalMoney() + " €.");
 							System.out.println();
 						}
@@ -170,6 +175,7 @@ public class Controller {
 					}
 
 			}
+			game.setNbTour(0);
 			game.setTourDeTable(game.getTourDeTable() + 1);
 		}
 	}

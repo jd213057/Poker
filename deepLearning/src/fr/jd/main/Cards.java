@@ -48,8 +48,8 @@ public enum Cards {
 	private static List<Integer> SUITE_A = Arrays.asList(9, 10, 11, 12, 13);
 
 	/**
-	 * @author Jonathan 
-	 * Classe Enum regroupant les différentes combinaisons possibles de cartes
+	 * @author Jonathan Classe Enum regroupant les différentes combinaisons
+	 *         possibles de cartes
 	 */
 	private enum COEF_COMBO {
 		HIGH_RAISE(1), ONE_PAIR(7), TWO_PAIRS(19), THREE_OF_A_KIND(159), STRAIGHT(414), FLUSH(1085), FULL(2325),
@@ -82,8 +82,8 @@ public enum Cards {
 	}
 
 	/**
-	 * @author Jonathan
-	 * Enum regroupant les différentes probabilités de remporter la manche avec une main donnée.
+	 * @author Jonathan Enum regroupant les différentes probabilités de remporter la
+	 *         manche avec une main donnée.
 	 */
 	private enum COEF_PROBA {
 		PAIR_TWO(0.513), PAIR_THREE(0.482), PAIR_FOUR(0.452), PAIR_FIVE(0.421), PAIR_SIX(0.39), PAIR_SEVEN(0.359),
@@ -97,6 +97,7 @@ public enum Cards {
 
 		/**
 		 * Constructeur de COEF_PROBA
+		 * 
 		 * @param coefProba
 		 */
 		COEF_PROBA(double coefProba) {
@@ -105,6 +106,7 @@ public enum Cards {
 
 		/**
 		 * Getter de coefProba
+		 * 
 		 * @return coefProba
 		 */
 		public double coef() {
@@ -358,9 +360,9 @@ public enum Cards {
 	 */
 	public static int checkFull(List<Cards> playerCombo) {
 		List<Integer> values = new ArrayList<>(Cards.getListOfValues(playerCombo));
-		List<Cards> brelansTemp = new ArrayList<Cards>();
+		List<Cards> brelansTemp = new ArrayList<>();
 		List<Integer> brelans = new ArrayList<>();
-		List<Cards> pairsTemp = new ArrayList<Cards>();
+		List<Cards> pairsTemp = new ArrayList<>();
 		List<Integer> pairs = new ArrayList<>();
 		List<Integer> playerFinalCombo = new ArrayList<>();
 		int playerScore = 0;
@@ -470,6 +472,7 @@ public enum Cards {
 
 	/**
 	 * Méthode calculant la probabilité d'avoir une main supérieure à celle du Bot
+	 * 
 	 * @param playersInPlayOrAllIn
 	 * @param playerFinalScore
 	 * @return probaCombo
@@ -517,16 +520,15 @@ public enum Cards {
 		case 182:
 			coefProba = COEF_PROBA.PAIR_ACE;
 			break;
-		default:
-			if (playerFinalScore >= 114 && playerFinalScore < 477)
-				coefProba = COEF_PROBA.TWO_PAIRS;
-			if (playerFinalScore >= 477 && playerFinalScore < 6202)
-				coefProba = COEF_PROBA.THREE_OF_A_KIND;
-			if (playerFinalScore > 6202)
-				coefProba = COEF_PROBA.DRAW;
-			else coefProba = COEF_PROBA.DEFAULT;
-			break;
 		}
+		if (playerFinalScore >= 114 && playerFinalScore < 477)
+			coefProba = COEF_PROBA.TWO_PAIRS;
+		else if (playerFinalScore >= 477 && playerFinalScore < 6202)
+			coefProba = COEF_PROBA.THREE_OF_A_KIND;
+		else if (playerFinalScore > 6202)
+			coefProba = COEF_PROBA.DRAW;
+		else
+			coefProba = COEF_PROBA.DEFAULT;
 		for (int i = 0; i <= playersInPlayOrAllIn.size() - 2; i++)
 			probaCombo *= (1 - coefProba.coef());
 		return probaCombo;

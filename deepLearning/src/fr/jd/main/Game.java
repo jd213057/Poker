@@ -396,11 +396,11 @@ public class Game {
 	 * @param blinde
 	 */
 	public void setBlindeRound(double blinde) {
-		this.blinde = blinde;
+//		this.blinde = blinde;     // eventuellement à enlever
 		List<Player> playersInGame = new ArrayList<>();
 		if (this.getManche() % this.getMancheBlinde() == 0) {
 			this.blinde *= 2;
-			System.out.println("La blinde augmonte ce tour ci est passa à : " + this.blinde + " €.");
+			System.out.println("La blinde augmontera au tour suivant et passera à : " + this.blinde + " €.");
 		}
 		for (Player player : this.players)
 			if (player.isInGame())
@@ -408,7 +408,7 @@ public class Game {
 		playersInGame.get(this.manche % getPlayersInGame().size()).PayGrosseBlinde(blinde);
 		playersInGame.get((this.manche - 1) % getPlayersInGame().size()).PayPetiteBlinde(blinde);
 		this.maxBet += blinde;
-		this.pot += blinde;
+//		this.pot += blinde;  // eventuellement à enlever
 	}
 
 	/**
@@ -435,6 +435,10 @@ public class Game {
 	 * @return onPlay
 	 */
 	public boolean isOnPlay() {
+		List<Player> playersOnPlay = new ArrayList<>();
+		for (Player player : this.players)
+			if (player.isInPlay()) playersOnPlay.add(player);
+		if(playersOnPlay.size()<2) this.onPlay = false;
 		return onPlay;
 	}
 
@@ -528,66 +532,121 @@ public class Game {
 
 	/**
 	 * Méthode déterminant l'action à mener par le Bot en fonction de son niveau et
-	 * de sa main
+	 * de sa main (Niveau Easy)
 	 * 
 	 * @param bot
 	 */
-	public void getBotMove(Bot bot) {
+	public void getEasyBotMove(Bot bot) {
 		double probaCombo = this.getComboProbability(bot);
 		if (this.tourDeTable > 1) {
 			if (bot.getMoneyBet() == this.getMaxBet()) {
-				if (bot.getDifficulty().equals(DIFFICULTY.EASY)) {
-					if (probaCombo > 0.7 
-							&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet())))
-						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
-					else
+				 if (probaCombo > 0.25
+						&& (bot.getTotalMoney() > 2 * this.blinde) && this.nbTour <1) {
+						bot.raise(2 * this.blinde);
+						this.nbTour ++;
+					} else {
 						bot.check();
-				}
+					}
+			} else if ((bot.getMoneyBet() < this.getMaxBet())
+					&& ((this.getMaxBet() - bot.getMoneyBet()) > bot.getTotalMoney())) {
+				bot.fold();
+			} else if (bot.getMoneyBet() < this.getMaxBet()) {
+				if (probaCombo > 0.1) {
+					bot.call(this.getMaxBet() - bot.getMoneyBet());
+				} else bot.fold();
+			
+		}
+			} else {
+			if (bot.getMoneyBet() == this.getMaxBet()) {
+				bot.check();
+			} else {
+				bot.call(this.getMaxBet() - bot.getMoneyBet());
+			}
+		}
+	
+	}
 
-				else if (probaCombo > 0.25 && bot.getDifficulty().equals(DIFFICULTY.MEDIUM)
-						&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet()))) {
-					if (this.pot < (10 * this.blinde))
-						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
-					else
-						bot.check();
-				} else if (probaCombo > 0.25 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE)
-						&& (bot.getTotalMoney() > 3 * (this.getMaxBet() - bot.getMoneyBet()))) {
-					if (this.pot < (10 * this.blinde))
-						bot.raise(3 * (this.getMaxBet() - bot.getMoneyBet()));
-					else
-						bot.check();
+	/**
+	 * Méthode déterminant l'action à mener par le Bot en fonction de son niveau et
+	 * de sa main (niveau Medium)
+	 * 
+	 * @param bot
+	 */
+	public void getMediumBotMove(Bot bot) {
+		double probaCombo = this.getComboProbability(bot);
+		if (this.tourDeTable > 1) {
+			if (bot.getMoneyBet() == this.getMaxBet()) {
+				if (probaCombo > 0.25 && (bot.getTotalMoney() > 2 * this.blinde) && this.nbTour <1) {
+					bot.raise(2 * this.blinde);
+					this.nbTour ++;
+				} else {
+					bot.check();
 				}
 			} else if ((bot.getMoneyBet() < this.getMaxBet())
-					&& (this.getMaxBet() - bot.getMoneyBet() > bot.getTotalMoney())) {
-				if (probaCombo > 0.5 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE))
-					bot.allIn();
-				else
-					bot.fold();
+					&& ((this.getMaxBet() - bot.getMoneyBet()) > bot.getTotalMoney())) {
+				bot.fold();
 			} else if (bot.getMoneyBet() < this.getMaxBet()) {
-				if (probaCombo > 0.1 && bot.getDifficulty().equals(DIFFICULTY.EASY))
+				   if (probaCombo > 0.25) {
 					bot.call(this.getMaxBet() - bot.getMoneyBet());
-				else if (probaCombo > 0.25 && (bot.getDifficulty().equals(DIFFICULTY.MEDIUM)
-						|| bot.getDifficulty().equals(DIFFICULTY.HARDCORE)))
-					bot.call(this.getMaxBet() - bot.getMoneyBet());
-				else if (probaCombo > 0.5 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE)
-						&& (bot.getTotalMoney() > 2 * (this.getMaxBet() - bot.getMoneyBet()))) {
-					if (this.pot < (10 * this.blinde))
-						bot.raise(2 * (this.getMaxBet() - bot.getMoneyBet()));
-					else
-						bot.check();
-				} else if (probaCombo > 0.7 && bot.getDifficulty().equals(DIFFICULTY.HARDCORE))
-					bot.allIn();
-				else
-					bot.fold();
-			}
-		} else {
-			if (bot.getMoneyBet() == this.getMaxBet())
-				bot.check();
-			else
-				bot.call(this.getMaxBet() - bot.getMoneyBet());
+				} else bot.fold();
+			
 		}
-		System.out.println(probaCombo); // a enlever
+			} else {
+			if (bot.getMoneyBet() == this.getMaxBet()) {
+				bot.check();
+			} else {
+				bot.call(this.getMaxBet() - bot.getMoneyBet());
+			}
+		}
 	}
+	
+
+	/**
+	 * Méthode déterminant l'action à mener par le Bot en fonction de son niveau et
+	 * de sa main (niveau Hardcore)
+	 * 
+	 * @param bot
+	 */
+	public void getHardcoreBotMove(Bot bot) {
+		double probaCombo = this.getComboProbability(bot);
+		if (this.tourDeTable > 1) {
+			if (bot.getMoneyBet() == this.getMaxBet()) {
+				if (probaCombo > 0.25
+						&& (bot.getTotalMoney() > 3 * this.blinde)) {
+					if (this.nbTour <1) {
+						bot.raise(3 * this.blinde);
+						this.nbTour ++;
+					} else {
+						bot.check();
+					} 
+				} 
+//				else bot.fold();   // a enlever eventuellement
+			} else if ((bot.getMoneyBet() < this.getMaxBet())
+					&& ((this.getMaxBet() - bot.getMoneyBet()) > bot.getTotalMoney())) {
+				if (probaCombo > 0.7) {
+					bot.allIn();
+				} else {
+					bot.fold();
+				}
+			} else if (bot.getMoneyBet() < this.getMaxBet()) {
+					if (probaCombo > 0.5
+							&& (bot.getTotalMoney() > 3 * this.blinde)) {
+						if (this.pot < (10 * this.blinde)) {
+							bot.raise(3 * this.blinde);
+						} else {
+							bot.check();
+						}
+				} else bot.fold();
+				}	
+		} else {
+			if (bot.getMoneyBet() == this.getMaxBet()) {
+				bot.check();
+			} else {
+				bot.call(this.getMaxBet() - bot.getMoneyBet());
+			}
+		}
+	}
+	
 
 	/**
 	 * Méthode calculant les chances de victoire du Bot
@@ -610,27 +669,11 @@ public class Game {
 		int playerFinalScore;
 		switch (dealer.getCarpet().size()) {
 		case 0:
-			playerResults.add(Cards.checkOnePair(botCombo));
+			/*playerResults.add(Cards.checkOnePair(botCombo));
 			playerResults.add(Cards.checkHighRaise(botCombo));
 			playerFinalScore = Collections.max(playerResults);
-			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);
-			break;
-		case 1:
-			playerResults.add(Cards.checkThreeOfAKind(botCombo));
-			playerResults.add(Cards.checkOnePair(botCombo));
-			playerResults.add(Cards.checkHighRaise(botCombo));
-			playerFinalScore = Collections.max(playerResults);
-			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);
-			break;
-		case 2:
-			playerResults.add(Cards.checkFourOfAKind(botCombo));
-			playerResults.add(Cards.checkThreeOfAKind(botCombo));
-			playerResults.add(Cards.checkOnePair(botCombo));
-			playerResults.add(Cards.checkTwoPairs(botCombo));
-			playerResults.add(Cards.checkHighRaise(botCombo));
-			playerFinalScore = Collections.max(playerResults);
-			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);
-			break;
+			probaCombo = Cards.getProbaCoef(playersInPlayOrAllIn, playerFinalScore);*/
+			return probaCombo;
 		case 3:
 		case 4:
 		case 5:
@@ -811,7 +854,7 @@ public class Game {
 		System.out.println("Fin de la manche.");
 		keyboard.nextLine();
 		System.out.println("Continuer la prochaine manche? y/n");
-		String answer = keyboard.nextLine();
+		String answer = keyboard.nextLine();                            
 		if (answer.equals("n") || answer.equals("N"))
 			this.setOnPlay(false);
 	}

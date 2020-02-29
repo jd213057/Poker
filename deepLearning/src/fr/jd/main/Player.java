@@ -82,6 +82,7 @@ public class Player {
 	 */
 	public void setTotalMoney(double totalMoney) {
 		this.totalMoney = totalMoney;
+		if (this.totalMoney <= 0) this.setInPlay(false);
 	}
 
 	/**
