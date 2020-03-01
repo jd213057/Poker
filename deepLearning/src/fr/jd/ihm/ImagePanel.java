@@ -16,7 +16,7 @@ public class ImagePanel extends JPanel {
 
 	public ImagePanel() throws IOException {
 		image = ImageIO.read(new File(
-				"C:\\Users\\jonat\\git\\repository\\deepLearning\\src\\fr\\jd\\ihm\\images\\elements\\pokerMenuPanel.jpg"));
+				PathConstants.backgroungImageParty));
 	}
 
 	protected void paintComponent(Graphics g) {
