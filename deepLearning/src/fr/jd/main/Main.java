@@ -1,8 +1,11 @@
 package fr.jd.main;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+
+import fr.jd.ihm.GameWindow;
 
 /**
  * @author Jonathan
@@ -12,8 +15,10 @@ public class Main {
 
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+       GameWindow gameWindowMenu = new GameWindow();
 
 		Controller controller = new Controller();
 
